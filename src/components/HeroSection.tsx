@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Sparkles, Zap, Users } from "lucide-react";
-import { IconListCard } from "@/components/ui/icon-list-card";
+import { BookmarkButton } from "@/components/ui/bookmark-button";
+import { IconBadge } from "@/components/ui/icon-badge";
+import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2 } from "lucide-react";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
@@ -11,55 +12,63 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center py-16 md:py-24 px-4 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 sm:pt-24 sm:pb-16 md:py-24 px-3 sm:px-4 overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 -right-1/4 w-[500px] h-[500px] bg-emerald-500/8 rounded-full blur-[100px]" />
+        <div className="absolute top-1/3 -right-1/4 w-[500px] h-[500px] bg-blue-500/8 rounded-full blur-[100px]" />
         <div className="absolute bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-blue-600/6 rounded-full blur-[80px]" />
       </div>
 
       <div className="absolute inset-0 bg-grid opacity-40" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        <div className="text-center max-w-5xl mx-auto space-y-6 md:space-y-8">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card border border-blue-500/40 animate-slide-up">
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-semibold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-              ✨ NOVO 2026 — Era de IA para LowTicket no Digital (Claude)
+        <div className="text-center max-w-5xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
+          {/* Top eyebrow chip · compact mobile */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full glass-card border border-blue-500/40 animate-slide-up">
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+            <span className="text-[10px] sm:text-sm font-semibold uppercase tracking-wider sm:tracking-normal sm:normal-case bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="sm:hidden">PRODUTOR 2.0 · LIVE</span>
+              <span className="hidden sm:inline">✨ NOVO 2026 · Era de IA para LowTicket no Digital (Claude)</span>
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] text-balance px-2 md:px-0 animate-slide-up" style={{ animationDelay: "100ms" }}>
-            Seu Primeiro Produto LowTicket{" "}
-            <span className="gradient-text">NO AR em 1 Hora</span>,
-            Primeira <span className="gradient-text">VENDA em 7 Dias</span>
-            {" "}— Garantido com Claude
-          </h1>
-
-          <div className="hero-underline w-32 sm:w-48 md:w-56 mx-auto animate-slide-up" style={{ animationDelay: "200ms" }} />
-
-          <div className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto px-4 md:px-0 space-y-4 animate-slide-up" style={{ animationDelay: "300ms" }}>
-            <p>
-              ChatGPT é o iPhone da sua mãe.{" "}
-              <span className="text-white font-medium">
-                Claude é o iPhone do produtor que vende.
-              </span>
-              {" "}A diferença? R$200k em 12 meses.
-            </p>
-            <p className="text-blue-400 font-semibold">👉 7 skills fazem 99% do trabalho. Você apenas orquestra.</p>
+          {/* Headline · ALL CAPS punch style */}
+          <div className="space-y-4 sm:space-y-5 animate-slide-up" style={{ animationDelay: "100ms" }}>
+            <h1 className="text-[20px] leading-[1.15] sm:text-[32px] md:text-[44px] lg:text-[56px] font-black tracking-tight text-white px-2 uppercase">
+              PRODUTO LOWTICKET <span className="gradient-text">NO AR EM 1 HORA.</span> PRIMEIRA VENDA <span className="text-blue-300">NO MESMO DIA</span>, COM CLAUDE.
+            </h1>
           </div>
 
-          <div className="relative max-w-4xl mx-auto px-4 md:px-0 animate-slide-up" style={{ animationDelay: "400ms" }}>
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-blue-500/20 to-emerald-500/20 rounded-3xl blur-2xl" />
+          {/* Body · diferenciação */}
+          <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-0 animate-slide-up" style={{ animationDelay: "300ms" }}>
+            <p className="text-sm sm:text-lg md:text-xl text-white/55 leading-relaxed">
+              <span className="hidden sm:inline">ChatGPT é o iPhone da sua mãe. </span>
+              <span className="text-white font-medium">Claude é o iPhone do produtor que vende.</span>
+              {" "}A diferença? <span className="text-blue-300 font-bold">R$200k em 2 meses.</span>
+            </p>
+            <p className="mt-2 sm:mt-3 text-xs sm:text-base text-blue-400 font-semibold">
+              👉 7 skills fazem 99% do trabalho. Você orquestra.
+            </p>
+          </div>
 
-            <div className="relative glass-card rounded-2xl md:rounded-3xl overflow-hidden border border-white/10">
-              <div className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4 border-b border-white/5 bg-gradient-to-b from-white/5 to-transparent">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <span className="w-3 h-3 rounded-full bg-yellow-400/80" />
-                  <span className="w-3 h-3 rounded-full bg-green-500/80" />
+          {/* Video · larger + AO VIVO badge on mobile */}
+          <div className="relative max-w-4xl mx-auto px-1 sm:px-4 md:px-0 animate-slide-up" style={{ animationDelay: "400ms" }}>
+            <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-blue-500/30 via-blue-500/25 to-blue-500/30 rounded-3xl blur-2xl animate-pulse" />
+
+            <div className="relative glass-card rounded-2xl md:rounded-3xl overflow-hidden border border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.25)]">
+              {/* Video header bar */}
+              <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 border-b border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500/80" />
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-400/80" />
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500/80" />
                 </div>
-                <div className="text-xs md:text-sm text-muted-foreground font-medium">Vídeo de apresentação</div>
+                {/* AO VIVO badge */}
+                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-red-500/15 border border-red-500/40 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  <span className="text-[9px] sm:text-[11px] text-red-300 font-mono uppercase tracking-wider font-bold">AO VIVO</span>
+                </div>
+                <div className="text-[10px] sm:text-sm text-muted-foreground font-medium hidden sm:block">Vídeo de apresentação</div>
               </div>
 
               <div className="relative w-full aspect-video">
@@ -71,6 +80,12 @@ const HeroSection = () => {
                   allowFullScreen
                   className="absolute inset-0 w-full h-full"
                 />
+              </div>
+
+              {/* Sound reminder bar · mobile only */}
+              <div className="sm:hidden flex items-center justify-center gap-2 px-3 py-2 border-t border-white/5 bg-orange-500/5">
+                <Volume2 className="w-3 h-3 text-orange-400 animate-pulse" />
+                <span className="text-[10px] text-orange-300 font-mono uppercase tracking-wider font-bold">Verifique se o som está ligado</span>
               </div>
             </div>
 
@@ -84,9 +99,9 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="hidden lg:block absolute -bottom-6 -left-8 glass-card border border-emerald-500/40 rounded-xl p-4 animate-float neon-glow-purple" style={{ animationDelay: "-3s" }}>
+            <div className="hidden lg:block absolute -bottom-6 -left-8 glass-card border border-blue-500/40 rounded-xl p-4 animate-float neon-glow-purple" style={{ animationDelay: "-3s" }}>
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-emerald-400" />
+                <Sparkles className="w-5 h-5 text-blue-400" />
                 <div>
                   <div className="text-2xl font-bold neon-text-purple">1 hora</div>
                   <div className="text-xs text-muted-foreground">da ideia ao caixa</div>
@@ -95,51 +110,115 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="px-4 w-full max-w-md mx-auto md:max-w-none md:w-auto animate-slide-up" style={{ animationDelay: "500ms" }}>
-            <Button
-              variant="hero"
+          {/* CTA · full-width mobile */}
+          <div className="px-2 sm:px-4 w-full max-w-md mx-auto md:max-w-fit md:w-auto animate-slide-up flex justify-center" style={{ animationDelay: "500ms" }}>
+            <BookmarkButton
               size="xl"
               onClick={handleCTA}
-              className="group w-full md:w-auto px-10 py-6 text-lg"
-            >
-              <span>QUERO MEU PRODUTO VENDENDO EM 1 HORA — R$147</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              text={
+                <>
+                  <span className="sm:hidden text-sm">QUERO EM 1 HORA · R$147</span>
+                  <span className="hidden sm:inline">QUERO MEU PRODUTO EM 1 HORA · R$147</span>
+                </>
+              }
+              sub="acesso liberado em 1 minuto"
+              fullWidth
+              className="w-full sm:w-auto"
+            />
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 pt-4 px-4 animate-slide-up" style={{ animationDelay: "600ms" }}>
-            <div className="flex items-center gap-3 glass-card px-4 py-2 rounded-full">
+          {/* Social proof · always inline */}
+          <div className="flex flex-row items-center justify-center gap-2 sm:gap-10 pt-2 sm:pt-4 px-1 sm:px-4 animate-slide-up" style={{ animationDelay: "600ms" }}>
+            <div className="flex items-center gap-2 sm:gap-3 glass-card px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
               <div className="flex -space-x-2">
-                <img src={review1} alt="Aluno" className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
-                <img loading="lazy" src={review2} alt="Aluna" className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
-                <img loading="lazy" src={review3} alt="Aluna" className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
+                <img src={review1} alt="Aluno" className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
+                <img loading="lazy" src={review2} alt="Aluna" className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
+                <img loading="lazy" src={review3} alt="Aluna" className="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border-2 border-background object-cover" />
               </div>
-              <div className="flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-blue-400" />
-                <span className="text-sm font-medium text-white">+1.000 alunos</span>
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <Users className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                <span className="text-xs sm:text-sm font-medium text-white">+1.000 alunos</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-full">
+            <div className="flex items-center gap-1.5 sm:gap-2 glass-card px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
               {[1, 2, 3, 4, 5].map((i) => (
-                <svg key={i} className="w-5 h-5 text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.5)]" fill="currentColor" viewBox="0 0 20 20">
+                <svg key={i} className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.5)]" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
-              <span className="ml-1.5 text-sm font-medium text-white">5.0 avaliação</span>
+              <span className="ml-1 sm:ml-1.5 text-xs sm:text-sm font-medium text-white">5.0 avaliação</span>
             </div>
           </div>
 
-          <div className="px-4 animate-slide-up" style={{ animationDelay: "700ms" }}>
-            <IconListCard
-              tone="primary"
-              items={[
-                { icon: <Check aria-hidden="true" />, text: "Produto LowTicket no ar em 1 hora" },
-                { icon: <Check aria-hidden="true" />, text: "Acesso vitalício + atualizações" },
-                { icon: <Check aria-hidden="true" />, text: "Garantia de Resultado (não de reembolso)" },
-              ]}
-              className="max-w-3xl mx-auto"
-            />
+          <div className="px-0 sm:px-4 animate-slide-up max-w-7xl mx-auto pt-6 sm:pt-8" style={{ animationDelay: "700ms" }}>
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-neutral-900 ring-1 ring-white/10">
+              <div className="relative grid grid-cols-1 lg:grid-cols-2">
+                {/* Left column · pitch */}
+                <div className="p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-white/10">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-blue-400 font-mono">
+                    O Que Você Recebe Hoje
+                  </p>
+                  <h2 className="mt-2 text-3xl sm:text-4xl text-white tracking-tighter font-light text-left">
+                    Tudo pra <span className="text-blue-400">vender em 1 hora</span>
+                  </h2>
+                  <p className="mt-3 text-sm text-neutral-300 text-left">
+                    Sem agência. Sem copy paga. Sem programador. Claude faz o trabalho duro, você apenas orquestra.
+                  </p>
+
+                  <ul className="mt-6 space-y-3 text-left">
+                    <li className="flex items-center gap-3 text-neutral-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                      Acesso vitalício + atualizações
+                    </li>
+                    <li className="flex items-center gap-3 text-neutral-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                      Garantia de Resultado (não de reembolso)
+                    </li>
+                    <li className="flex items-center gap-3 text-neutral-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                      12x R$14,87 sem juros · acesso em 1 minuto
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Right column · 3 benefit cards */}
+                <div className="p-6 sm:p-10 space-y-4">
+                  <div className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 ring-1 ring-white/10 transition">
+                    <div className="flex items-center gap-3">
+                      <IconBadge Icon={Zap} size="md" />
+                      <div className="text-left">
+                        <p className="text-sm font-medium text-white">Produto No Ar em 1 Hora</p>
+                        <p className="text-xs text-neutral-400">Da ideia ao checkout funcionando</p>
+                      </div>
+                    </div>
+                    <Check className="w-5 h-5 text-blue-400" />
+                  </div>
+
+                  <div className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 ring-1 ring-white/10 transition">
+                    <div className="flex items-center gap-3">
+                      <IconBadge Icon={InfinityIcon} size="md" />
+                      <div className="text-left">
+                        <p className="text-sm font-medium text-white">Acesso Vitalício</p>
+                        <p className="text-xs text-neutral-400">Atualizações futuras inclusas</p>
+                      </div>
+                    </div>
+                    <Check className="w-5 h-5 text-blue-400" />
+                  </div>
+
+                  <div className="group flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 ring-1 ring-white/10 transition">
+                    <div className="flex items-center gap-3">
+                      <IconBadge Icon={ShieldCheck} size="md" />
+                      <div className="text-left">
+                        <p className="text-sm font-medium text-white">Garantia de Resultado</p>
+                        <p className="text-xs text-neutral-400">3 camadas · não de reembolso</p>
+                      </div>
+                    </div>
+                    <Check className="w-5 h-5 text-blue-400" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

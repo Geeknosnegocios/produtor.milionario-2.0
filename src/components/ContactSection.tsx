@@ -27,7 +27,7 @@ const ContactSection = () => {
             <div className="flex -space-x-3 md:-space-x-4">
               {[review1, review2, review3].map((img, index) => (
                 <div key={index} className="relative">
-                  <div className="absolute -inset-[2px] bg-gradient-to-br from-green-500 to-emerald-500 rounded-full" />
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-green-500 to-blue-500 rounded-full" />
                   <img
                     src={img}
                     alt={`Membro da equipe ${index + 1}`}

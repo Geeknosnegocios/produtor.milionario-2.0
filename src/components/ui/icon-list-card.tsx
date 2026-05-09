@@ -15,7 +15,7 @@ type IconListCardProps = {
 
 const toneMap = {
   primary: {
-    gradientBorder: "from-blue-500 via-blue-500 to-emerald-500",
+    gradientBorder: "from-blue-500 via-blue-500 to-blue-500",
     iconGlow: "shadow-[0_0_20px_rgba(6,182,212,0.5)]",
     iconBg: "bg-gradient-to-br from-blue-500/20 to-blue-500/20",
     iconColor: "text-blue-400",
@@ -54,7 +54,7 @@ export function IconListCard({ title, items, tone = "primary", className }: Icon
       )}>
         {/* Decorative corner accents */}
         <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-transparent rounded-tl-2xl" />
-        <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-emerald-500/10 to-transparent rounded-br-2xl" />
+        <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-blue-500/10 to-transparent rounded-br-2xl" />
         
         {title && (
           <h3 className="text-lg md:text-xl font-bold mb-5 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
@@ -83,7 +83,7 @@ export function IconListCard({ title, items, tone = "primary", className }: Icon
                 "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
                 "bg-gradient-to-r group-hover:opacity-100",
                 tone === "primary" 
-                  ? "from-blue-500/5 via-transparent to-emerald-500/5" 
+                  ? "from-blue-500/5 via-transparent to-blue-500/5" 
                   : "from-red-500/5 via-transparent to-orange-500/5"
               )} />
               

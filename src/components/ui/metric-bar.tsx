@@ -10,7 +10,7 @@ type MetricBarProps = {
 };
 
 const toneMap = {
-  success: "from-green-500 to-emerald-400",
+  success: "from-green-500 to-blue-400",
   danger: "from-red-500 to-rose-400",
   primary: "from-blue-500 to-violet-500",
 };

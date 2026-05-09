@@ -8,15 +8,15 @@ const faqs = [
   },
   {
     question: "Em quanto tempo lanço meu produto?",
-    answer: "Seguindo o método com Claude: 1 hora pra ter produto vendendo. Os 7 comandos fazem 99% do trabalho — você apenas orquestra. Aluno que executa todos os comandos sai com produto no ar."
+    answer: "Seguindo o método com Claude: 1 hora pra ter produto vendendo. Os 7 comandos fazem 99% do trabalho · você apenas orquestra. Aluno que executa todos os comandos sai com produto no ar."
   },
   {
     question: "Por que Claude e não ChatGPT?",
-    answer: "ChatGPT é generalista — bom pra todo mundo. Claude é especialista — IA mais avançada do mercado, criada nos EUA. Mais precisa pra copy, mais consistente pra estrutura. ChatGPT brinca. Claude entrega produto vendendo. Claude tem versão grátis (claude.ai) — você não paga nada extra."
+    answer: "ChatGPT é generalista · bom pra todo mundo. Claude é especialista · IA mais avançada do mercado, criada nos EUA. Mais precisa pra copy, mais consistente pra estrutura. ChatGPT brinca. Claude entrega produto vendendo. Claude tem versão grátis (claude.ai) · você não paga nada extra."
   },
   {
     question: "Quais ferramentas vou precisar?",
-    answer: "Claude grátis (claude.ai) — IA principal do método. ChatGPT grátis (opcional). Conta Cakto (grátis pra criar produto). Conta Vercel (grátis pra publicar página). Tudo está no Módulo 1."
+    answer: "Claude grátis (claude.ai) · IA principal do método. ChatGPT grátis (opcional). Conta Cakto (grátis pra criar produto). Conta Vercel (grátis pra publicar página). Tudo está no Módulo 1."
   },
   {
     question: "Funciona pra qualquer nicho?",
@@ -40,7 +40,7 @@ const faqs = [
   },
   {
     question: "E se eu executar tudo e mesmo assim não vender?",
-    answer: "Aí entra a garantia mais forte: garantia de RESULTADO. NÃO devolvemos dinheiro — entregamos: Sessão 1:1 com o Geek (R$297) + Vaga gratuita na próxima Mentoria + Atualizações vitalícias. Você sai com produto vendendo, não com dinheiro de volta."
+    answer: "Aí entra a garantia mais forte: garantia de RESULTADO. NÃO devolvemos dinheiro · entregamos: Sessão 1:1 com o Geek (R$297) + Vaga gratuita na próxima Mentoria + Atualizações vitalícias. Você sai com produto vendendo, não com dinheiro de volta."
   },
   {
     question: "O acesso é vitalício mesmo?",
@@ -60,7 +60,7 @@ const FAQSection = () => {
             <span className="text-sm font-semibold text-blue-300">Perguntas Frequentes</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-            Perguntas Frequentes — <span className="gradient-text">Tira Suas Dúvidas</span>
+            Perguntas Frequentes · <span className="gradient-text">Tira Suas Dúvidas</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground">
             sobre Claude, garantia e método PIPE-IA
@@ -68,7 +68,7 @@ const FAQSection = () => {
         </div>
 
         <div className="relative animate-slide-up" style={{ animationDelay: "100ms" }}>
-          <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/30 via-blue-500/30 to-emerald-500/30 rounded-3xl" />
+          <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/30 via-blue-500/30 to-blue-500/30 rounded-3xl" />
 
           <div className="relative glass-card rounded-3xl p-6 md:p-10">
             <Accordion type="single" collapsible className="w-full space-y-4">

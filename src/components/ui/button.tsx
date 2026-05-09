@@ -21,7 +21,7 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-blue-500 to-blue-500",
           "text-white font-bold",
           "before:absolute before:inset-0",
-          "before:bg-gradient-to-r before:from-blue-400 before:to-emerald-500",
+          "before:bg-gradient-to-r before:from-blue-400 before:to-blue-500",
           "before:opacity-0 before:transition-opacity before:duration-300",
           "hover:before:opacity-100",
           "hover:shadow-[0_0_30px_hsl(185_100%_50%/0.5),0_0_60px_hsl(280_100%_65%/0.3)]",
@@ -38,12 +38,12 @@ const buttonVariants = cva(
         // Hero CTA - Maximum impact
         hero: [
           "relative overflow-hidden",
-          "bg-gradient-to-r from-blue-500 via-blue-500 to-emerald-500",
+          "bg-gradient-to-r from-blue-500 via-blue-500 to-blue-500",
           "text-white font-bold text-base md:text-lg",
           "rounded-full",
           "shadow-[0_0_30px_hsl(185_100%_50%/0.4)]",
           "before:absolute before:inset-0",
-          "before:bg-gradient-to-r before:from-blue-400 before:via-blue-400 before:to-emerald-400",
+          "before:bg-gradient-to-r before:from-blue-400 before:via-blue-400 before:to-blue-400",
           "before:opacity-0 before:transition-opacity before:duration-300",
           "hover:before:opacity-100",
           "hover:shadow-[0_0_40px_hsl(185_100%_50%/0.6),0_0_80px_hsl(280_100%_65%/0.4)]",
@@ -54,7 +54,7 @@ const buttonVariants = cva(
         // CTA button with pulse animation
         cta: [
           "relative overflow-hidden",
-          "bg-gradient-to-r from-blue-500 to-emerald-500",
+          "bg-gradient-to-r from-blue-500 to-blue-500",
           "text-white font-bold text-lg",
           "rounded-xl",
           "shadow-[0_0_25px_hsl(185_100%_50%/0.3)]",

@@ -31,7 +31,7 @@ export function TrailSteps({ steps, badgeLabel, showTimeEstimate = false, classN
       <div className="md:hidden">
         <div className="relative flex flex-col gap-4">
           {/* Vertical connecting line */}
-          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-500/50 via-blue-500/50 to-emerald-500/50" />
+          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-500/50 via-blue-500/50 to-blue-500/50" />
 
           {steps.map((step, i) => (
             <div
@@ -52,7 +52,7 @@ export function TrailSteps({ steps, badgeLabel, showTimeEstimate = false, classN
                 <div className={cn(
                   "absolute -top-1 -right-1",
                   "w-5 h-5 rounded-md",
-                  "bg-gradient-to-br from-emerald-500 to-pink-500",
+                  "bg-gradient-to-br from-blue-500 to-pink-500",
                   "flex items-center justify-center",
                   "text-[10px] font-bold text-white",
                   "shadow-[0_0_10px_rgba(168,85,247,0.5)]"
@@ -133,7 +133,7 @@ export function TrailSteps({ steps, badgeLabel, showTimeEstimate = false, classN
                 <div className={cn(
                   "absolute -top-3 -right-3 z-20",
                   "w-8 h-8 rounded-lg",
-                  "bg-gradient-to-br from-emerald-500 to-pink-500",
+                  "bg-gradient-to-br from-blue-500 to-pink-500",
                   "flex items-center justify-center",
                   "text-sm font-bold text-white",
                   "shadow-[0_0_15px_rgba(168,85,247,0.5)]"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
+import logoEtzin from "@/assets/logo-etzin.svg";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -14,7 +15,7 @@ const Header = () => {
     }, []);
 
     const handleCTA = () => {
-        window.open("https://lastlink.com/p/CD127FC86/checkout-payment/", "_blank");
+        window.open("https://cakto.com.br/produtor-milionario-2-0", "_blank");
     };
 
     const scrollToSection = (id: string) => {
@@ -33,24 +34,21 @@ const Header = () => {
         >
             <div className="container mx-auto max-w-7xl px-4">
                 <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Logo */}
+                    {/* Logo · ETzin alien em pixel art */}
                     <div className="flex items-center gap-3">
-                        {/* Icon */}
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-lg blur-md opacity-50" />
-                            <div className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center">
-                                <span className="text-white font-black text-lg md:text-xl">P</span>
-                            </div>
-                        </div>
-
-                        {/* Text */}
+                        <img
+                            src={logoEtzin}
+                            alt="Produtor Milionário 2.0"
+                            className="w-10 h-10 md:w-11 md:h-11 shadow-[0_0_20px_rgba(59,130,246,0.4)] rounded-lg"
+                            width={44}
+                            height={44}
+                        />
                         <div className="flex flex-col leading-none">
-                            <span className="text-[10px] md:text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
-                                Criação
+                            <span className="text-sm md:text-base font-extrabold tracking-tight text-white">
+                                Produtor Milionário <span className="text-blue-400">2.0</span>
                             </span>
-                            <span className="text-base md:text-lg font-black tracking-tight">
-                                <span className="text-white">INFOPRODUTOS</span>
-                                <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent"> COM IA</span>
+                            <span className="text-[9px] md:text-[10px] font-medium tracking-[0.18em] text-blue-400 uppercase font-mono mt-0.5">
+                                LowTicket com Claude
                             </span>
                         </div>
                     </div>
@@ -84,7 +82,7 @@ const Header = () => {
                         className="hidden sm:flex border-blue-500/50 text-blue-400 hover:bg-blue-500/10 hover:border-blue-500 rounded-full px-6"
                     >
                         <Sparkles className="w-4 h-4 mr-2" />
-                        Quero Criar
+                        R$147 · 1 hora
                     </Button>
                 </div>
             </div>

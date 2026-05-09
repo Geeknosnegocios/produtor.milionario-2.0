@@ -31,7 +31,7 @@ const PromiseSection = () => {
         </div>
 
         <div className="relative animate-slide-up" style={{ animationDelay: "100ms" }}>
-          <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/30 to-emerald-500/30 rounded-3xl" />
+          <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/30 to-blue-500/30 rounded-3xl" />
 
           <div className="relative glass-card rounded-2xl md:rounded-3xl p-4 md:p-8">
             <div className="grid md:grid-cols-2 gap-6 md:gap-8">

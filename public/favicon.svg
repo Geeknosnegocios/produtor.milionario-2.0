@@ -1,31 +1,24 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" role="img" aria-label="Produtor Milionario 2.0">
   <defs>
-    <linearGradient id="bg" x1="96" y1="80" x2="416" y2="432" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22D3EE"/>
-      <stop offset="0.55" stop-color="#3B82F6"/>
-      <stop offset="1" stop-color="#A855F7"/>
+    <linearGradient id="pmGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
     </linearGradient>
-    <filter id="glow" x="-40" y="-40" width="592" height="592" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="10" result="blur"/>
-      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.10 0 1 0 0 0.82 0 0 1 0 0.96 0 0 0 0.55 0"/>
-    </filter>
   </defs>
 
-  <circle cx="256" cy="256" r="186" fill="url(#bg)" opacity="0.18" filter="url(#glow)"/>
-  <circle cx="256" cy="256" r="170" fill="none" stroke="url(#bg)" stroke-width="20" opacity="0.95"/>
+  <!-- rounded square gradient bg -->
+  <rect width="32" height="32" rx="6" fill="url(#pmGrad)"/>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="5.5" fill="none" stroke="rgba(96,165,250,0.6)" stroke-width="1"/>
 
-  <circle cx="256" cy="256" r="118" fill="url(#bg)" opacity="0.96"/>
-  <circle cx="256" cy="256" r="118" fill="none" stroke="#F8FAFC" stroke-opacity="0.10" stroke-width="8"/>
-
-  <path
-    d="M212 338V174C212 161.373 222.373 151 235 151H280C322.981 151 352 176.982 352 214C352 251.018 322.981 277 280 277H259V338H212Z"
-    fill="#F8FAFC"
-  />
-  <path
-    d="M259 186H279C297.778 186 309 196.51 309 214C309 231.49 297.778 242 279 242H259V186Z"
-    fill="url(#bg)"
-  />
-
-  <path d="M370 140L396 166" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" opacity="0.95"/>
-  <path d="M398 112L424 138" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" opacity="0.75"/>
+  <!-- ETzin alien · 8x8 scaled 2.5x · centered (6px margin · 20x20 art) -->
+  <g transform="translate(6, 6)" fill="#ffffff">
+    <rect x="5" y="0" width="10" height="2.5"/>
+    <rect x="2.5" y="2.5" width="2.5" height="2.5"/><rect x="7.5" y="2.5" width="5" height="2.5"/><rect x="15" y="2.5" width="2.5" height="2.5"/>
+    <rect x="2.5" y="5" width="15" height="2.5"/>
+    <rect x="0" y="7.5" width="2.5" height="2.5"/><rect x="5" y="7.5" width="2.5" height="2.5"/><rect x="12.5" y="7.5" width="2.5" height="2.5"/><rect x="17.5" y="7.5" width="2.5" height="2.5"/>
+    <rect x="0" y="10" width="20" height="2.5"/>
+    <rect x="2.5" y="12.5" width="2.5" height="2.5"/><rect x="7.5" y="12.5" width="5" height="2.5"/><rect x="15" y="12.5" width="2.5" height="2.5"/>
+    <rect x="2.5" y="15" width="5" height="2.5"/><rect x="12.5" y="15" width="5" height="2.5"/>
+    <rect x="0" y="17.5" width="2.5" height="2.5"/><rect x="5" y="17.5" width="2.5" height="2.5"/><rect x="12.5" y="17.5" width="2.5" height="2.5"/><rect x="17.5" y="17.5" width="2.5" height="2.5"/>
+  </g>
 </svg>

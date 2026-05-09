@@ -24,12 +24,30 @@ const Index = () => {
   const [showExitModal, setShowExitModal] = useState(false);
 
   useExitIntent(() => setShowExitModal(true), {
-    cooldownMinutes: 60,
-    storageKey: 'produtor-milionario-exit-intent'
+    cooldownMinutes: 5,
+    storageKey: 'produtor-milionario-exit-intent',
+    enableScrollTrigger: true,
+    enableIdleTrigger: true,
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative isolate">
+      {/* Spline animated background · global */}
+      <div className="spline-container fixed inset-0 w-full h-full pointer-events-none overflow-hidden" style={{ zIndex: -1 }}>
+        <iframe
+          src="https://my.spline.design/animatedbackgroundgradientforweb-jvJDeBWjMvShkjPKxPRUswLq"
+          frameBorder="0"
+          width="100%"
+          height="100%"
+          id="aura-spline"
+          className="w-full h-full"
+          loading="lazy"
+          title="Animated background"
+        />
+        {/* Dark overlay pra preservar contraste do conteúdo */}
+        <div className="absolute inset-0 bg-[#020617]/75 pointer-events-none"></div>
+      </div>
+
       <Header />
       <HeroSection />
       <ProofSection />

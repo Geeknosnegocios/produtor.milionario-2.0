@@ -1,8 +1,3 @@
-import { useEffect } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import AutoScroll from "embla-carousel-auto-scroll";
-import { TrendingUp, Rocket, Sparkles, MessageSquare } from "lucide-react";
-
 import testimonial1 from "@/assets/testimonials/testimonial-1.png";
 import testimonial2 from "@/assets/testimonials/testimonial-2.png";
 import testimonial3 from "@/assets/testimonials/testimonial-3.png";
@@ -10,100 +5,152 @@ import testimonial4 from "@/assets/testimonials/testimonial-4.png";
 import testimonial5 from "@/assets/testimonials/testimonial-5.png";
 
 const testimonials = [
-  { image: testimonial1, alt: "Depoimento de aluno - Murilo Costa" },
-  { image: testimonial2, alt: "Depoimento de aluno - Andrews Formighieri" },
-  { image: testimonial3, alt: "Depoimento de aluno - Andrews Formighieri parte 2" },
-  { image: testimonial4, alt: "Depoimento de aluno - Produtos validados" },
-  { image: testimonial5, alt: "Depoimento de aluno - Marcos comissões" },
-];
-
-const stats = [
-  { icon: TrendingUp, value: "+R$ 200k", label: "Faturamento acumulado" },
-  { icon: Rocket, value: "Ofertas", label: "Lançadas com IA" },
-  { icon: Sparkles, value: "100%", label: "Criados do zero" },
+  {
+    image: testimonial1,
+    rating: "5.0",
+    quote: "Cara, não é puxa-saco. Você tá disparado como um dos melhores mentores do digital. Concordo e assino embaixo.",
+    name: "Murilo Costa",
+    date: "Mar 2026",
+    revenue: "R$ 12.4k",
+  },
+  {
+    image: testimonial2,
+    rating: "5.0",
+    quote: "Vai ser no YouTube mesmo? Precisamos nos inscrever! Conteúdo de outro nível. YouTube + Instagram + dia a dia + vídeo semanal.",
+    name: "Andrews Formighieri",
+    date: "Fev 2026",
+    revenue: "R$ 8.7k",
+  },
+  {
+    image: testimonial3,
+    rating: "5.0",
+    quote: "Boa noite irmão, venho te falar que vocês acertaram na oferta. Já está rodando. Agora só preciso escalar.",
+    name: "Aluno verificado",
+    date: "Fev 2026",
+    revenue: "R$ 27.3k",
+  },
+  {
+    image: testimonial4,
+    rating: "4.9",
+    quote: "Roubei a conversa que fala sobre os produtos validados. Os meus produtos estão validados também. Agora é vender.",
+    name: "Cliente validado",
+    date: "Jan 2026",
+    revenue: "R$ 5.2k",
+  },
+  {
+    image: testimonial5,
+    rating: "5.0",
+    quote: "Valeu demais Geek, me ajudou a destravar no digital. 100% válido o investimento na mentoria! Bora caralho, só o começo papai!",
+    name: "Marcos · Lastlink",
+    date: "Jan 2026",
+    revenue: "R$ 18.9k",
+  },
 ];
 
 const TestimonialsSection = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      skipSnaps: false,
-    },
-    [
-      AutoScroll({
-        playOnInit: true,
-        speed: 1,
-        stopOnInteraction: false,
-        stopOnMouseEnter: true,
-      })
-    ]
-  );
-
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.reInit();
-    }
-  }, [emblaApi]);
-
   return (
-    <section className="py-20 md:py-32 px-4 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-500/5 rounded-full blur-[120px]" />
+    <section className="overflow-hidden bg-[#080A0F] pt-32 pb-32 relative" id="reviews">
+      {/* Giant Background Text */}
+      <div className="absolute top-[8%] left-0 right-0 w-full text-center pointer-events-none select-none z-0">
+        <h2 className="text-[18vw] font-bold tracking-tighter text-white/[0.03] leading-none whitespace-nowrap">
+          Resultados Reais
+        </h2>
+      </div>
 
-      <div className="container mx-auto max-w-7xl relative z-10">
-        <div className="text-center mb-12 md:mb-16 animate-slide-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-blue-500/30 mb-6">
-            <MessageSquare className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-semibold text-cyan-300">Prova Social</span>
+      <div className="md:px-12 z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-7xl mx-auto px-6 relative items-end">
+
+        {/* Left Controls/Info */}
+        <div className="lg:col-span-4 flex flex-col h-full justify-start">
+          <div className="mt-4 mb-8">
+            <span className="ty-eyebrow mb-6 block">
+              [ +1.000 ALUNOS REAIS ]
+            </span>
+            <h2 className="ty-h2 mb-6">
+              Quem já fez<br />
+              <span className="text-blue-400">primeiro Pix.</span>
+            </h2>
+            <p className="ty-lead max-w-md">
+              Resultados reais de alunos que executaram o método PIPE-IA.
+              Conversas autênticas via WhatsApp, sem montagem, sem ator.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4">
+              <div className="flex items-center gap-3 text-sm text-white/50 font-mono">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Atualizado em tempo real
+              </div>
+              <div className="flex items-center gap-3 text-sm text-white/50 font-mono">
+                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                R$ 200k+ faturamento acumulado
+              </div>
+              <div className="flex items-center gap-3 text-sm text-white/50 font-mono">
+                <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                5.0 ★ avaliação média
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 px-4">
-            Resultados reais{" "}
-            <span className="gradient-text">vêm de oferta no ar</span>
-          </h2>
-          <p className="text-sm md:text-base lg:text-lg text-muted-foreground px-4">
-            👉 Aqui você aprende a criar, publicar e vender infoprodutos com IA em menos tempo.
-          </p>
         </div>
 
-        <div className="overflow-hidden animate-slide-up" style={{ animationDelay: "100ms" }} ref={emblaRef}>
-          <div className="flex gap-4 md:gap-6">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+        {/* Right Carousel */}
+        <div
+          className="lg:col-span-8 relative overflow-hidden"
+          style={{
+            maskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
+          }}
+        >
+          <div className="testimonial-track flex pb-4 gap-x-6">
+            {[...testimonials, ...testimonials].map((t, i) => (
               <div
-                key={index}
-                className="flex-[0_0_auto] w-[280px] sm:w-[300px] md:w-[350px]"
+                key={i}
+                className="group testimonial-card w-[280px] md:w-[320px] bg-[#0E0F11] border border-white/[0.08] hover:border-blue-500/30 transition-colors duration-500 rounded-xl overflow-hidden flex-shrink-0 flex flex-col"
               >
-                <div className="relative group">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-emerald-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Image · full print preserved */}
+                <div className="relative w-full overflow-hidden bg-gradient-to-br from-blue-950/30 to-[#0B0C0E] flex items-center justify-center">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-full h-auto max-h-[480px] object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                  />
+                  {/* Rating badge */}
+                  <div className="absolute top-2 right-2 bg-[#0E0F11]/90 backdrop-blur-sm border border-blue-500/30 px-2 py-1 text-[10px] font-bold text-blue-400 uppercase tracking-wide font-mono rounded z-10">
+                    [{t.rating}]
+                  </div>
+                  {/* Revenue badge */}
+                  <div className="absolute top-2 left-2 bg-blue-500 px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wide font-mono rounded shadow-[0_0_15px_rgba(59,130,246,0.5)] z-10">
+                    + {t.revenue}
+                  </div>
+                </div>
 
-                  <div className="relative">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.alt}
-                      className="w-full h-auto rounded-xl border border-white/10 shadow-lg group-hover:border-blue-500/50 transition-all duration-300 group-hover:scale-[1.02]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                {/* Content */}
+                <div className="p-4 border-t border-white/[0.06]">
+                  <p className="text-xs text-white/65 leading-relaxed mb-5 line-clamp-3">
+                    "{t.quote}"
+                  </p>
+                  <div className="flex justify-between items-end border-t border-white/[0.06] pt-3">
+                    <span className="text-xs font-bold text-white">{t.name}</span>
+                    <span className="text-[10px] text-white/30 uppercase font-mono">{t.date}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 mt-8 md:mt-12 animate-slide-up overflow-x-auto" style={{ animationDelay: "200ms" }}>
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="glass-card border border-white/5 hover:border-blue-500/30 rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]"
-            >
-              <div className="flex items-center justify-center gap-1.5 md:gap-2 mb-0.5 md:mb-1">
-                <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
-                <div className="text-base md:text-xl font-bold neon-text">{stat.value}</div>
-              </div>
-              <div className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">{stat.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
+
+      <style>{`
+        .testimonial-track {
+          width: max-content;
+          animation: testimonial-scroll 45s linear infinite;
+        }
+        .testimonial-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes testimonial-scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
     </section>
   );
 };
