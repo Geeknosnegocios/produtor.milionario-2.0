@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="80" x2="416" y2="432" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="0.55" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <filter id="glow" x="-40" y="-40" width="592" height="592" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.10 0 1 0 0 0.82 0 0 1 0 0.96 0 0 0 0.55 0"/>
+    </filter>
+  </defs>
+
+  <circle cx="256" cy="256" r="186" fill="url(#bg)" opacity="0.18" filter="url(#glow)"/>
+  <circle cx="256" cy="256" r="170" fill="none" stroke="url(#bg)" stroke-width="20" opacity="0.95"/>
+
+  <circle cx="256" cy="256" r="118" fill="url(#bg)" opacity="0.96"/>
+  <circle cx="256" cy="256" r="118" fill="none" stroke="#F8FAFC" stroke-opacity="0.10" stroke-width="8"/>
+
+  <path
+    d="M212 338V174C212 161.373 222.373 151 235 151H280C322.981 151 352 176.982 352 214C352 251.018 322.981 277 280 277H259V338H212Z"
+    fill="#F8FAFC"
+  />
+  <path
+    d="M259 186H279C297.778 186 309 196.51 309 214C309 231.49 297.778 242 279 242H259V186Z"
+    fill="url(#bg)"
+  />
+
+  <path d="M370 140L396 166" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" opacity="0.95"/>
+  <path d="M398 112L424 138" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" opacity="0.75"/>
+</svg>
