@@ -86,7 +86,7 @@ const ValueSection = () => {
   const discount = Math.round(((total - offerPrice) / total) * 100);
 
   const handleCTA = () => {
-    window.open("https://cakto.com.br/produtor-milionario-2-0", "_blank");
+    window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
   };
 
   return (

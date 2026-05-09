@@ -15,7 +15,7 @@ const Header = () => {
     }, []);
 
     const handleCTA = () => {
-        window.open("https://cakto.com.br/produtor-milionario-2-0", "_blank");
+        window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
     };
 
     const scrollToSection = (id: string) => {

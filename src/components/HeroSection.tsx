@@ -8,7 +8,7 @@ import review3 from "@/assets/reviews/review-3.jpg";
 
 const HeroSection = () => {
   const handleCTA = () => {
-    window.location.href = "https://cakto.com.br/produtor-milionario-2-0";
+    window.location.href = "https://pay.cakto.com.br/y2pgfgv_879248";
   };
 
   return (

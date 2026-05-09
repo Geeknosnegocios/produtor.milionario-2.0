@@ -9,7 +9,7 @@ interface ExitIntentModalProps {
 }
 
 // Backredirect URL · R$127 downsell checkout · UPDATE quando user mandar
-const BACKREDIRECT_URL = "https://cakto.com.br/produtor-milionario-2-0-127";
+const BACKREDIRECT_URL = "https://pay.cakto.com.br/frbugun";
 
 const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalProps) => {
   const handleAccept = () => {

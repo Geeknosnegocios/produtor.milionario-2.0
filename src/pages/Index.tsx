@@ -83,7 +83,7 @@ const Index = () => {
         <ExitIntentModal
           open={showExitModal}
           onOpenChange={setShowExitModal}
-          checkoutUrl="https://cakto.com.br/produtor-milionario-2-0"
+          checkoutUrl="https://pay.cakto.com.br/y2pgfgv_879248"
         />
       </Suspense>
       <Footer />

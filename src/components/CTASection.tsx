@@ -4,7 +4,7 @@ import { ArrowRight, Shield, Zap, Infinity as InfinityIcon, Sparkles, CreditCard
 
 const CTASection = () => {
   const handleCTA = () => {
-    window.open("https://cakto.com.br/produtor-milionario-2-0", "_blank");
+    window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
   };
 
   return (

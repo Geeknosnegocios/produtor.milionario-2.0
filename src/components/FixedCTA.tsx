@@ -24,7 +24,7 @@ const FixedCTA = () => {
   }, []);
 
   const handleCTA = () => {
-    window.open("https://cakto.com.br/produtor-milionario-2-0", "_blank");
+    window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
   };
 
   if (!isVisible) return null;
