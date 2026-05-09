@@ -33,20 +33,25 @@ export const useExitIntent = (
     const fire = () => {
       if (!isReady || hasTriggered) return;
 
-      // Check if user already accepted the offer
-      const hasAccepted = localStorage.getItem('produtor-milionario-exit-accepted');
-      if (hasAccepted) return;
+      // ?test=1 bypass for QA/testing
+      const testMode = new URLSearchParams(window.location.search).has('test');
 
-      // Check cooldown
-      const lastShown = localStorage.getItem(storageKey);
-      if (lastShown) {
-        const timePassed = Date.now() - parseInt(lastShown);
-        const cooldownMs = cooldownMinutes * 60 * 1000;
-        if (timePassed < cooldownMs) return;
+      if (!testMode) {
+        // Check if user already accepted the offer
+        const hasAccepted = localStorage.getItem('produtor-milionario-exit-accepted');
+        if (hasAccepted) return;
+
+        // Check cooldown
+        const lastShown = localStorage.getItem(storageKey);
+        if (lastShown) {
+          const timePassed = Date.now() - parseInt(lastShown);
+          const cooldownMs = cooldownMinutes * 60 * 1000;
+          if (timePassed < cooldownMs) return;
+        }
       }
 
       hasTriggered = true;
-      localStorage.setItem(storageKey, Date.now().toString());
+      if (!testMode) localStorage.setItem(storageKey, Date.now().toString());
       onExitIntent();
     };
 
