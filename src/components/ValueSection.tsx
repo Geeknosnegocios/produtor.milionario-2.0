@@ -86,6 +86,7 @@ const ValueSection = () => {
   const discount = Math.round(((total - offerPrice) / total) * 100);
 
   const handleCTA = () => {
+    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'value-section' }));
     window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
   };
 

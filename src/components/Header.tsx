@@ -15,6 +15,7 @@ const Header = () => {
     }, []);
 
     const handleCTA = () => {
+        import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'header' }));
         window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
     };
 

@@ -5,6 +5,7 @@ import ProofSection from "@/components/ProofSection";
 import Footer from "@/components/Footer";
 import FixedCTA from "@/components/FixedCTA";
 import { useExitIntent } from "@/hooks/useExitIntent";
+import { trackViewContent, trackLead } from "@/lib/tracking";
 
 const ModulesSection = lazy(() => import("@/components/ModulesSection"));
 const PainPointsSection = lazy(() => import("@/components/PainPointsSection"));
@@ -25,12 +26,19 @@ const Index = () => {
   const [showExitModal, setShowExitModal] = useState(false);
   const [splineReady, setSplineReady] = useState(false);
 
-  useExitIntent(() => setShowExitModal(true), {
+  useExitIntent(() => {
+    setShowExitModal(true);
+    trackLead('exit-intent-popup', 147);
+  }, {
     cooldownMinutes: 5,
     storageKey: 'produtor-milionario-exit-intent',
     enableScrollTrigger: true,
     enableIdleTrigger: true,
   });
+
+  useEffect(() => {
+    trackViewContent();
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

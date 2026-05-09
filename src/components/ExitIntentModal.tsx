@@ -14,6 +14,9 @@ const BACKREDIRECT_URL = "https://pay.cakto.com.br/frbugun";
 const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalProps) => {
   const handleAccept = () => {
     localStorage.setItem('produtor-milionario-exit-accepted', 'true');
+    import("@/lib/tracking").then(({ trackInitiateCheckout }) =>
+      trackInitiateCheckout({ value: 147, source: 'exit-modal' })
+    );
     window.location.href = checkoutUrl;
   };
 

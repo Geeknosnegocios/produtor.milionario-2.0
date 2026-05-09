@@ -2,12 +2,14 @@ import { Button } from "@/components/ui/button";
 import { BookmarkButton } from "@/components/ui/bookmark-button";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2 } from "lucide-react";
+import { trackInitiateCheckout } from "@/lib/tracking";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
 
 const HeroSection = () => {
   const handleCTA = () => {
+    trackInitiateCheckout({ value: 147, source: 'hero' });
     window.location.href = "https://pay.cakto.com.br/y2pgfgv_879248";
   };
 
