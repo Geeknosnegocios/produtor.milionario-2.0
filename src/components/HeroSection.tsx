@@ -75,7 +75,7 @@ const HeroSection = () => {
 
               <div className="relative w-full aspect-video">
                 <iframe
-                  src="https://www.youtube.com/embed/M_EOnrEOBsQ"
+                  src="https://www.youtube.com/embed/8MSb3SIFZm4"
                   title="Produtor Milionário - Vídeo de Apresentação"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
