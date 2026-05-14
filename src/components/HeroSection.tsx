@@ -104,8 +104,15 @@ const HeroSection = () => {
                         (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${VIDEO_ID}/hqdefault.jpg`;
                       }}
                     />
-                    {/* Dark overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70 group-hover:from-black/20 group-hover:via-black/30 group-hover:to-black/60 transition" />
+                    {/* Dark overlay · forte pra evidenciar o botão */}
+                    <div className="absolute inset-0 bg-black/75 group-hover:bg-black/60 transition duration-300" />
+                    <div className="absolute inset-0 backdrop-blur-[3px] group-hover:backdrop-blur-[1.5px] transition duration-300" />
+                    <div
+                      className="absolute inset-0 transition duration-300"
+                      style={{
+                        background: "radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.85) 100%)"
+                      }}
+                    />
 
                     {/* Pulse rings around play button */}
                     <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-red-500/30 animate-ping" />
