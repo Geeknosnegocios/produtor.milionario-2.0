@@ -53,21 +53,23 @@ const HeroSection = () => {
             </p>
           </div>
 
-          {/* PLAY CALLOUT · attention grabber acima do video */}
-          <div className="flex flex-col items-center gap-1 sm:gap-2 animate-slide-up pt-1 sm:pt-2" style={{ animationDelay: "350ms" }}>
-            <div className="relative inline-flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 rounded-full bg-gradient-to-r from-red-500 via-red-600 to-orange-500 shadow-[0_0_30px_rgba(239,68,68,0.55)] border border-red-400/60 animate-pulse">
-              <span className="relative flex h-2.5 w-2.5">
+          {/* PLAY CALLOUT · square block centered acima do video */}
+          <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 animate-slide-up pt-2 sm:pt-4" style={{ animationDelay: "350ms" }}>
+            <div className="relative flex flex-col items-center justify-center gap-2 px-6 py-5 sm:px-10 sm:py-6 rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-orange-500 shadow-[0_0_40px_rgba(239,68,68,0.6)] border-2 border-red-400/70 animate-pulse w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] mx-auto">
+              <span className="relative flex h-3 w-3 absolute top-3 right-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
               </span>
-              <Play className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-white" />
-              <span className="text-[11px] sm:text-sm font-black uppercase tracking-wider text-white whitespace-nowrap">
-                <span className="sm:hidden">DÊ PLAY · 4 MIN</span>
-                <span className="hidden sm:inline">DÊ PLAY AGORA · 4 MIN QUE MUDAM TUDO</span>
+              <Play className="w-12 h-12 sm:w-14 sm:h-14 text-white fill-white drop-shadow-lg" />
+              <span className="text-sm sm:text-base font-black uppercase tracking-wider text-white text-center leading-tight">
+                DÊ PLAY<br />AGORA
               </span>
-              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <div className="flex items-center gap-1.5 mt-1">
+                <Volume2 className="w-4 h-4 text-white" />
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wide text-white/90">4 MIN · COM SOM</span>
+              </div>
             </div>
-            <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 animate-bounce drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]" strokeWidth={3} />
+            <ArrowDown className="w-6 h-6 sm:w-7 sm:h-7 text-red-400 animate-bounce drop-shadow-[0_0_8px_rgba(239,68,68,0.7)]" strokeWidth={3} />
           </div>
 
           {/* Video · larger + AO VIVO badge on mobile */}
