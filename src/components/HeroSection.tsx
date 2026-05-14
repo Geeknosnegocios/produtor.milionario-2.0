@@ -1,13 +1,18 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BookmarkButton } from "@/components/ui/bookmark-button";
 import { IconBadge } from "@/components/ui/icon-badge";
-import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2, Play, ArrowDown } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2, Play } from "lucide-react";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
 
+const VIDEO_ID = "8MSb3SIFZm4";
+
 const HeroSection = () => {
+  const [playing, setPlaying] = useState(false);
+
   const handleCTA = () => {
     trackInitiateCheckout({ value: 147, source: 'hero' });
     window.location.href = "https://pay.cakto.com.br/y2pgfgv_879248";
@@ -53,25 +58,6 @@ const HeroSection = () => {
             </p>
           </div>
 
-          {/* PLAY CALLOUT · square block centered acima do video */}
-          <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 animate-slide-up pt-2 sm:pt-4" style={{ animationDelay: "350ms" }}>
-            <div className="relative flex flex-col items-center justify-center gap-2 px-6 py-5 sm:px-10 sm:py-6 rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-orange-500 shadow-[0_0_40px_rgba(239,68,68,0.6)] border-2 border-red-400/70 animate-pulse w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] mx-auto">
-              <span className="relative flex h-3 w-3 absolute top-3 right-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-              </span>
-              <Play className="w-12 h-12 sm:w-14 sm:h-14 text-white fill-white drop-shadow-lg" />
-              <span className="text-sm sm:text-base font-black uppercase tracking-wider text-white text-center leading-tight">
-                DÊ PLAY<br />AGORA
-              </span>
-              <div className="flex items-center gap-1.5 mt-1">
-                <Volume2 className="w-4 h-4 text-white" />
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wide text-white/90">4 MIN · COM SOM</span>
-              </div>
-            </div>
-            <ArrowDown className="w-6 h-6 sm:w-7 sm:h-7 text-red-400 animate-bounce drop-shadow-[0_0_8px_rgba(239,68,68,0.7)]" strokeWidth={3} />
-          </div>
-
           {/* Video · larger + AO VIVO badge on mobile */}
           <div className="relative max-w-4xl mx-auto px-1 sm:px-4 md:px-0 animate-slide-up" style={{ animationDelay: "400ms" }}>
             <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-blue-500/30 via-blue-500/25 to-blue-500/30 rounded-3xl blur-2xl animate-pulse" />
@@ -92,15 +78,63 @@ const HeroSection = () => {
                 <div className="text-[10px] sm:text-sm text-muted-foreground font-medium hidden sm:block">Vídeo de apresentação</div>
               </div>
 
-              <div className="relative w-full aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/8MSb3SIFZm4"
-                  title="Produtor Milionário - Vídeo de Apresentação"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
+              <div className="relative w-full aspect-video bg-black">
+                {playing ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`}
+                    title="Produtor Milionário - Vídeo de Apresentação"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setPlaying(true)}
+                    aria-label="Dar play no vídeo de apresentação"
+                    className="group absolute inset-0 w-full h-full cursor-pointer overflow-hidden"
+                  >
+                    {/* Thumbnail YouTube */}
+                    <img
+                      src={`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+                      alt="Capa do vídeo Produtor Milionário 2.0"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="eager"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${VIDEO_ID}/hqdefault.jpg`;
+                      }}
+                    />
+                    {/* Dark overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70 group-hover:from-black/20 group-hover:via-black/30 group-hover:to-black/60 transition" />
+
+                    {/* Pulse rings around play button */}
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-red-500/30 animate-ping" />
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl bg-red-500/40 animate-pulse" />
+
+                    {/* SQUARE PLAY BUTTON · centered */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center gap-1.5 sm:gap-2 w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] md:w-[200px] md:h-[200px] rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-orange-500 shadow-[0_0_60px_rgba(239,68,68,0.8)] border-2 border-red-400/80 group-hover:scale-110 group-hover:shadow-[0_0_80px_rgba(239,68,68,1)] transition-all duration-300 animate-pulse">
+                      <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-full w-full bg-white"></span>
+                      </span>
+                      <Play className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-white fill-white drop-shadow-lg ml-1" />
+                      <span className="text-xs sm:text-sm md:text-base font-black uppercase tracking-wider text-white text-center leading-tight">
+                        DÊ PLAY<br />AGORA
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <Volume2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wide text-white/95">4 MIN · COM SOM</span>
+                      </div>
+                    </div>
+
+                    {/* Bottom caption */}
+                    <div className="absolute bottom-3 sm:bottom-4 left-0 right-0 text-center">
+                      <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white/90 bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/20">
+                        ▶ Clique para assistir
+                      </span>
+                    </div>
+                  </button>
+                )}
               </div>
 
               {/* Sound reminder bar · mobile only */}
