@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { BookmarkButton } from "@/components/ui/bookmark-button";
 import { IconBadge } from "@/components/ui/icon-badge";
-import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2 } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Zap, Users, Infinity as InfinityIcon, ShieldCheck, Volume2, Play, ArrowDown } from "lucide-react";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
@@ -51,6 +51,23 @@ const HeroSection = () => {
             <p className="mt-2 sm:mt-3 text-xs sm:text-base text-blue-400 font-semibold">
               👉 7 skills fazem 99% do trabalho. Você orquestra.
             </p>
+          </div>
+
+          {/* PLAY CALLOUT · attention grabber acima do video */}
+          <div className="flex flex-col items-center gap-1 sm:gap-2 animate-slide-up pt-1 sm:pt-2" style={{ animationDelay: "350ms" }}>
+            <div className="relative inline-flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 rounded-full bg-gradient-to-r from-red-500 via-red-600 to-orange-500 shadow-[0_0_30px_rgba(239,68,68,0.55)] border border-red-400/60 animate-pulse">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+              </span>
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-white" />
+              <span className="text-[11px] sm:text-sm font-black uppercase tracking-wider text-white whitespace-nowrap">
+                <span className="sm:hidden">DÊ PLAY · 4 MIN</span>
+                <span className="hidden sm:inline">DÊ PLAY AGORA · 4 MIN QUE MUDAM TUDO</span>
+              </span>
+              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            </div>
+            <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 animate-bounce drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]" strokeWidth={3} />
           </div>
 
           {/* Video · larger + AO VIVO badge on mobile */}
