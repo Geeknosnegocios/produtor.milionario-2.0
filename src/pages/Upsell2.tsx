@@ -20,7 +20,7 @@ import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
 
-const CHECKOUT_URL = "https://pay.cakto.com.br/REPLACE_MENTORIA_VIP_ID";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQCED8";
 const TOTAL_VAGAS = 30;
 const VAGAS_OCUPADAS = 23;
 const VAGAS_RESTANTES = TOTAL_VAGAS - VAGAS_OCUPADAS;
@@ -38,7 +38,7 @@ export default function Upsell2() {
   const ss = String(secondsLeft % 60).padStart(2, "0");
 
   const handleCTA = () => {
-    window.location.href = CHECKOUT_URL + "?oneclick=1";
+    window.location.href = CHECKOUT_URL;
   };
 
   const handleSkip = () => {
