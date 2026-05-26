@@ -23,7 +23,7 @@ import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
 
-const CHECKOUT_URL = "https://pay.cakto.com.br/REPLACE_FPM2_PRODUCT_ID";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38COLLLB?upsell=true";
 
 export default function Upsell() {
   const [secondsLeft, setSecondsLeft] = useState(15 * 60);
@@ -47,7 +47,7 @@ export default function Upsell() {
   }, []);
 
   const handleCTA = () => {
-    window.location.href = CHECKOUT_URL + "?oneclick=1";
+    window.location.href = CHECKOUT_URL;
   };
 
   const handleSkip = () => {
