@@ -28,10 +28,12 @@ const BookmarkButton = forwardRef<HTMLButtonElement, BookmarkButtonProps>(
         ref={ref}
         type="button"
         className={cn(
-          "group/bm relative inline-flex items-center justify-start rounded-full bg-[#0c0c0c] cursor-pointer overflow-hidden p-0",
-          "border border-blue-400/40 hover:border-blue-400/80",
-          "shadow-[0_0_30px_rgba(59,130,246,0.25)] hover:shadow-[0_0_60px_rgba(59,130,246,0.5)]",
-          "transition-all duration-300 active:scale-[0.97]",
+          "group/bm relative inline-flex items-center justify-start rounded-full cursor-pointer overflow-hidden p-0",
+          "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500",
+          "border-2 border-blue-300",
+          "shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:shadow-[0_0_60px_rgba(59,130,246,0.75)]",
+          "transition-all duration-300",
+          "active:scale-[0.97] active:from-emerald-500 active:to-emerald-600 active:border-emerald-300 active:shadow-[0_0_50px_rgba(16,185,129,0.7)]",
           config.h,
           "min-w-[160px]",
           fullWidth ? "w-full" : "max-w-full",
@@ -39,19 +41,20 @@ const BookmarkButton = forwardRef<HTMLButtonElement, BookmarkButtonProps>(
         )}
         {...props}
       >
-        {/* Icon container · expands on hover */}
+        {/* Icon container · expands on hover · branco contra bg azul/verde */}
         <span
           className={cn(
             "absolute z-[2] flex items-center justify-center rounded-full overflow-hidden",
-            "bg-gradient-to-b from-blue-400 to-blue-600",
+            "bg-white",
             "left-1 top-1/2 -translate-y-1/2",
             "transition-all duration-500 ease-out",
             "group-hover/bm:rounded-[35px] group-hover/bm:left-1",
+            "group-active/bm:bg-white",
             config.iconSize,
             config.hoverW
           )}
         >
-          <ArrowRight className={cn("text-white", config.svgSize)} strokeWidth={2.5} />
+          <ArrowRight className={cn("text-blue-600 group-active/bm:text-emerald-600 transition-colors", config.svgSize)} strokeWidth={2.5} />
         </span>
 
         {/* Text · fades + slides right on hover */}
