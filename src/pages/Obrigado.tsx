@@ -29,7 +29,7 @@ const Obrigado = () => {
           {nome ? `${nome}, falta ` : "Falta "}<span className="text-green-400">1 passo</span>
         </h1>
         <p className="mt-3 text-sm sm:text-lg text-white/55 animate-slide-up max-w-md mx-auto" style={{ animationDelay: "200ms" }}>
-          Sua vaga tá reservada. Agora <span className="text-white font-medium">entre no grupo</span> — é lá que o link da aula ao vivo vai cair.
+          Sua vaga tá reservada. Agora <span className="text-white font-medium">entre no grupo</span>. É lá que o link da aula ao vivo vai cair.
         </p>
 
         {/* WhatsApp CTA */}
