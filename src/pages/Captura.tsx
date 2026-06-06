@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Play, Volume2, Users, Check, MessageCircle, Search, Lightbulb, FileText, Megaphone, Clock, ShieldCheck, Zap } from "lucide-react";
+import { Sparkles, Play, Volume2, Users, Check, MessageCircle, Search, Lightbulb, FileText, Megaphone, Clock, ShieldCheck, Zap, AlertTriangle, Flame, Gift, EyeOff } from "lucide-react";
 import { trackLead } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
@@ -119,6 +119,9 @@ const Captura = () => {
 
             <div className="mt-8 animate-slide-up" style={{ animationDelay: "400ms" }}>
               <CTAGroup origem="hero" />
+              <div className="mt-3 inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-red-300 bg-red-500/10 border border-red-500/30 rounded-full px-4 py-1.5">
+                <Flame className="w-3.5 h-3.5 text-red-400" /> Vagas limitadas · o grupo enche rápido
+              </div>
             </div>
 
             {/* proof inline */}
@@ -181,6 +184,29 @@ const Captura = () => {
           </div>
         </section>
 
+        {/* ===== POR QUE ENTRAR AGORA (gatilhos) ===== */}
+        <section className="px-4 py-16 border-t border-white/[0.06]">
+          <div className="max-w-4xl mx-auto">
+            <p className="ty-eyebrow text-center">Por que entrar agora</p>
+            <h2 className="ty-h2 text-center mt-3 mb-10 px-2">Quem espera, <span className="text-red-400">fica de fora</span></h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { Icon: EyeOff, t: "Não tem reprise", d: "A aula é ao vivo. Quem não está, perde. Não fica gravado." },
+                { Icon: Gift, t: "Bônus só ao vivo", d: "Os bônus liberam só pra quem participa em tempo real." },
+                { Icon: Flame, t: "Vagas limitadas", d: "O grupo tem limite e enche rápido. Garante o seu agora." },
+              ].map((c) => (
+                <div key={c.t} className="glass-card rounded-2xl p-6 text-center border border-red-500/20">
+                  <div className="w-12 h-12 mx-auto rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center mb-4">
+                    <c.Icon className="w-6 h-6 text-red-400" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">{c.t}</h3>
+                  <p className="text-sm text-white/60 mt-1.5 leading-relaxed">{c.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ===== CTA FINAL ===== */}
         <section className="px-4 py-16 border-t border-white/[0.06]">
           <div className="max-w-2xl mx-auto text-center">
@@ -191,8 +217,9 @@ const Captura = () => {
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight mb-3">Garanta sua vaga<br /><span className="gradient-text">na próxima quarta, 20h.</span></h2>
               <p className="text-white/55 mb-7 max-w-md mx-auto">Entra no grupo agora. É lá que o link da aula e os avisos vão cair.</p>
               <CTAGroup origem="cta-final" />
-              <div className="flex items-center justify-center gap-2 mt-6 text-sm text-white/50">
-                <Zap className="w-4 h-4 text-blue-400" /> Vagas limitadas · bônus só pra quem está ao vivo
+              <div className="flex items-start gap-2.5 text-left text-sm text-red-200 bg-red-500/10 border border-red-500/40 rounded-xl px-4 py-3.5 mt-6">
+                <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <span><span className="text-red-300 font-bold">⚠ Importante:</span> as vagas são limitadas e os bônus só liberam <span className="text-white font-semibold">pra quem está ao vivo</span>. Não tem reprise.</span>
               </div>
             </div>
             <p className="mt-8 text-xs text-white/30">Geek Academy · Produtor Milionário 2.0 · seus dados estão seguros</p>

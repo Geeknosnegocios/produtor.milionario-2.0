@@ -51,26 +51,26 @@ const Obrigado = () => {
           </div>
         </div>
 
-        {/* steps */}
-        <div className="flex flex-col gap-3 text-left mb-6 animate-slide-up" style={{ animationDelay: "500ms" }}>
+        {/* steps · lado a lado */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left mb-6 animate-slide-up" style={{ animationDelay: "500ms" }}>
           {[
             { n: 1, t: "Entre no grupo", s: "É onde o link da aula vai cair", icon: <MessageCircle className="w-4 h-4" /> },
-            { n: 2, t: "Ative a notificação do grupo", s: "Pra não perder o aviso de 'começando agora'", icon: <Bell className="w-4 h-4" /> },
-            { n: 3, t: "Quarta, 20h, esteja online", s: "Vou criar um produto do zero, ao vivo", icon: <CalendarDays className="w-4 h-4" /> },
+            { n: 2, t: "Ative a notificação", s: "Pra não perder o 'começando agora'", icon: <Bell className="w-4 h-4" /> },
+            { n: 3, t: "Quarta, 20h, online", s: "Vou criar um produto do zero, ao vivo", icon: <CalendarDays className="w-4 h-4" /> },
           ].map((st) => (
-            <div key={st.n} className="flex items-center gap-3.5 glass-card rounded-xl px-4 py-3.5">
-              <span className="w-9 h-9 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-300 font-mono font-bold flex items-center justify-center flex-shrink-0">{st.n}</span>
+            <div key={st.n} className="glass-card rounded-xl px-4 py-4 flex flex-col gap-2.5">
+              <span className="w-9 h-9 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-300 font-mono font-bold flex items-center justify-center">{st.n}</span>
               <div>
                 <div className="text-sm font-semibold text-white flex items-center gap-2">{st.icon}{st.t}</div>
-                <div className="text-xs text-white/50 mt-0.5">{st.s}</div>
+                <div className="text-xs text-white/50 mt-1">{st.s}</div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex items-start gap-2 text-left text-sm text-white/60 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 animate-slide-up" style={{ animationDelay: "600ms" }}>
-          <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-          <span><span className="text-white font-semibold">Importante:</span> as vagas da aula são limitadas e os bônus só liberam pra quem está ao vivo. Entra no grupo agora pra não ficar de fora.</span>
+        <div className="flex items-start gap-2.5 text-left text-sm text-red-200 bg-red-500/10 border border-red-500/40 rounded-xl px-4 py-3.5 animate-slide-up" style={{ animationDelay: "600ms" }}>
+          <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <span><span className="text-red-300 font-bold">⚠ Importante:</span> as vagas da aula são limitadas e os bônus só liberam <span className="text-white font-semibold">pra quem está ao vivo</span>. Não tem reprise. Entra no grupo agora pra não ficar de fora.</span>
         </div>
 
         <p className="mt-7 text-xs text-white/30">Geek Academy · Produtor Milionário 2.0</p>
