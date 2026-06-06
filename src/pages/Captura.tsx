@@ -70,6 +70,37 @@ const Captura = () => {
               O novo formato pra criar e vender produtos de <span className="text-white font-semibold">R$10 a R$97</span> usando Claude. Sem copy paga. Sem programador.
             </p>
 
+            {/* microVSL · logo abaixo da subheadline */}
+            <div className="relative mt-7 max-w-xl mx-auto animate-slide-up" style={{ animationDelay: "250ms" }}>
+              <div className="absolute -inset-3 bg-gradient-to-r from-blue-500/25 via-blue-500/15 to-blue-500/25 rounded-3xl blur-2xl" />
+              <div className="relative glass-card rounded-2xl overflow-hidden border border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.22)]">
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" /><span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" /><span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                  </div>
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 bg-red-500/15 border border-red-500/40 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /><span className="text-[10px] text-red-300 font-mono uppercase tracking-wider font-bold">Convite</span>
+                  </div>
+                </div>
+                <div className="relative w-full aspect-video bg-black">
+                  {playing ? (
+                    <iframe src={`https://www.youtube.com/embed/${MICROVSL_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`} title="Convite" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute inset-0 w-full h-full" />
+                  ) : (
+                    <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0 w-full h-full cursor-pointer">
+                      <img src={`https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/maxresdefault.jpg`} alt="Capa do convite" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/hqdefault.jpg`; }} />
+                      <div className="absolute inset-0 bg-black/70 group-hover:bg-black/55 transition" />
+                      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-2xl bg-blue-500/30 animate-ping" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 shadow-[0_0_60px_rgba(59,130,246,0.8)] border-2 border-blue-400/80 group-hover:scale-110 transition">
+                        <Play className="w-9 h-9 sm:w-11 sm:h-11 text-white fill-white mt-5 ml-1" />
+                        <span className="text-[11px] sm:text-xs font-black uppercase tracking-wide text-white">Assistir</span>
+                        <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN · COM SOM</span>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
             {/* bullets estilo referência */}
             <div className="mt-7 flex flex-col gap-3 max-w-md mx-auto text-left animate-slide-up" style={{ animationDelay: "300ms" }}>
               {[
@@ -95,39 +126,6 @@ const Captura = () => {
               <div className="flex items-center gap-2 text-sm text-white/55 font-semibold"><Users className="w-4 h-4 text-blue-400" /> +1.000 alunos</div>
               <div className="flex items-center gap-1 text-sm text-white/55 font-semibold"><span className="text-yellow-400">★★★★★</span> 5.0</div>
               <div className="flex items-center gap-2 text-sm text-white/55 font-semibold"><Sparkles className="w-4 h-4 text-blue-400" /> feito com Claude</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== VIDEO ===== */}
-        <section className="px-4 pb-16">
-          <div className="max-w-2xl mx-auto relative">
-            <div className="absolute -inset-3 bg-gradient-to-r from-blue-500/25 via-blue-500/15 to-blue-500/25 rounded-3xl blur-2xl" />
-            <div className="relative glass-card rounded-2xl overflow-hidden border border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.22)]">
-              <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/5 bg-gradient-to-b from-white/5 to-transparent">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" /><span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" /><span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                </div>
-                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-red-500/15 border border-red-500/40 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /><span className="text-[10px] text-red-300 font-mono uppercase tracking-wider font-bold">Convite</span>
-                </div>
-              </div>
-              <div className="relative w-full aspect-video bg-black">
-                {playing ? (
-                  <iframe src={`https://www.youtube.com/embed/${MICROVSL_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`} title="Convite" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute inset-0 w-full h-full" />
-                ) : (
-                  <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0 w-full h-full cursor-pointer">
-                    <img src={`https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/maxresdefault.jpg`} alt="Capa do convite" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/hqdefault.jpg`; }} />
-                    <div className="absolute inset-0 bg-black/70 group-hover:bg-black/55 transition" />
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-2xl bg-blue-500/30 animate-ping" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 shadow-[0_0_60px_rgba(59,130,246,0.8)] border-2 border-blue-400/80 group-hover:scale-110 transition">
-                      <Play className="w-9 h-9 sm:w-11 sm:h-11 text-white fill-white mt-5 ml-1" />
-                      <span className="text-[11px] sm:text-xs font-black uppercase tracking-wide text-white">Assistir</span>
-                      <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN · COM SOM</span>
-                    </div>
-                  </button>
-                )}
-              </div>
             </div>
           </div>
         </section>
