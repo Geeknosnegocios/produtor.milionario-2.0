@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Produtor Milionário 2.0 — Era IA · Roadmap Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#030712;--s1:#0f172a;--s2:#1e293b;
+  --v:#8B5CF6;--c:#06B6D4;--a:#F59E0B;--b:#3B82F6;--g:#22C55E;
+  --t1:#f1f5f9;--t2:#94a3b8;--t3:#475569;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:'Manrope',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* BG */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(139,92,246,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(34,197,94,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* HEADER */
+.header{position:relative;z-index:1;text-align:center;padding:60px 24px 40px;border-bottom:1px solid rgba(255,255,255,.06)}
+.header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);border-radius:999px;padding:6px 16px;font-size:.75rem;font-family:'JetBrains Mono',monospace;color:var(--v);margin-bottom:20px;letter-spacing:.05em}
+.header h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.1;margin-bottom:12px}
+.header h1 span{background:linear-gradient(135deg,#8B5CF6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-sub{font-size:1rem;color:var(--t2);max-width:520px;margin:0 auto 28px}
+.stats-bar{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-n{font-size:1.6rem;font-weight:900;font-family:'JetBrains Mono',monospace}
+.stat-l{font-size:.72rem;color:var(--t3);margin-top:2px}
+
+/* PROGRESS */
+.progress-section{position:relative;z-index:1;max-width:760px;margin:32px auto;padding:0 24px}
+.progress-bar-wrap{background:rgba(255,255,255,.06);border-radius:999px;height:6px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(135deg,#8B5CF6,#06B6D4,#22C55E);border-radius:999px;width:0%;transition:width 1s ease}
+.progress-label{display:flex;justify-content:space-between;font-size:.72rem;color:var(--t3);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+/* MODULES */
+.content{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 24px 80px}
+.module-block{margin-bottom:40px}
+.module-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding:16px 20px;border-radius:14px;border:1px solid;}
+.module-num{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;opacity:.7}
+.module-title{font-size:1rem;font-weight:800}
+.module-desc{font-size:.78rem;color:var(--t2);margin-left:auto;text-align:right;max-width:260px}
+
+.module-block.m1 .module-header{background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.2);color:#a78bfa}
+.module-block.m2 .module-header{background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.2);color:#a78bfa}
+.module-block.m3 .module-header{background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.2);color:#22d3ee}
+.module-block.m4 .module-header{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);color:#fbbf24}
+.module-block.m5 .module-header{background:rgba(59,130,246,.07);border-color:rgba(59,130,246,.2);color:#60a5fa}
+.module-block.m6 .module-header{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.2);color:#4ade80}
+
+/* LESSON CARDS */
+.lessons-grid{display:flex;flex-direction:column;gap:8px}
+.lesson-card{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 18px;text-decoration:none;color:inherit;transition:background .15s,border-color .15s,transform .1s;cursor:pointer}
+.lesson-card:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);transform:translateX(4px)}
+.lesson-card.locked{opacity:.45;cursor:default;pointer-events:none}
+.lesson-num{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;min-width:28px;opacity:.6}
+.lesson-info{flex:1}
+.lesson-title-text{font-size:.88rem;font-weight:700;margin-bottom:2px}
+.lesson-topics{font-size:.72rem;color:var(--t3);line-height:1.5}
+.lesson-status{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.badge-disponivel{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:3px 8px;font-size:.65rem;font-family:'JetBrains Mono',monospace;font-weight:700}
+.badge-slides{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.25);border-radius:6px;padding:3px 8px;font-size:.65rem;font-family:'JetBrains Mono',monospace;font-weight:700}
+.badge-breve{background:rgba(255,255,255,.05);color:var(--t3);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:3px 8px;font-size:.65rem;font-family:'JetBrains Mono',monospace;font-weight:700}
+.icon-play{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.m1 .icon-play{background:rgba(139,92,246,.15)}
+.m2 .icon-play{background:rgba(139,92,246,.15)}
+.m3 .icon-play{background:rgba(6,182,212,.12)}
+.m4 .icon-play{background:rgba(245,158,11,.1)}
+.m5 .icon-play{background:rgba(59,130,246,.1)}
+.m6 .icon-play{background:rgba(34,197,94,.1)}
+
+/* NOTE */
+.note-box{max-width:760px;margin:0 auto 32px;padding:0 24px}
+.note{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:12px 16px;font-size:.78rem;color:#fbbf24;line-height:1.6}
+.note strong{color:#fde68a}
+
+/* FOOTER */
+.footer{position:relative;z-index:1;text-align:center;padding:32px 24px;border-top:1px solid rgba(255,255,255,.06);font-size:.75rem;color:var(--t3)}
+.footer strong{color:var(--t2)}
+
+/* ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.module-block{animation:fadeUp .4s ease both}
+.module-block:nth-child(1){animation-delay:.05s}
+.module-block:nth-child(2){animation-delay:.1s}
+.module-block:nth-child(3){animation-delay:.15s}
+.module-block:nth-child(4){animation-delay:.2s}
+.module-block:nth-child(5){animation-delay:.25s}
+.module-block:nth-child(6){animation-delay:.3s}
+
+@media(max-width:600px){
+  .module-desc{display:none}
+  .lesson-topics{display:none}
+  .stats-bar{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">🚀 PRODUTOR MILIONÁRIO 2.0 · ERA IA</div>
+  <h1>Roadmap Completo<br><span>do Produtor Milionário</span></h1>
+  <p class="header-sub">22 aulas · 6 módulos · Do nicho ao R$1.000/dia com IA</p>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-n" style="color:#8B5CF6">6</div>
+      <div class="stat-l">Módulos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" style="color:#06B6D4">22</div>
+      <div class="stat-l">Aulas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" style="color:#F59E0B">7+</div>
+      <div class="stat-l">Skills ativas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" style="color:#22C55E">R$1k</div>
+      <div class="stat-l">Meta/dia</div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-bar-wrap"><div class="progress-fill" id="pfill"></div></div>
+  <div class="progress-label">
+    <span id="prog-text">0 de 22 aulas concluídas</span>
+    <span id="prog-pct">0%</span>
+  </div>
+</div>
+
+<div class="note-box">
+  <div class="note">
+    <strong>Como usar:</strong> Abra cada aula em tela cheia (botão ⛶ ou tecla F). Use ← → para navegar entre slides. Toque e arraste no celular. Links de vídeo serão adicionados conforme as aulas são gravadas.
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- M1 -->
+  <div class="module-block m1">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 01</span>
+      <span class="module-title">🧠 Fundação — Mindset e Setup</span>
+      <span class="module-desc">Mentalidade, ferramentas e ambiente configurado</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m1" href="M1-1-mindset-produtor-2-0.html" target="_blank">
+        <div class="icon-play">🧠</div>
+        <div class="lesson-num">1.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Mindset Produtor 2.0 · Era IA</div>
+          <div class="lesson-topics">Vantagem competitiva IA · 3 realidades do mercado · Stack do produtor moderno</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m1" href="M1-2-setup-antigravity-claude.html" target="_blank">
+        <div class="icon-play">⚙️</div>
+        <div class="lesson-num">1.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Setup Antigravity + Claude Code</div>
+          <div class="lesson-topics">Instalação · Primeiras execuções · Fluxo de trabalho dual</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m1" href="M1-3-tres-pilares-produtor-1h.html" target="_blank">
+        <div class="icon-play">🏛️</div>
+        <div class="lesson-num">1.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Os 3 Pilares do Produtor 1H</div>
+          <div class="lesson-topics">Validação · Velocidade · Volume — a tríade que gera receita</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m1" href="M1-4-setup-claude-code-ambiente.html" target="_blank">
+        <div class="icon-play">💻</div>
+        <div class="lesson-num">1.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Setup Claude Code + Ambiente Completo</div>
+          <div class="lesson-topics">Instalar 7 skills · Primeira execução · Ambiente funcionando</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- M2 -->
+  <div class="module-block m2">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 02</span>
+      <span class="module-title">🔍 Pesquisa — Nicho e Produto</span>
+      <span class="module-desc">Validar antes de criar. Nunca no achismo.</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m2" href="M2-1-pesquisa-nicho-ia.html" target="_blank">
+        <div class="icon-play">🔍</div>
+        <div class="lesson-num">2.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Pesquisa de Nicho com IA · /pesquisar-nicho</div>
+          <div class="lesson-topics">SearchAPI · Meta Ads Library · Critérios 🔥🔥🔥 vs ❌</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m2" href="M2-2-ads-library-espiao.html" target="_blank">
+        <div class="icon-play">🕵️</div>
+        <div class="lesson-num">2.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Lendo Meta Ads Library como Espião</div>
+          <div class="lesson-topics">5 elementos de análise · Decodificar funil · Tabela de espionagem</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m2" href="M2-3-validacao-demanda-real.html" target="_blank">
+        <div class="icon-play">✅</div>
+        <div class="lesson-num">2.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Validação de Demanda Real — sem achismo</div>
+          <div class="lesson-topics">4 critérios · Score de nicho · Red flags que eliminam produto</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m2" href="M2-4-escolhendo-primeiro-produto.html" target="_blank">
+        <div class="icon-play">🎯</div>
+        <div class="lesson-num">2.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Escolhendo Seu Primeiro Produto</div>
+          <div class="lesson-topics">Matriz dor×público×ticket · Precificação R$7→R$47+ · Nome para conversão</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- M3 -->
+  <div class="module-block m3">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 03</span>
+      <span class="module-title">📦 Produto — Funil e Estrutura</span>
+      <span class="module-desc">Criar o produto e o funil completo em tempo real</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m3" href="M3-1-anatomia-lowticket.html" target="_blank">
+        <div class="icon-play">🏗️</div>
+        <div class="lesson-num">3.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Anatomia do LowTicket que Vende</div>
+          <div class="lesson-topics">Front R$27 + OB R$17 + U1 R$67 + U2 R$197 · Value stack · Números reais</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m3" href="M3-2-criar-lowticket-ao-vivo.html" target="_blank">
+        <div class="icon-play">⚡</div>
+        <div class="lesson-num">3.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Skill /criar-lowticket em Tempo Real</div>
+          <div class="lesson-topics">briefing.md + copy-black.md + entregavel.md · Demo ao vivo · 15 minutos</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m3" href="M3-3-esteira-valor-ia.html" target="_blank">
+        <div class="icon-play">📈</div>
+        <div class="lesson-num">3.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Esteira de Valor Modelada com IA</div>
+          <div class="lesson-topics">5 produtos · 1 prompt · Escada R$7→R$997 · Recorrência</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m3" href="M3-4-garantia-anti-malandro.html" target="_blank">
+        <div class="icon-play">🛡️</div>
+        <div class="lesson-num">3.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Garantia Anti-Malandro</div>
+          <div class="lesson-topics">CDC Art.49 · 3 camadas de proteção · Template pronto · Condições anti-abuso</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- M4 -->
+  <div class="module-block m4">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 04</span>
+      <span class="module-title">✍️ Copy — Schwartz + /AGENTE-COPY</span>
+      <span class="module-desc">Copy de resposta direta com IA. 11 blocos automatizados.</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m4" href="M4-1-schwartz-claude-copy-cirurgica.html" target="_blank">
+        <div class="icon-play">🎯</div>
+        <div class="lesson-num">4.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Schwartz + Claude = Copy Cirúrgica</div>
+          <div class="lesson-topics">5 níveis de consciência · Sofisticação de mercado · Diagnóstico antes de escrever</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m4" href="M4-2-headlines-bullets-vsl-agente-copy.html" target="_blank">
+        <div class="icon-play">✍️</div>
+        <div class="lesson-num">4.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Headlines, Bullets, VSL · /AGENTE-COPY</div>
+          <div class="lesson-topics">11 blocos obrigatórios · 5 ângulos · VSL 90s · Demo do agente ao vivo</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m4" href="M4-3-ataque-concorrente-sem-politica-meta.html" target="_blank">
+        <div class="icon-play">⚔️</div>
+        <div class="lesson-num">4.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Ataque ao Concorrente sem Política Meta</div>
+          <div class="lesson-topics">4 formas implícitas · Inimigo narrativo · Checklist Meta-safe</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m4" href="M4-4-copy-email-captions-ig.html" target="_blank">
+        <div class="icon-play">📧</div>
+        <div class="lesson-num">4.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Copy de Email + Captions IG · 1 vez → 4x</div>
+          <div class="lesson-topics">Omnichannel · 4 formatos · Sequência 7 emails · Prompt único</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- M5 -->
+  <div class="module-block m5">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 05</span>
+      <span class="module-title">🔧 Técnico — Página, Funil e Infra</span>
+      <span class="module-desc">Página no ar, funil configurado, venda automática</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m5" href="M5-1-pagina-html-5min-agente-pagina.html" target="_blank">
+        <div class="icon-play">📄</div>
+        <div class="lesson-num">5.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Página HTML 5min · /AGENTE-PAGINA</div>
+          <div class="lesson-topics">10 seções obrigatórias · Imagens IA · Animações · Deploy Vercel grátis</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m5" href="M5-2-setup-cakto-funil-9-produtos.html" target="_blank">
+        <div class="icon-play">🛒</div>
+        <div class="lesson-num">5.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Setup Cakto · Funil com 9 Produtos</div>
+          <div class="lesson-topics">Criar produtos · OB · Upsells · Ancoragem de preço · Links de checkout</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m5" href="M5-3-webhook-supabase-liberar-acesso.html" target="_blank">
+        <div class="icon-play">⚡</div>
+        <div class="lesson-num">5.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Webhook Supabase · Liberar Acesso Automático</div>
+          <div class="lesson-topics">Edge Function · HMAC · Enrollments · Eventos terminais (compra/reembolso)</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m5" href="M5-4-pixel-meta-gtm-eventos-corretos.html" target="_blank">
+        <div class="icon-play">📊</div>
+        <div class="lesson-num">5.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Pixel Meta + GTM · Eventos Corretos</div>
+          <div class="lesson-topics">ViewContent → InitiateCheckout → Purchase · CAPI server-side · Fase aprendizado</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- M6 -->
+  <div class="module-block m6">
+    <div class="module-header">
+      <span class="module-num">MÓDULO 06</span>
+      <span class="module-title">📈 Tráfego — Criativos, CBO e Escala</span>
+      <span class="module-desc">Ligar o tráfego, ler os dados, escalar o que vende</span>
+    </div>
+    <div class="lessons-grid">
+      <a class="lesson-card m6" href="M6-1-15-criativos-meta-ia-criativo-ad.html" target="_blank">
+        <div class="icon-play">🎬</div>
+        <div class="lesson-num">6.1</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">15 Criativos Meta com IA · /criativo-ad</div>
+          <div class="lesson-topics">3 formatos × 5 ângulos · UGC 30s anatomia · Freepik API · Rotação</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m6" href="M6-2-cbo-100-por-dia-subindo-campanha.html" target="_blank">
+        <div class="icon-play">🚀</div>
+        <div class="lesson-num">6.2</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">CBO R$100/dia · Subindo Campanha</div>
+          <div class="lesson-topics">Estrutura 1×3×5 · 3 audiências · Fase aprendizado · CPA máximo sustentável</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m6" href="M6-3-lendo-metricas-quando-matar-criativo.html" target="_blank">
+        <div class="icon-play">📉</div>
+        <div class="lesson-num">6.3</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text">Lendo Métricas · Quando Matar Criativo</div>
+          <div class="lesson-topics">5 métricas essenciais · Tabela de decisão · Regra do R$50 · Diagnóstico de funil</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+      <a class="lesson-card m6" href="M6-4-escala-vertical-100-para-1000-dia-final.html" target="_blank" style="border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05)">
+        <div class="icon-play" style="background:rgba(34,197,94,.2)">🏆</div>
+        <div class="lesson-num" style="color:#4ade80">6.4</div>
+        <div class="lesson-info">
+          <div class="lesson-title-text" style="color:#4ade80">Escala Vertical · R$100 → R$1.000/dia <span style="background:rgba(34,197,94,.2);color:#4ade80;border-radius:4px;padding:1px 6px;font-size:.65rem;margin-left:6px">FINAL</span></div>
+          <div class="lesson-topics">Regra 20%/semana · Escada 8 semanas · Máquina completa · Próximos passos</div>
+        </div>
+        <div class="lesson-status"><span class="badge-slides">SLIDES</span></div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Produtor Milionário 2.0 — Era IA</strong><br>
+  Andrey Freitas · geekacademy.site · @Geekinteligencia<br>
+  <span style="margin-top:4px;display:block">Slides abertos em tela cheia (F) · ← → para navegar · toque e arraste no celular</span>
+</div>
+
+<script>
+// Progress tracker via localStorage
+const TOTAL = 22;
+const KEY = 'pm2-progress-v1';
+let completed = JSON.parse(localStorage.getItem(KEY) || '[]');
+
+function updateProgress() {
+  const pct = Math.round((completed.length / TOTAL) * 100);
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = `${completed.length} de ${TOTAL} aulas concluídas`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+// Mark lesson complete on click (right-click or long press)
+document.querySelectorAll('.lesson-card').forEach((card, i) => {
+  const id = `lesson-${i}`;
+  if (completed.includes(id)) {
+    card.style.opacity = '0.5';
+    const badge = card.querySelector('.badge-slides,.badge-disponivel,.badge-breve');
+    if (badge) { badge.textContent = '✓ VISTO'; badge.style.background = 'rgba(34,197,94,.12)'; badge.style.color = '#4ade80'; badge.style.borderColor = 'rgba(34,197,94,.3)'; }
+  }
+  card.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    if (!card.classList.contains('locked')) {
+      if (completed.includes(id)) {
+        completed = completed.filter(x => x !== id);
+        location.reload();
+      } else {
+        completed.push(id);
+        localStorage.setItem(KEY, JSON.stringify(completed));
+        location.reload();
+      }
+    }
+  });
+});
+
+updateProgress();
+</script>
+</body>
+</html>

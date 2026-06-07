@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M3.3 · Esteira de Valor com IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+.escada{display:flex;align-items:flex-end;gap:clamp(6px,1vw,14px);margin-top:clamp(18px,2.4vw,28px);position:relative;z-index:2;height:clamp(180px,28vh,280px)}
+.escada-step{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;flex:1;border-radius:clamp(10px,1.4vw,16px) clamp(10px,1.4vw,16px) 0 0;backdrop-filter:blur(6px);position:relative;overflow:hidden;transition:transform .25s}
+.escada-step:hover{transform:translateY(-4px)}
+.escada-step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.escada-step.s1{height:30%;background:rgba(6,182,212,.08);border:1.5px solid rgba(6,182,212,.25)}.escada-step.s1::before{background:var(--gcyan)}
+.escada-step.s2{height:45%;background:rgba(34,197,94,.07);border:1.5px solid rgba(34,197,94,.22)}.escada-step.s2::before{background:var(--ggreen)}
+.escada-step.s3{height:60%;background:rgba(59,130,246,.07);border:1.5px solid rgba(59,130,246,.22)}.escada-step.s3::before{background:var(--gblue)}
+.escada-step.s4{height:78%;background:rgba(245,158,11,.06);border:1.5px solid rgba(245,158,11,.22)}.escada-step.s4::before{background:linear-gradient(135deg,#F59E0B,#FBBF24)}
+.escada-step.s5{height:100%;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.28)}.escada-step.s5::before{background:var(--gviolet)}
+.escada-price{font-family:var(--fm);font-weight:700;font-size:clamp(.75rem,1.2vw,1.1rem);margin-bottom:8px}
+.escada-step.s1 .escada-price{color:var(--cyl)}
+.escada-step.s2 .escada-price{color:var(--okl)}
+.escada-step.s3 .escada-price{color:var(--pl)}
+.escada-step.s4 .escada-price{color:var(--wnl)}
+.escada-step.s5 .escada-price{color:var(--vll)}
+.escada-label{font-family:var(--fd);font-size:clamp(.7rem,1vw,.9rem);font-weight:800;color:var(--txt);text-align:center;padding:0 4px;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="progbar"><div class="progfill" id="prog" style="width:11%"></div></div>
+<div class="brand-bar">
+  <div class="bm" style="background:var(--gcyan)">PM</div>
+  <div class="bt"><strong>Produtor Milionário 2.0</strong><span>Era IA · M3 Aula 3 / 4</span></div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide active">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.12) 0%,transparent 60%)"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <div class="capa-row">
+        <div class="capa-left">
+          <span class="sec cy a1"><span class="dot"></span>Módulo 3 · Criação com IA</span>
+          <h1 class="h1 aB">Esteira de<br><span class="hcy">Valor</span><br>com IA.</h1>
+          <div class="acline lb" style="background:var(--gcyan)"></div>
+          <p class="sub a3"><strong>5 produtos. 1 público. 1 prompt.</strong> A escada de valor que acompanha o cliente do primeiro R$7 até R$997, com Claude gerando todos em sequência.</p>
+          <div class="capa-tags">
+            <span class="tag tw t1">⏱ 30 min</span>
+            <span class="tag tg t2">📈 escada</span>
+            <span class="tag t3" style="background:rgba(6,182,212,.14);border:1.5px solid rgba(6,182,212,.38);color:var(--cyl)">💰 5 produtos</span>
+          </div>
+        </div>
+        <div class="capa-hero hi2">
+          <div class="capa-ring1" style="border-color:rgba(6,182,212,.22)"><div style="position:absolute;width:10px;height:10px;background:var(--cy);border-radius:50%;top:-5px;left:50%;transform:translateX(-50%);box-shadow:0 0 18px var(--cy)"></div></div>
+          <div class="capa-ring2"></div>
+          <div class="capa-core" style="background:radial-gradient(circle,rgba(6,182,212,.18) 0%,rgba(6,182,212,.04) 55%,transparent 75%);border-color:rgba(6,182,212,.28)">
+            <svg class="capa-icon" style="color:var(--cy)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span class="capa-label" style="color:var(--cy)">ESTEIRA</span>
+            <span class="capa-num" style="color:var(--cy)">5x</span>
+            <span class="capa-sub">produtos em escada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · A lógica da esteira -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>A lógica</span>
+      <h2 class="h3 a2">Esteira de valor: <span class="hcy">mesmo público, diferentes necessidades</span></h2>
+      <p class="sub a2">A mesma pessoa que comprou seu produto de R$27 pode gastar R$997 com você — <strong>se você tiver o produto certo no momento certo.</strong></p>
+      <div class="escada a3">
+        <div class="escada-step s1 sf1">
+          <div class="escada-label">Isca</div>
+          <div class="escada-price">R$7</div>
+        </div>
+        <div class="escada-step s2 sf2">
+          <div class="escada-label">Front</div>
+          <div class="escada-price">R$27</div>
+        </div>
+        <div class="escada-step s3 sf3">
+          <div class="escada-label">Core</div>
+          <div class="escada-price">R$97</div>
+        </div>
+        <div class="escada-step s4 sf4">
+          <div class="escada-label">Premium</div>
+          <div class="escada-price">R$297</div>
+        </div>
+        <div class="escada-step s5 sf5">
+          <div class="escada-label">High</div>
+          <div class="escada-price">R$997</div>
+        </div>
+      </div>
+      <p class="sub a4">Regra: cada produto resolve a <strong>próxima dor</strong> que aparece depois do anterior. É como um videogame — cada fase prepara para a próxima.</p>
+    </div>
+  </section>
+
+  <!-- 3 · R$7 → R$997 -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(6,182,212,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>A escada</span>
+      <h2 class="h3 a2">Os <span class="hcy">5 degraus</span>: o que resolve cada um</h2>
+      <ul class="brows a3">
+        <li class="cy"><strong>R$7 — Isca:</strong> guia PDF de 10p ou checklist. Resolve 1 micro-problema. Captura o cliente sem fricção.</li>
+        <li class="cy"><strong>R$27 — Front-end:</strong> produto completo do problema principal. Quick win garantido.</li>
+        <li class="ok"><strong>R$97 — Core:</strong> aprofundamento + implementação. Resultados mais avançados. Exige mais comprometimento.</li>
+        <li class="wn"><strong>R$297 — Premium:</strong> mentoria em grupo, comunidade, templates avançados. Aceleração + suporte.</li>
+        <li class="vl"><strong>R$997 — High ticket:</strong> feito com você, consultoria, programa intensivo. Para quem quer resultado garantido.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · Gerando com 1 prompt -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>O prompt</span>
+      <h2 class="h3 a2">Gerando os <span class="hcy">5 produtos com 1 prompt</span></h2>
+      <div class="cblock a3">
+        <div class="cdot"><span></span><span></span><span></span></div>
+        <span class="cmt">// Prompt completo para Claude:</span><br><br>
+        <span class="cstr">"Crie uma esteira de valor completa para [nicho/público].</span><br>
+        <span class="cstr">Produto core já definido: [nome] R$[preço].</span><br>
+        <span class="cstr">Gere 5 produtos em escada:</span><br>
+        <span class="cstr">1. Isca R$7 (checklist/mini-guia que resolve [micro-problema])</span><br>
+        <span class="cstr">2. Front-end R$27 (produto principal já definido)</span><br>
+        <span class="cstr">3. Core R$97 (aprofundamento para quem quer mais)</span><br>
+        <span class="cstr">4. Premium R$297 (comunidade + templates + suporte)</span><br>
+        <span class="cstr">5. High R$997 (implementação feita junto)</span><br>
+        <span class="cstr">Para cada: título, o que resolve, formato, quick win principal."</span><br>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Conectando os produtos -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(6,182,212,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Jornada</span>
+      <h2 class="h3 a2">Conectando os produtos <span class="hcy">em jornada contínua</span></h2>
+      <div class="feat-grid a3" style="grid-template-columns:repeat(3,1fr)">
+        <div class="feat-card">
+          <div class="feat-ico cy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+          <div class="feat-title">Cada produto planta</div>
+          <div class="feat-body">O produto anterior deve criar uma "necessidade orgânica" para o próximo. R$27 ensina o método, R$97 ensina a dominar.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-ico cy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div class="feat-title">Email como trilho</div>
+          <div class="feat-body">Sequência de 7 emails pós-compra: entrega valor do produto atual + apresenta o próximo degrau no momento certo.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-ico cy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="feat-title">LTV explosivo</div>
+          <div class="feat-body">Custo de aquisição = R$27. Cliente que sobe a escada completa = R$1.421 total. ROAS real da sua operação.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Funil perpétuo vs lançamento -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Estratégia</span>
+      <h2 class="h3 a2">Funil perpétuo vs <span class="hcy">lançamento</span></h2>
+      <div class="vsbox a3">
+        <div class="col bad">
+          <div class="col-tag">LANÇAMENTO</div>
+          <ul class="col-list">
+            <li>Receita concentrada em 7 dias</li>
+            <li>Muito esforço para manter</li>
+            <li>Público aquece e esfria</li>
+            <li>Requer audiência prévia</li>
+            <li>Alta variabilidade de resultado</li>
+          </ul>
+        </div>
+        <div class="sep"><span>VS</span></div>
+        <div class="col good">
+          <div class="col-tag">PERPÉTUO</div>
+          <ul class="col-list">
+            <li>Receita diária previsível</li>
+            <li>Tráfego pago liga e desliga</li>
+            <li>Funciona 24/7 sem você</li>
+            <li>Começa do zero, sem audiência</li>
+            <li>Escala linear com orçamento</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Produto de continuidade -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(6,182,212,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Recorrência</span>
+      <h2 class="h3 a2">O produto de <span class="hcy">continuidade</span>: recorrência mensal</h2>
+      <ul class="brows a3">
+        <li class="cy">Comunidade mensal R$27-47/mês: conteúdo novo, interação, suporte</li>
+        <li class="cy">Clube de sinais, templates, atualizações: entrega contínua de valor</li>
+        <li class="cy">Inserir no funil: após upsell #1, oferecer continuidade como downsell de upsell #2</li>
+        <li class="ok">100 assinantes × R$37/mês = R$3.700 recorrente mensalmente</li>
+        <li class="ok">Churn médio de produtos digitais: 15-20% ao mês. Precisa repor com novo tráfego.</li>
+      </ul>
+      <div class="stat-row a4" style="grid-template-columns:repeat(3,1fr);margin-top:clamp(14px,2vw,22px)">
+        <div class="stat-box cy"><div class="sv" style="color:var(--cy)">R$37</div><div class="sl">ticket mensal</div><p>preço ideal continuidade</p></div>
+        <div class="stat-box cy"><div class="sv" style="color:var(--cy)">100</div><div class="sl">assinantes</div><p>meta do primeiro trimestre</p></div>
+        <div class="stat-box cy"><div class="sv" style="color:var(--cy)">R$3.7k</div><div class="sl">recorrência</div><p>base segura mês a mês</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · Modelando agora -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Exercício</span>
+      <h2 class="h3 a2">Modele sua <span class="hcy">esteira completa agora</span></h2>
+      <ul class="brows a3">
+        <li class="cy">Abra Claude Code com seu <code style="color:var(--cyl);font-family:var(--fm)">briefing-ativo.md</code></li>
+        <li class="cy">Use o prompt da aula anterior para gerar os 5 produtos</li>
+        <li class="cy">Revise cada produto: o resultado prometido faz sentido para o preço?</li>
+        <li class="cy">Identifique o <strong>produto de continuidade</strong>: qual deles pode ser assinatura?</li>
+        <li class="ok">Salve em <code style="color:var(--cyl);font-family:var(--fm)">operacoes/lowticket/produtos-modelados/[produto]/esteira.md</code></li>
+      </ul>
+      <p class="sub a4">Na próxima aula: garantia anti-malandro. <strong>Como usar a lei e a psicologia para criar uma garantia que aumenta conversão sem criar abertura para reembolso abusivo.</strong></p>
+    </div>
+  </section>
+
+  <!-- 9 · CTA -->
+  <section class="slide" id="slide-cta">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(6,182,212,.12) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Próxima aula</span>
+      <h2 class="h2 a2">Esteira modelada.<br>Agora: <span class="hcy">proteção jurídica</span>.</h2>
+      <div class="acline lb" style="background:var(--gcyan)"></div>
+      <p class="sub a3">Na próxima aula: <strong>Garantia Anti-Malandro</strong> — as 3 camadas de proteção que aumentam conversão para o comprador honesto e fecham a porta para abuso do CDC.</p>
+      <div class="cta-row a4">
+        <button class="ctabtn" id="cta-next" style="background:var(--gcyan);box-shadow:0 0 80px rgba(6,182,212,.5),0 14px 60px rgba(6,182,212,.25)" onclick="alert('Próxima aula: M3.4')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          M3.4 · Garantia Anti-Malandro
+        </button>
+        <div class="cta-info a5">
+          <span class="k">Módulo 3 · Aula 3 de 4</span>
+          <span class="v">Criação com IA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
-// Meta Pixel + GTM event tracking
-// Pixel ID: 983187334220036 (GN)
+// Meta Pixel (client) + Conversions API (server, dedup) + GTM event tracking
+// Pixel ID: 2072830730255789 (FPM2)
 // GTM ID: GTM-N393KNX3
+// Client dispara fbq com {eventID}. Server (/api/capi) recebe o mesmo event_id → Meta deduplica.
 
 declare global {
   interface Window {
@@ -27,6 +28,60 @@ function safeCall(fn?: (...args: unknown[]) => void, ...args: unknown[]) {
   }
 }
 
+function getCookie(name: string): string | undefined {
+  try {
+    const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function newEventId(): string {
+  try {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  } catch { /* noop */ }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function testEventCode(): string | undefined {
+  try {
+    return localStorage.getItem('fb_test_event_code') || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+// Envia o mesmo evento server-side (CAPI) com event_id idêntico ao do pixel → dedup.
+function sendServerEvent(event_name: string, custom_data: Record<string, unknown>, event_id: string) {
+  try {
+    const body = {
+      event_name,
+      event_id,
+      event_source_url: typeof location !== 'undefined' ? location.href : undefined,
+      fbp: getCookie('_fbp'),
+      fbc: getCookie('_fbc'),
+      custom_data,
+      test_event_code: testEventCode(),
+    };
+    fetch('/api/capi', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+      keepalive: true,
+    }).catch(() => { /* silencioso: não bloqueia UX */ });
+  } catch { /* noop */ }
+}
+
+// Dispara pixel (com eventID) + dataLayer + CAPI, compartilhando o mesmo event_id.
+function fireEvent(event_name: string, data: Record<string, unknown>, dataLayerEvent: string) {
+  const event_id = newEventId();
+  safeCall(window.fbq, 'track', event_name, data, { eventID: event_id });
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: dataLayerEvent, ...data });
+  sendServerEvent(event_name, data, event_id);
+}
+
 export function trackInitiateCheckout(params: CheckoutEventParams) {
   const data = {
     value: params.value,
@@ -34,33 +89,25 @@ export function trackInitiateCheckout(params: CheckoutEventParams) {
     content_name: params.content_name ?? 'Produtor Milionário 2.0',
     content_ids: params.content_ids ?? ['produtor-milionario-2'],
     content_type: 'product',
+    source: params.source ?? 'unknown',
   };
-  safeCall(window.fbq, 'track', 'InitiateCheckout', data);
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: 'initiate_checkout',
-    cta_source: params.source ?? 'unknown',
-    ...data,
-  });
+  fireEvent('InitiateCheckout', data, 'initiate_checkout');
 }
 
 export function trackLead(source: string, value = 147) {
   const data = { value, currency: 'BRL', content_name: 'Produtor Milionário 2.0', source };
-  safeCall(window.fbq, 'track', 'Lead', data);
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: 'lead', ...data });
+  fireEvent('Lead', data, 'lead');
 }
 
 export function trackViewContent() {
-  safeCall(window.fbq, 'track', 'ViewContent', {
+  const data = {
     content_name: 'Produtor Milionário 2.0',
     content_ids: ['produtor-milionario-2'],
     content_type: 'product',
     value: 147,
     currency: 'BRL',
-  });
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: 'view_content', value: 147, currency: 'BRL' });
+  };
+  fireEvent('ViewContent', data, 'view_content');
 }
 
 export function trackScrollDepth(percent: number) {

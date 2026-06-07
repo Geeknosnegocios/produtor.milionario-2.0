@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M6.3 — Lendo Métricas · Quando Matar Criativo | Produtor Milionário 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+:root{--mod:#22C55E;--mod2:#06B6D4;--modglow:rgba(34,197,94,.18);}
+.brand-bar{background:linear-gradient(135deg,#22C55E 0%,#06B6D4 100%);}
+.metric-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0;}
+.met-card{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18);border-radius:10px;padding:12px 10px;text-align:center;}
+.met-name{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--mod2);font-weight:600;margin-bottom:4px;}
+.met-formula{font-size:.7rem;color:#64748b;margin-bottom:6px;}
+.met-bench{font-size:.8rem;font-weight:700;color:#e2e8f0;}
+.met-bench.ok{color:#22C55E;}
+.met-bench.warn{color:#F59E0B;}
+.met-bench.bad{color:#ef4444;}
+.decision-table{width:100%;border-collapse:collapse;margin:14px 0;}
+.decision-table th{background:rgba(34,197,94,.12);color:var(--mod);font-size:.75rem;font-weight:600;padding:8px 10px;text-align:left;font-family:'JetBrains Mono',monospace;}
+.decision-table td{padding:7px 10px;font-size:.78rem;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:top;}
+.decision-table td:first-child{color:#e2e8f0;font-weight:600;}
+.decision-table td:nth-child(2){color:#94a3b8;}
+.tag-ok{background:rgba(34,197,94,.15);color:#22C55E;border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.tag-warn{background:rgba(245,158,11,.12);color:#F59E0B;border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.tag-kill{background:rgba(239,68,68,.12);color:#ef4444;border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.funnel-diagnosis{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.fd-row{display:flex;align-items:flex-start;gap:10px;background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:10px 12px;}
+.fd-symptom{font-size:.82rem;font-weight:600;color:#e2e8f0;min-width:220px;}
+.fd-cause{font-size:.78rem;color:#94a3b8;flex:1;}
+.fd-fix{font-size:.72rem;color:var(--mod);margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="progbar"><div class="prog" id="prog"></div></div>
+<div class="brand-bar">
+  <span class="mod-badge">M6 · Tráfego</span>
+  <span class="lesson-title">Aula 6.3 — Lendo Métricas · Quando Matar Criativo</span>
+  <span class="mod-badge" style="margin-left:auto">Produtor Milionário 2.0</span>
+</div>
+
+<!-- SLIDE 1 — CAPA -->
+<div class="slide active">
+<div class="capa-row">
+  <div class="capa-hero">
+    <div class="capa-mod a1">MÓDULO 6 — TRÁFEGO</div>
+    <h1 class="capa-h a2">Lendo<br><span style="color:var(--mod)">Métricas</span></h1>
+    <p class="capa-sub a3">Os 5 números que importam. Quando pausar. Quando escalar.</p>
+    <div class="feat-grid a4" style="margin-top:20px">
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-label">5 métricas essenciais</div></div>
+      <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-label">Benchmarks reais</div></div>
+      <div class="feat-card"><div class="feat-icon">🔪</div><div class="feat-label">Quando matar</div></div>
+      <div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-label">Diagnóstico de funil</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 2 — AS 5 MÉTRICAS -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">As 5 Métricas que Importam</span></h2>
+<p class="sl-sub on-s">Ignorar o resto. Focar nestas 5. Cada uma mede um ponto diferente do funil.</p>
+<div class="metric-grid">
+  <div class="met-card">
+    <div class="met-name">CPM</div>
+    <div class="met-formula">Custo por 1.000 impressões</div>
+    <div class="met-bench warn">R$15–35</div>
+    <div style="font-size:.7rem;color:#64748b">Qualidade da audiência</div>
+  </div>
+  <div class="met-card">
+    <div class="met-name">CTR (link)</div>
+    <div class="met-formula">Cliques no link / Impressões</div>
+    <div class="met-bench ok">&gt;1.5%</div>
+    <div style="font-size:.7rem;color:#64748b">Força do criativo</div>
+  </div>
+  <div class="met-card">
+    <div class="met-name">CPC (link)</div>
+    <div class="met-formula">Gasto / Cliques no link</div>
+    <div class="met-bench ok">&lt;R$1.50</div>
+    <div style="font-size:.7rem;color:#64748b">Eficiência do clique</div>
+  </div>
+  <div class="met-card">
+    <div class="met-name">Taxa conv.</div>
+    <div class="met-formula">Compras / Cliques na página</div>
+    <div class="met-bench ok">&gt;2%</div>
+    <div style="font-size:.7rem;color:#64748b">Força da página</div>
+  </div>
+  <div class="met-card">
+    <div class="met-name">CPA</div>
+    <div class="met-formula">Gasto / Compras</div>
+    <div class="met-bench ok">&lt;R$37</div>
+    <div style="font-size:.7rem;color:#64748b">Rentabilidade final</div>
+  </div>
+</div>
+<p style="font-size:.78rem;color:#64748b;text-align:center">Benchmarks para R$27 low ticket, público BR feminino 25–45. Ajuste pela margem do seu produto.</p>
+</div>
+
+<!-- SLIDE 3 — DIAGNÓSTICO POR MÉTRICA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Diagnóstico por Sintoma</span></h2>
+<p class="sl-sub on-s">Cada combinação de métricas aponta para um problema específico.</p>
+<div class="funnel-diagnosis">
+  <div class="fd-row">
+    <div class="fd-symptom">CTR baixo (&lt;0.8%) + CPM alto</div>
+    <div>
+      <div class="fd-cause">Problema no criativo — hook não funciona ou audiência errada</div>
+      <div class="fd-fix">→ Trocar criativo. Testar novo hook. Verificar se audiência é relevante.</div>
+    </div>
+  </div>
+  <div class="fd-row">
+    <div class="fd-symptom">CTR ok + CPA alto</div>
+    <div>
+      <div class="fd-cause">Problema na página — cliques chegam mas não convertem</div>
+      <div class="fd-fix">→ Analisar taxa de conversão da página. Headline, oferta, garantia, CTA.</div>
+    </div>
+  </div>
+  <div class="fd-row">
+    <div class="fd-symptom">CPA ok por 3 dias, depois sobe</div>
+    <div>
+      <div class="fd-cause">Fadiga de criativo — frequência acima de 2.5</div>
+      <div class="fd-fix">→ Subir criativos novos. Expandir audiência. Verificar frequência.</div>
+    </div>
+  </div>
+  <div class="fd-row">
+    <div class="fd-symptom">Gasta sem compra em D1</div>
+    <div>
+      <div class="fd-cause">Normal na fase aprendizado — aguardar D3 para avaliar</div>
+      <div class="fd-fix">→ Não tocar nada. Verificar Pixel funcionando. Checar URL de destino.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4 — TABELA DE DECISÃO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Tabela de Decisão</span></h2>
+<p class="sl-sub on-s">Quando pausar, quando testar, quando escalar. Sem emoção — só dado.</p>
+<table class="decision-table">
+  <tr>
+    <th>Situação</th>
+    <th>Condição</th>
+    <th>Ação</th>
+  </tr>
+  <tr>
+    <td>CPA dentro da meta</td>
+    <td>CPA ≤ R$37 por 3 dias</td>
+    <td><span class="tag-ok">ESCALAR</span></td>
+  </tr>
+  <tr>
+    <td>CPA acima 50%</td>
+    <td>CPA &gt; R$55 após D3</td>
+    <td><span class="tag-kill">PAUSAR</span></td>
+  </tr>
+  <tr>
+    <td>CTR baixo, zero compra</td>
+    <td>CTR &lt;0.5% após R$50 gasto</td>
+    <td><span class="tag-kill">MATAR</span></td>
+  </tr>
+  <tr>
+    <td>CTR ok, poucos cliques</td>
+    <td>Audiência pequena (&lt;500k)</td>
+    <td><span class="tag-warn">AMPLIAR</span></td>
+  </tr>
+  <tr>
+    <td>Frequência alta</td>
+    <td>Frequência &gt; 3.0 no adset</td>
+    <td><span class="tag-warn">NOVO CRIATIVO</span></td>
+  </tr>
+  <tr>
+    <td>Adset em aprendizado</td>
+    <td>Menos de 7 dias</td>
+    <td><span class="tag-warn">AGUARDAR</span></td>
+  </tr>
+</table>
+</div>
+
+<!-- SLIDE 5 — QUANDO MATAR CRIATIVO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Quando Matar o Criativo</span></h2>
+<p class="sl-sub on-s">Deixar criativo ruim rodando queima orçamento. Matar rápido, testar mais.</p>
+<div class="feat-grid">
+  <div class="feat-card" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.07)">
+    <div class="feat-icon">🔴</div>
+    <div class="feat-title">Kill imediato</div>
+    <div class="feat-label">R$50 gastos, CTR &lt;0.5%, zero clique na página. Criativo morto — sem reanimação.</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.07)">
+    <div class="feat-icon">🔴</div>
+    <div class="feat-title">Kill após D3</div>
+    <div class="feat-label">CPA acima de 2× a meta por 3 dias consecutivos. Não melhorará sem mudança.</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.07)">
+    <div class="feat-icon">🟡</div>
+    <div class="feat-title">Pausar, não matar</div>
+    <div class="feat-label">CPA bom mas frequência alta. Pode religar depois com audiência ampliada.</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.07)">
+    <div class="feat-icon">🟢</div>
+    <div class="feat-title">Manter e escalar</div>
+    <div class="feat-label">CPA dentro da meta por 3+ dias. Duplicar adset com orçamento maior.</div>
+  </div>
+</div>
+<p style="font-size:.82rem;color:#94a3b8;margin-top:8px"><strong style="color:#e2e8f0">Regra do R$50:</strong> dar R$50 de chance para cada criativo. Não converteu — próximo.</p>
+</div>
+
+<!-- SLIDE 6 — DASHBOARD SEMANAL -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Rotina de Análise Semanal</span></h2>
+<p class="sl-sub on-s">Não analisar todo dia — analisar certo. 1 sessão por semana com checklist.</p>
+<div class="stepflow">
+  <div class="sf-step">
+    <div class="sf-num">1</div>
+    <div class="sf-label">Ver CPA por criativo<br>últimos 7 dias</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">2</div>
+    <div class="sf-label">Pausar abaixo<br>da meta de CPA</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">3</div>
+    <div class="sf-label">Verificar frequência<br>dos vencedores</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">4</div>
+    <div class="sf-label">Subir criativos<br>novos na fila</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">5</div>
+    <div class="sf-label">Aumentar orçamento<br>vencedores (20%)</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:12px">
+  <span style="color:#94a3b8"># colunas personalizadas no Ads Manager</span><br>
+  Impressões · CTR (link) · CPC (link) · Freq.<br>
+  Conversões (Purchase) · CPA · Receita · ROAS<br>
+  <span style="color:#22C55E">→ salvar como preset "Dashboard Semanal"</span>
+</div>
+</div>
+
+<!-- SLIDE 7 — ROAS E RENTABILIDADE -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">ROAS — Retorno sobre Gasto</span></h2>
+<p class="sl-sub on-s">ROAS é a métrica final de rentabilidade. Mas cuidado com o ROAS falso.</p>
+<div class="stat-row" style="margin:16px 0">
+  <div class="stat-box">
+    <div class="stat-n" style="color:#ef4444">1.5×</div>
+    <div class="stat-l">ROAS mínimo</div>
+    <div class="stat-s">Abaixo disso está perdendo dinheiro (considerando margem de 60%)</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#F59E0B">2.5×</div>
+    <div class="stat-l">ROAS sustentável</div>
+    <div class="stat-s">Margem positiva. Escalar gradualmente.</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">4×+</div>
+    <div class="stat-l">ROAS de escala</div>
+    <div class="stat-s">Dobrar orçamento imediatamente. Esse criativo é vencedor.</div>
+  </div>
+</div>
+<div class="cblock">
+  <span style="color:#94a3b8">/* ROAS do funil completo (correto) */</span><br>
+  Gasto: R$100 · Receita front-end: R$270 (10 compras)<br>
+  + Receita OB + upsells: R$200 estimado<br>
+  ROAS real: <span style="color:#22C55E">R$470 / R$100 = 4.7×</span><br><br>
+  <span style="color:#94a3b8">⚠️ O Ads Manager mostra apenas receita trackada pelo Pixel</span>
+</div>
+</div>
+
+<!-- SLIDE 8 — FUNIL LEAKY -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Identificando Funil com Vazamento</span></h2>
+<p class="sl-sub on-s">Se o tráfego chega mas não converte, o problema não é o criativo — é a página.</p>
+<div class="vsbox" style="margin:14px 0">
+  <div class="vs-col vs-before">
+    <div class="vs-label">FUNIL COM VAZAMENTO</div>
+    <ul class="brows">
+      <li>CTR 2.0% (criativo ok)</li>
+      <li>CPC R$1.20 (clique barato)</li>
+      <li>Taxa conversão: 0.5%</li>
+      <li>CPA: R$240 (inviável)</li>
+      <li>Problema: PÁGINA, não criativo</li>
+    </ul>
+  </div>
+  <div class="vs-col vs-after">
+    <div class="vs-label">DIAGNÓSTICO E AÇÃO</div>
+    <ul class="brows">
+      <li>Analisar heatmap (Hotjar)</li>
+      <li>Verificar tempo na página</li>
+      <li>Checar se headline converte</li>
+      <li>Testar nova oferta ou garantia</li>
+      <li>NÃO trocar criativo — era bom</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 9 — RESUMO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Resumo + Próximo Passo</span></h2>
+<p class="sl-sub on-s">Você agora lê dados. Não opera no chute.</p>
+<ul class="brows">
+  <li>5 métricas: CPM, CTR (link), CPC (link), Taxa conversão, CPA</li>
+  <li>CTR baixo = problema no criativo. CPA alto com CTR ok = problema na página</li>
+  <li>Regra do R$50: dar R$50 de chance por criativo antes de matar</li>
+  <li>Kill imediato: R$50, CTR &lt;0.5%, zero cliques na página</li>
+  <li>Escalar: CPA dentro da meta por 3 dias consecutivos</li>
+  <li>Análise semanal — não diária — para não entrar em pânico</li>
+  <li>ROAS 4×+ = dobrar orçamento imediatamente</li>
+</ul>
+<div class="feat-grid" style="margin-top:16px">
+  <div class="feat-card" style="border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)">
+    <div class="feat-icon">✅</div>
+    <div class="feat-title">Feito agora</div>
+    <div class="feat-label">Dashboard configurado. Decisão por dado, não emoção.</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.08)">
+    <div class="feat-icon">→</div>
+    <div class="feat-title">Próxima aula</div>
+    <div class="feat-label">M6.4 — Escala Vertical: R$100 → R$1.000/dia (FINAL)</div>
+  </div>
+</div>
+</div>
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M1.3 · Os 3 Pilares do Produtor 1H</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.8vw,24px);margin-top:clamp(20px,2.8vw,36px);position:relative;z-index:2}
+.pillar-card{background:rgba(12,21,38,.9);border:1.5px solid var(--brd);border-radius:clamp(16px,2vw,24px);padding:clamp(22px,3vw,44px);display:flex;flex-direction:column;gap:clamp(10px,1.4vw,16px);position:relative;overflow:hidden;backdrop-filter:blur(8px);transition:border-color .25s,box-shadow .25s,transform .25s}
+.pillar-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.pillar-card.vv::before{background:var(--gblue)}
+.pillar-card.vy::before{background:var(--gcyan)}
+.pillar-card.vk::before{background:var(--ggreen)}
+.pillar-card:hover{transform:translateY(-5px)}
+.pillar-card.vv:hover{border-color:rgba(59,130,246,.4);box-shadow:0 14px 44px rgba(59,130,246,.18)}
+.pillar-card.vy:hover{border-color:rgba(6,182,212,.4);box-shadow:0 14px 44px rgba(6,182,212,.18)}
+.pillar-card.vk:hover{border-color:rgba(34,197,94,.4);box-shadow:0 14px 44px rgba(34,197,94,.18)}
+.pillar-letter{font-family:var(--fd);font-size:clamp(3.2rem,7vw,7rem);font-weight:900;line-height:.9;letter-spacing:-.06em;margin-bottom:4px}
+.pillar-card.vv .pillar-letter{background:var(--gblue);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pillar-card.vy .pillar-letter{background:var(--gcyan);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pillar-card.vk .pillar-letter{background:var(--ggreen);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pillar-name{font-family:var(--fd);font-size:clamp(1.3rem,2.2vw,2rem);font-weight:900;color:var(--txt);line-height:1.1;letter-spacing:-.02em}
+.pillar-desc{font-size:clamp(.9rem,1.4vw,1.2rem);color:var(--mt);line-height:1.5}
+.pillar-stat{display:flex;align-items:baseline;gap:8px;margin-top:auto;padding-top:clamp(10px,1.4vw,16px);border-top:1px solid var(--brd)}
+.pillar-stat .ps-n{font-family:var(--fd);font-size:clamp(1.8rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.04em}
+.pillar-card.vv .ps-n{color:var(--pl)}
+.pillar-card.vy .ps-n{color:var(--cyl)}
+.pillar-card.vk .ps-n{color:var(--okl)}
+.pillar-stat .ps-l{font-family:var(--fm);font-size:clamp(.78rem,1.1vw,.95rem);color:var(--mt);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+
+.loop-box{display:flex;align-items:center;gap:0;margin-top:clamp(24px,3.2vw,44px);position:relative;z-index:2;max-width:1300px}
+.loop-step{flex:1;display:flex;flex-direction:column;gap:clamp(10px,1.2vw,14px);padding:clamp(18px,2.4vw,34px);background:rgba(12,21,38,.9);border:1.5px solid var(--brd);border-radius:clamp(14px,1.8vw,20px);margin:0 clamp(4px,.6vw,8px);position:relative;z-index:1;backdrop-filter:blur(8px)}
+.loop-step::after{content:'→';position:absolute;right:clamp(-16px,-2vw,-22px);top:50%;transform:translateY(-50%);font-family:var(--fm);font-size:clamp(14px,1.6vw,20px);color:var(--dim);z-index:2}
+.loop-step:last-child::after{content:'↺';right:auto;left:50%;transform:translateX(-50%);bottom:clamp(-28px,-3.5vw,-36px);top:auto}
+.loop-icon{width:clamp(36px,4.5vw,56px);height:clamp(36px,4.5vw,56px);border-radius:clamp(10px,1.4vw,16px);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.loop-icon svg{width:clamp(20px,2.5vw,30px);height:clamp(20px,2.5vw,30px)}
+.loop-icon.lb{background:rgba(59,130,246,.14);border:1.5px solid rgba(59,130,246,.3);color:var(--p)}
+.loop-icon.lc{background:rgba(6,182,212,.14);border:1.5px solid rgba(6,182,212,.3);color:var(--cy)}
+.loop-icon.lk{background:rgba(34,197,94,.14);border:1.5px solid rgba(34,197,94,.3);color:var(--ok)}
+.loop-label{font-family:var(--fd);font-size:clamp(1rem,1.7vw,1.5rem);font-weight:800;color:var(--txt);line-height:1.15}
+.loop-sub{font-size:clamp(.82rem,1.2vw,1.05rem);color:var(--mt);line-height:1.4}
+
+.fail-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.8vw,24px);margin-top:clamp(20px,2.8vw,36px);position:relative;z-index:2;max-width:1300px}
+.fail-card{background:rgba(12,21,38,.88);border:1.5px solid var(--brd);border-radius:clamp(14px,1.8vw,20px);padding:clamp(18px,2.4vw,34px);display:flex;gap:clamp(12px,1.6vw,20px);align-items:flex-start;backdrop-filter:blur(6px)}
+.fail-num{font-family:var(--fm);font-size:clamp(1.5rem,3vw,2.8rem);font-weight:700;min-width:clamp(52px,5.5vw,72px);line-height:1}
+.fail-body strong{display:block;font-family:var(--fd);font-size:clamp(1rem,1.6vw,1.4rem);font-weight:800;color:var(--txt);margin-bottom:6px}
+.fail-body p{font-size:clamp(.85rem,1.25vw,1.1rem);color:var(--mt);line-height:1.45}
+@media(max-width:980px){.pillar-grid{grid-template-columns:1fr}.loop-box{flex-direction:column}.loop-step::after{display:none}.fail-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="progbar"><div class="progfill" id="prog" style="width:11%"></div></div>
+<div class="brand-bar">
+  <div class="bm">PM</div>
+  <div class="bt"><strong>Produtor Milionário 2.0</strong><span>Era IA · M1 Aula 3 / 4</span></div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide active">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+    <div class="cw">
+      <div class="capa-row">
+        <div class="capa-left">
+          <span class="sec a1"><span class="dot"></span>Aula 1.3 · Sistema</span>
+          <h1 class="h1 aB">Os <span class="hi">3 Pilares</span> do<br>Produtor <span class="hok">1H</span>.</h1>
+          <div class="acline lb"></div>
+          <p class="sub a3"><strong>Validação · Velocidade · Volume.</strong> Quem domina os três
+            não lança produto — <strong>opera uma máquina</strong> que gera receita todo mês.</p>
+          <div class="capa-tags">
+            <span class="tag tb t1">⏱ 20 min</span>
+            <span class="tag tg t2">✓ 3 Pilares</span>
+            <span class="tag tw t3">⚡ Sistema</span>
+          </div>
+        </div>
+        <div class="capa-hero hi2">
+          <div class="capa-ring2"></div>
+          <div class="capa-ring1"></div>
+          <div class="capa-core">
+            <svg class="capa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+            <div class="capa-label">PILARES</div>
+            <div class="capa-num" style="font-size:clamp(4rem,8vw,7rem)">3×</div>
+            <div class="capa-sub">V · V · V</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · GANCHO — por que a maioria falha -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <span class="sec rd a1"><span class="dot"></span>O problema real</span>
+      <h1 class="quote-text aB">A maioria não falha por falta de <span class="hi">ideia</span>.<br>Falha por ignorar <span class="hrd">1 dos 3 pilares</span>.</h1>
+      <div class="quote-author a3">E o pior · não sabe qual pilar está quebrando tudo</div>
+      <div class="fail-grid">
+        <div class="fail-card r1">
+          <div class="fail-num" style="color:var(--rd)">01</div>
+          <div class="fail-body">
+            <strong>Sem Validação → produto que ninguém quer</strong>
+            <p>300h construindo algo que o mercado não procura. Ads não convertem. Produto morre no lançamento.</p>
+          </div>
+        </div>
+        <div class="fail-card r2">
+          <div class="fail-num" style="color:var(--wn)">02</div>
+          <div class="fail-body">
+            <strong>Sem Velocidade → never ships</strong>
+            <p>Perfecionismo travando. Edição infinita. Concorrente lança em 1 semana o que você demorou 3 meses.</p>
+          </div>
+        </div>
+        <div class="fail-card r3">
+          <div class="fail-num" style="color:var(--mt)">03</div>
+          <div class="fail-body">
+            <strong>Sem Volume → renda single point of failure</strong>
+            <p>Só 1 produto. Se não vende, zera. Negócio real tem múltiplos produtos, múltiplas fontes de receita.</p>
+          </div>
+        </div>
+        <div class="fail-card r4" style="border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.05)">
+          <div class="fail-num" style="color:var(--pl)">→</div>
+          <div class="fail-body">
+            <strong style="color:var(--pl)">Com os 3 → máquina que roda</strong>
+            <p>Valida em 30min · produz em 1h · empilha produtos. Isso é o que os 3 pilares entregam juntos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PILAR 1 — VALIDAÇÃO -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="bgnum">01</div>
+    <div class="cw">
+      <span class="sec a1"><span class="dot"></span>Pilar 1 · Validação</span>
+      <div style="display:flex;align-items:center;gap:clamp(18px,2.4vw,30px);margin-bottom:clamp(12px,1.6vw,20px)">
+        <div class="ibox gi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <h2 class="h2 aB"><span class="hi">Provar demanda</span><br>antes de produzir</h2>
+      </div>
+      <div class="acline lb"></div>
+      <div class="stat-row a3" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="stat-box">
+          <div class="stat-head">
+            <svg width="24" height="24" fill="none" stroke="var(--p)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+            <span class="stat-tag">Meta Ads Library</span>
+          </div>
+          <div class="sv hi" style="font-size:clamp(2rem,4.5vw,4.5rem)">247+</div>
+          <h4>Ads ativos = nicho validado</h4>
+          <p>Concorrente rodando há 90 dias prova que existe comprador.</p>
+        </div>
+        <div class="stat-box cy">
+          <div class="stat-head">
+            <svg width="24" height="24" fill="none" stroke="var(--cy)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span class="stat-tag">Diagnóstico em</span>
+          </div>
+          <div class="sv hcy" style="font-size:clamp(2rem,4.5vw,4.5rem)">30min</div>
+          <h4>Do zero à decisão go/no-go</h4>
+          <p>/pesquisar-nicho varre Ads Library e classifica o mercado.</p>
+        </div>
+        <div class="stat-box ok">
+          <div class="stat-head">
+            <svg width="24" height="24" fill="none" stroke="var(--ok)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span class="stat-tag">Taxa de acerto</span>
+          </div>
+          <div class="sv hok" style="font-size:clamp(2rem,4.5vw,4.5rem)">8×</div>
+          <h4>Mais que feeling ou intuição</h4>
+          <p>Dados de mercado real substituem achismo e palpite.</p>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(16px,2vw,22px)">
+        <strong>Regra:</strong> nenhum produto começa sem 50+ ads ativos e 1 concorrente rodando há mais de 30 dias.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 · PILAR 2 — VELOCIDADE -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="bgnum" style="color:var(--cy)">02</div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Pilar 2 · Velocidade</span>
+      <div style="display:flex;align-items:center;gap:clamp(18px,2.4vw,30px);margin-bottom:clamp(12px,1.6vw,20px)">
+        <div class="ibox cy gi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h2 class="h2 aB"><span class="hcy">Do zero ao ar</span><br>em 1 hora.</h2>
+      </div>
+      <div class="acline lb" style="background:var(--gcyan)"></div>
+      <div class="stepflow a3">
+        <div class="sf-item sf1">
+          <div class="sf-num" style="color:var(--cy)">00:00</div>
+          <svg class="sf-icon" style="color:var(--cy)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <div class="sf-label">Validação</div>
+          <div class="sf-sub">/pesquisar-nicho</div>
+        </div>
+        <div class="sf-item sf2">
+          <div class="sf-num" style="color:var(--cy)">00:10</div>
+          <svg class="sf-icon" style="color:var(--cy)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+          <div class="sf-label">Briefing</div>
+          <div class="sf-sub">/modelar-produto</div>
+        </div>
+        <div class="sf-item sf3">
+          <div class="sf-num" style="color:var(--cy)">00:20</div>
+          <svg class="sf-icon" style="color:var(--cy)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 20 7-7-3-3-7 7v3h3z"/><path d="M14.5 5.5 17 3l4 4-2.5 2.5"/></svg>
+          <div class="sf-label">Copy</div>
+          <div class="sf-sub">/criar-lowticket</div>
+        </div>
+        <div class="sf-item sf4">
+          <div class="sf-num" style="color:var(--cy)">00:40</div>
+          <svg class="sf-icon" style="color:var(--cy)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <div class="sf-label">Página HTML</div>
+          <div class="sf-sub">/AGENTE-PAGINA</div>
+        </div>
+        <div class="sf-item sf5">
+          <div class="sf-num" style="color:var(--ok)">01:00</div>
+          <svg class="sf-icon" style="color:var(--ok)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <div class="sf-label">No ar</div>
+          <div class="sf-sub">vercel --prod</div>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(18px,2.4vw,28px)">
+        <strong>1 hora não é exagero</strong> — é o tempo real quando a stack está configurada e o sistema rodando.
+        Antigravity + Claude Code elimina todo o atrito de setup, formatação e deploy.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5 · PILAR 3 — VOLUME -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="bgnum" style="color:var(--ok)">03</div>
+    <div class="cw">
+      <span class="sec ok a1"><span class="dot"></span>Pilar 3 · Volume</span>
+      <div style="display:flex;align-items:center;gap:clamp(18px,2.4vw,30px);margin-bottom:clamp(12px,1.6vw,20px)">
+        <div class="ibox ok gi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05M12 22.08V12"/></svg>
+        </div>
+        <h2 class="h2 aB"><span class="hok">Um produto</span> é risco.<br>Portfólio é negócio.</h2>
+      </div>
+      <div class="acline lb" style="background:var(--ggreen)"></div>
+      <div class="stat-row a3" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="stat-box ok">
+          <div class="sv hok" style="font-size:clamp(2rem,4.5vw,4.5rem)">1×</div>
+          <div class="sl">produto</div>
+          <h4>Single point of failure</h4>
+          <p>Se parar de converter · renda para. Negócio frágil por design.</p>
+        </div>
+        <div class="stat-box ok">
+          <div class="sv hok" style="font-size:clamp(2rem,4.5vw,4.5rem)">3×</div>
+          <div class="sl">produtos</div>
+          <h4>Funil com profundidade</h4>
+          <p>Low ticket entrada → mid ticket principal → high ticket premium.</p>
+        </div>
+        <div class="stat-box ok">
+          <div class="sv" style="font-size:clamp(2rem,4.5vw,4.5rem);background:var(--ggreen);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">10×</div>
+          <div class="sl">produtos</div>
+          <h4>Portfólio anti-frágil</h4>
+          <p>Múltiplas entradas de receita. Um falha · outros compensam.</p>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(16px,2vw,22px)">
+        Com velocidade de 1h por produto, <strong>10 produtos em 2 semanas</strong> é matemática simples.
+        Portfólio vira moat — concorrente sem stack demora meses pra copiar.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 · OS TRÊS JUNTOS -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o4"></div></div>
+    <div class="cw">
+      <span class="sec a1"><span class="dot"></span>Os 3 juntos · força total</span>
+      <h2 class="h2 aB">É o <span class="hi">sistema</span>, não o produto.</h2>
+      <div class="acline lb"></div>
+      <div class="pillar-grid">
+        <div class="pillar-card vv p1">
+          <div class="pillar-letter">V</div>
+          <div class="pillar-name">Validação</div>
+          <div class="pillar-desc">Confirma que existe comprador <em>antes</em> de gastar 1h de produção.</div>
+          <div class="pillar-stat">
+            <span class="ps-n">30</span>
+            <span class="ps-l">minutos · decisão go/no-go</span>
+          </div>
+        </div>
+        <div class="pillar-card vy p2">
+          <div class="pillar-letter">V</div>
+          <div class="pillar-name">Velocidade</div>
+          <div class="pillar-desc">Da ideia validada ao produto no ar com URL pública sem travar.</div>
+          <div class="pillar-stat">
+            <span class="ps-n">1h</span>
+            <span class="ps-l">do briefing ao deploy</span>
+          </div>
+        </div>
+        <div class="pillar-card vk p3">
+          <div class="pillar-letter">V</div>
+          <div class="pillar-name">Volume</div>
+          <div class="pillar-desc">Repete o ciclo. Portfólio cresce. Risco dilui. Receita acumula.</div>
+          <div class="pillar-stat">
+            <span class="ps-n">10×</span>
+            <span class="ps-l">produtos em 2 semanas</span>
+          </div>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(16px,2vw,22px)">
+        Produtor 1.0 dominava 1 dos 3. <strong>Produtor 2.0 opera os 3 em sequência</strong> · todo sprint.
+      </p>
+    </div>
+  </section>
+
+  <!-- 7 · O LOOP DIÁRIO -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>O loop · como roda na prática</span>
+      <h2 class="h2 aB">Cada sprint <span class="hcy">fecha 1 ciclo</span> completo.</h2>
+      <div class="acline lb" style="background:var(--gcyan)"></div>
+      <div class="loop-box">
+        <div class="loop-step r1">
+          <div class="loop-icon lb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <div class="loop-label">Valida nicho</div>
+          <div class="loop-sub">/pesquisar-nicho · 30min · 3 nichos comparados</div>
+        </div>
+        <div class="loop-step r2">
+          <div class="loop-icon lb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </div>
+          <div class="loop-label">Modela produto</div>
+          <div class="loop-sub">/modelar-produto · /criar-lowticket · 10min</div>
+        </div>
+        <div class="loop-step r3">
+          <div class="loop-icon lc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="loop-label">Gera página</div>
+          <div class="loop-sub">/AGENTE-PAGINA · HTML completo · 15min</div>
+        </div>
+        <div class="loop-step r4">
+          <div class="loop-icon lk">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="loop-label">Publica</div>
+          <div class="loop-sub">vercel --prod · URL ao vivo · total 1h</div>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(28px,4vw,52px)">
+        <strong>Repete amanhã</strong> com próximo nicho. Em 1 semana · 5 produtos. Em 1 mês · portfólio completo.
+      </p>
+    </div>
+  </section>
+
+  <!-- 8 · TAREFA -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="cw">
+      <span class="sec ok a1"><span class="dot"></span>Sua missão · agora</span>
+      <h2 class="h2 aB">Mapeie os <span class="hok">3 pilares</span><br>no seu negócio.</h2>
+      <div class="acline lb" style="background:var(--ggreen)"></div>
+      <ul class="brows a3">
+        <li class="ok">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <div><strong>Validação</strong> · você pesquisa demanda antes de produzir? Qual ferramenta usa hoje?</div>
+        </li>
+        <li class="cy">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div><strong>Velocidade</strong> · quanto tempo seu último produto levou do zero ao ar?</div>
+        </li>
+        <li>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <div><strong>Volume</strong> · quantos produtos ativos você tem hoje? Onde está o gap?</div>
+        </li>
+        <li class="wn">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <div><strong>Anote</strong> o pilar mais fraco · esse é seu foco no próximo sprint.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 · CTA → M1.4 -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <span class="sec a1"><span class="dot"></span>Próxima aula · M1.4</span>
+      <h1 class="h1 aB">Setup <span class="hi">Claude Code</span><br>+ 7 skills.<br><span class="hok">Mãos na massa.</span></h1>
+      <div class="acline lb"></div>
+      <p class="sub a3">Pilares entendidos. Hora de <strong>colocar a máquina pra rodar</strong>.
+        M1.4 instala todo o ambiente em 20 minutos — Node, Claude Code, skills PM2.0 e primeira execução real.</p>
+      <div class="cta-row">
+        <button class="ctabtn a4" id="cta-next">Próxima aula →</button>
+        <div class="cta-info">
+          <span class="k">M1 · Aula 1.4 / 4</span>
+          <span class="v">Setup Claude Code + Ambiente</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button id="prev">←</button>
+  <span class="ctr"><span class="cur" id="cur">1</span>/<span id="tot">9</span></span>
+  <button id="next">→</button>
+  <button id="full">⛶</button>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const tot=document.getElementById('tot');
+const prog=document.getElementById('prog');
+tot.textContent=total;
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.getElementById('next').addEventListener('click',()=>go(current+1));
+document.getElementById('prev').addEventListener('click',()=>go(current-1));
+document.getElementById('cta-next').addEventListener('click',()=>go(current+1));
+document.getElementById('full').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()});
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();go(current+1)}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}else if(e.key==='Home')go(0);else if(e.key==='End')go(total-1);else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?current+1:current-1)},{passive:true});
+let wl=false;document.addEventListener('wheel',e=>{if(wl)return;go(e.deltaY>0?current+1:current-1);wl=true;setTimeout(()=>wl=false,700)},{passive:true});
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.style.setProperty('--ease','linear');
+requestAnimationFrame(()=>requestAnimationFrame(()=>slides[0].classList.add('on')));
+</script>
+</body>
+</html>

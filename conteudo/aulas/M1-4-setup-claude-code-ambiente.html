@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M1.4 · Setup Claude Code + Ambiente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+.req-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,18px);margin-top:clamp(18px,2.4vw,30px);position:relative;z-index:2}
+.req-card{background:rgba(12,21,38,.9);border:1.5px solid var(--brd);border-radius:clamp(14px,1.8vw,20px);padding:clamp(18px,2.4vw,32px);display:flex;flex-direction:column;gap:clamp(8px,1vw,12px);backdrop-filter:blur(8px);transition:border-color .25s}
+.req-card:hover{border-color:rgba(59,130,246,.38)}
+.req-ico{width:clamp(36px,4.5vw,52px);height:clamp(36px,4.5vw,52px);border-radius:clamp(10px,1.4vw,14px);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.req-ico svg{width:clamp(20px,2.5vw,28px);height:clamp(20px,2.5vw,28px)}
+.req-ico.lb{background:rgba(59,130,246,.14);border:1.5px solid rgba(59,130,246,.3);color:var(--p)}
+.req-ico.lc{background:rgba(6,182,212,.14);border:1.5px solid rgba(6,182,212,.3);color:var(--cy)}
+.req-ico.lk{background:rgba(34,197,94,.14);border:1.5px solid rgba(34,197,94,.3);color:var(--ok)}
+.req-ico.lw{background:rgba(245,158,11,.14);border:1.5px solid rgba(245,158,11,.3);color:var(--wn)}
+.req-name{font-family:var(--fd);font-size:clamp(.95rem,1.6vw,1.4rem);font-weight:800;color:var(--txt)}
+.req-ver{font-family:var(--fm);font-size:clamp(.72rem,1vw,.9rem);color:var(--mt);letter-spacing:.1em}
+.req-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);font-size:clamp(.7rem,.95vw,.82rem);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:auto}
+.req-status.ok{color:var(--okl)}.req-status.wn{color:var(--wnl)}
+
+.step-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(20px,2.8vw,40px);margin-top:clamp(18px,2.4vw,28px);align-items:start;position:relative;z-index:2}
+.step-info{display:flex;flex-direction:column;gap:clamp(12px,1.6vw,20px)}
+.step-badge-row{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px)}
+.step-title{font-family:var(--fd);font-size:clamp(1.4rem,2.5vw,2.2rem);font-weight:900;color:var(--txt);line-height:1.1;letter-spacing:-.025em}
+.step-desc{font-size:clamp(.92rem,1.4vw,1.2rem);color:var(--mt);line-height:1.55}
+.step-note{display:flex;align-items:flex-start;gap:10px;padding:clamp(12px,1.4vw,18px) clamp(14px,1.8vw,22px);background:rgba(59,130,246,.06);border:1.5px solid rgba(59,130,246,.22);border-radius:12px;font-size:clamp(.82rem,1.2vw,1.05rem);color:var(--mt);line-height:1.45}
+.step-note strong{color:var(--pl)}
+.step-note.ok{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.22)}
+.step-note.ok strong{color:var(--okl)}
+.step-note.wn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.22)}
+.step-note.wn strong{color:var(--wnl)}
+
+.verify-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);margin-top:clamp(18px,2.4vw,28px);position:relative;z-index:2}
+.verify-row{display:flex;align-items:center;gap:clamp(10px,1.4vw,16px);padding:clamp(14px,1.8vw,22px) clamp(16px,2.2vw,28px);background:rgba(12,21,38,.9);border:1.5px solid var(--brd);border-radius:clamp(12px,1.6vw,18px);backdrop-filter:blur(6px)}
+.verify-check{width:clamp(28px,3vw,38px);height:clamp(28px,3vw,38px);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.verify-check.ok{background:rgba(34,197,94,.15);border:1.5px solid rgba(34,197,94,.35);color:var(--ok)}
+.verify-check.rd{background:rgba(248,113,113,.1);border:1.5px solid rgba(248,113,113,.28);color:var(--rd)}
+.verify-label{font-size:clamp(.9rem,1.4vw,1.2rem);font-weight:700;color:var(--txt)}
+.verify-cmd{font-family:var(--fm);font-size:clamp(.72rem,1vw,.88rem);color:var(--mt);margin-top:3px}
+@media(max-width:980px){.req-grid{grid-template-columns:1fr 1fr}.step-layout{grid-template-columns:1fr}.verify-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="progbar"><div class="progfill" id="prog" style="width:11%"></div></div>
+<div class="brand-bar">
+  <div class="bm">PM</div>
+  <div class="bt"><strong>Produtor Milionário 2.0</strong><span>Era IA · M1 Aula 4 / 4</span></div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide active">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+    <div class="cw">
+      <div class="capa-row">
+        <div class="capa-left">
+          <span class="sec a1"><span class="dot"></span>Aula 1.4 · Setup</span>
+          <h1 class="h1 aB">Setup <span class="hi">Claude Code</span><br>+ Ambiente<br><span class="hok">em 20 minutos</span>.</h1>
+          <div class="acline lb"></div>
+          <p class="sub a3"><strong>Do zero ao primeiro /pesquisar-nicho.</strong> Instala Node, Claude Code,
+            autentica e carrega as 7 skills PM2.0 com 1 comando.</p>
+          <div class="capa-tags">
+            <span class="tag tb t1">⏱ 20 min</span>
+            <span class="tag tg t2">✓ 5 passos</span>
+            <span class="tag tw t3">⚡ 7 skills</span>
+          </div>
+        </div>
+        <div class="capa-hero hi2">
+          <div class="capa-ring2"></div>
+          <div class="capa-ring1"></div>
+          <div class="capa-core" style="border-color:rgba(34,197,94,.3);background:radial-gradient(circle,rgba(34,197,94,.15) 0%,rgba(34,197,94,.04) 55%,transparent 75%);box-shadow:0 0 100px rgba(34,197,94,.2),inset 0 0 50px rgba(34,197,94,.07)">
+            <svg class="capa-icon" style="color:var(--ok);filter:drop-shadow(0 0 18px var(--ok))" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <div class="capa-label" style="color:var(--ok)">TERMINAL</div>
+            <div class="capa-num" style="color:var(--ok);font-size:clamp(1.4rem,3vw,2.8rem);text-shadow:0 0 32px rgba(34,197,94,.5)">claude</div>
+            <div class="capa-sub">ready</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · PRÉ-REQUISITOS -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <span class="sec wn a1"><span class="dot"></span>Antes de começar · pré-requisitos</span>
+      <h2 class="h2 aB">O que você precisa <span class="hok">ter pronto</span>.</h2>
+      <div class="acline lb" style="background:var(--ggreen)"></div>
+      <div class="req-grid">
+        <div class="req-card r1">
+          <div class="req-ico lb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+          </div>
+          <div class="req-name">Node.js</div>
+          <div class="req-ver">versão 18+ obrigatório</div>
+          <div class="req-status ok">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            node.js.org
+          </div>
+        </div>
+        <div class="req-card r2">
+          <div class="req-ico lc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="req-name">Conta Anthropic</div>
+          <div class="req-ver">plano Pro ou API Key</div>
+          <div class="req-status ok">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            console.anthropic.com
+          </div>
+        </div>
+        <div class="req-card r3">
+          <div class="req-ico lk">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div class="req-name">Git</div>
+          <div class="req-ver">qualquer versão recente</div>
+          <div class="req-status ok">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            git-scm.com
+          </div>
+        </div>
+        <div class="req-card r4">
+          <div class="req-ico lw">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="req-name">20 minutos</div>
+          <div class="req-ver">sem interrupção</div>
+          <div class="req-status wn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            execute agora
+          </div>
+        </div>
+      </div>
+      <p class="sub a4" style="margin-top:clamp(14px,2vw,20px)">
+        <strong>Verificar Node:</strong> abra terminal e rode <span class="kh">node --version</span> — precisa retornar v18.x ou superior.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3 · PASSO 1 — npm install claude code -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="bgnum">01</div>
+    <div class="cw">
+      <span class="sec a1"><span class="dot"></span>Passo 01 · Instalar Claude Code</span>
+      <div class="step-layout">
+        <div class="step-info">
+          <div class="step-badge-row aB">
+            <div class="stepbadge blue">01</div>
+            <div class="step-title">Instala via <span class="hi">npm</span> global</div>
+          </div>
+          <p class="step-desc">Claude Code é um CLI npm. Instala 1 vez, funciona em qualquer pasta do sistema.</p>
+          <div class="step-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--pl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><strong>Windows:</strong> rode PowerShell como administrador. <strong>Mac/Linux:</strong> pode precisar de <span class="kh">sudo</span> dependendo da config do npm.</span>
+          </div>
+          <div class="step-note ok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--okl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Sucesso:</strong> terminal exibe versão do Claude Code após install.</span>
+          </div>
+        </div>
+        <div class="cblock a3">
+          <div class="cdot"><span></span><span></span><span></span></div>
+<span class="cmt"># instalar Claude Code globalmente</span>
+<span class="ccmd cprompt">npm install -g @anthropic-ai/claude-code</span>
+<span class="cstr">
+  added 47 packages in 12s
+  ✓ claude-code@1.x.x installed</span>
+<span class="cmt">
+# verificar instalação</span>
+<span class="ccmd cprompt">claude --version</span>
+<span class="cstr">  claude-code 1.x.x</span>
+<span class="cmt">
+# ou com npx (sem instalar global)</span>
+<span class="ccmd cprompt">npx @anthropic-ai/claude-code --version</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · PASSO 2 — login -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+    <div class="bgnum" style="color:var(--cy)">02</div>
+    <div class="cw">
+      <span class="sec cy a1"><span class="dot"></span>Passo 02 · Autenticar</span>
+      <div class="step-layout">
+        <div class="step-info">
+          <div class="step-badge-row aB">
+            <div class="stepbadge cy">02</div>
+            <div class="step-title">Login via <span class="hcy">browser</span></div>
+          </div>
+          <p class="step-desc">Claude Code abre browser automaticamente. Autoriza na Anthropic. Token salvo localmente.</p>
+          <div class="step-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--pl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><strong>Alternativa:</strong> set <span class="kh">ANTHROPIC_API_KEY=sk-ant-...</span> no ambiente — Claude Code usa direto sem login interativo.</span>
+          </div>
+          <div class="step-note ok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--okl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Sucesso:</strong> prompt <span class="kh">></span> aparece no terminal. Claude Code está pronto.</span>
+          </div>
+        </div>
+        <div class="cblock a3">
+          <div class="cdot"><span></span><span></span><span></span></div>
+<span class="ccmd cprompt">claude login</span>
+<span class="cmt">  Abrindo browser para autenticação...</span>
+<span class="cmt">  → console.anthropic.com/oauth/authorize</span>
+<span class="cstr">
+  ✓ Autenticado como andrey@geekacademy.site
+  ✓ Token salvo em ~/.claude/credentials</span>
+<span class="cmt">
+# ou via variável de ambiente (CI/automação)</span>
+<span class="ccmd">export ANTHROPIC_API_KEY=sk-ant-api03-...</span>
+<span class="ccmd cprompt">claude</span>
+<span class="ccmd">  > pronto para usar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · PASSO 3 — instalar skills PM2.0 -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="bgnum" style="color:var(--ok)">03</div>
+    <div class="cw">
+      <span class="sec ok a1"><span class="dot"></span>Passo 03 · Skills do curso</span>
+      <div class="step-layout">
+        <div class="step-info">
+          <div class="step-badge-row aB">
+            <div class="stepbadge ok">03</div>
+            <div class="step-title">Instala <span class="hok">7 skills</span> PM2.0</div>
+          </div>
+          <p class="step-desc">1 comando baixa e instala todas as skills do curso em <span class="kh">~/.claude/skills/</span>. Reinicia Claude Code após.</p>
+          <div class="step-note ok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--okl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Confirma instalação:</strong> <span class="kh">/pesquisar-nicho</span> deve aparecer como skill disponível após restart.</span>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:10px">
+            <li style="font-size:clamp(.8rem,1.1vw,.95rem);color:var(--mt);display:flex;align-items:center;gap:8px"><span style="color:var(--okl)">✓</span> pesquisar-nicho</li>
+            <li style="font-size:clamp(.8rem,1.1vw,.95rem);color:var(--mt);display:flex;align-items:center;gap:8px"><span style="color:var(--okl)">✓</span> modelar-produto</li>
+            <li style="font-size:clamp(.8rem,1.1vw,.95rem);color:var(--mt);display:flex;align-items:center;gap:8px"><span style="color:var(--okl)">✓</span> criar-lowticket</li>
+            <li style="font-size:clamp(.8rem,1.1vw,.95rem);color:var(--mt);display:flex;align-items:center;gap:8px"><span style="color:var(--okl)">✓</span> cakto-setup + 4 mais</li>
+          </ul>
+        </div>
+        <div class="cblock a3">
+          <div class="cdot"><span></span><span></span><span></span></div>
+<span class="cmt"># Mac / Linux</span>
+<span class="ccmd cprompt">curl -fsSL https://raw.githubusercontent.com/Geeknosnegocios/skill-produtor2.0/main/install.sh | bash</span>
+<span class="cstr">
+  → Baixando skills...
+  ✓ pesquisar-nicho
+  ✓ modelar-produto
+  ✓ criar-lowticket
+  ✓ skill-copywriting
+  ✓ cakto-setup
+  ✓ skill-frontend
+  ✓ karpathy-guidelines
+  ✅ 7 skills instaladas em ~/.claude/skills</span>
+<span class="cmt">
+# Windows PowerShell</span>
+<span class="ccmd cprompt">irm https://raw.githubusercontent.com/Geeknosnegocios/skill-produtor2.0/main/install.ps1 | iex</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · PASSO 4 — abrir projeto com Antigravity -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2"></div><div class="orb o4"></div></div>
+    <div class="bgnum" style="color:var(--ag)">04</div>
+    <div class="cw">
+      <span class="sec ag a1"><span class="dot"></span>Passo 04 · Abrir projeto</span>
+      <div class="step-layout">
+        <div class="step-info">
+          <div class="step-badge-row aB">
+            <div class="stepbadge ag">04</div>
+            <div class="step-title">Antigravity + <span class="hag">Claude Code</span></div>
+          </div>
+          <p class="step-desc">Antigravity é o IDE AI-native do Google. Abre o projeto e Claude Code roda no terminal integrado — sem Alt+Tab.</p>
+          <div class="step-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--pl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><strong>Alternativa:</strong> qualquer pasta funciona. Antigravity só melhora o fluxo — não é obrigatório para rodar as skills.</span>
+          </div>
+          <div class="step-note wn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--wnl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span><strong>Crie uma pasta limpa</strong> para cada produto — Claude Code lê o contexto do diretório atual.</span>
+          </div>
+        </div>
+        <div class="cblock a3">
+          <div class="cdot"><span></span><span></span><span></span></div>
+<span class="cmt"># criar pasta para seu produto</span>
+<span class="ccmd cprompt">mkdir meu-produto && cd meu-produto</span>
+<span class="cmt">
+# abrir no Antigravity (se instalado)</span>
+<span class="ccmd cprompt">antigravity .</span>
+<span class="cmt">
+# ou abrir terminal nessa pasta e rodar</span>
+<span class="ccmd cprompt">claude</span>
+<span class="cmt">
+# Claude Code inicia lendo a pasta</span>
+<span class="ccmd">  > Claude Code pronto</span>
+<span class="ccmd">  > Skills disponíveis: /pesquisar-nicho</span>
+<span class="ccmd">  >                      /modelar-produto</span>
+<span class="ccmd">  >                      /criar-lowticket</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · PASSO 5 — primeira execução real -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="bgnum" style="color:var(--vl)">05</div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Passo 05 · Primeira execução</span>
+      <div class="step-layout">
+        <div class="step-info">
+          <div class="step-badge-row aB">
+            <div class="stepbadge vl">05</div>
+            <div class="step-title">Roda <span class="hvl">/pesquisar-nicho</span></div>
+          </div>
+          <p class="step-desc">Primeira execução real. Digite qualquer nicho — em 30 segundos você vê dados de mercado ao vivo da Meta Ads Library.</p>
+          <div class="step-note ok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--okl)" stroke-width="1.5" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Setup completo</strong> quando você vê o relatório de validação com 🔥🔥🔥 ou ❌ no final.</span>
+          </div>
+        </div>
+        <div class="cblock a3">
+          <div class="cdot"><span></span><span></span><span></span></div>
+<span class="ccmd">  > /pesquisar-nicho ebook produtividade</span>
+<span class="cmt">
+  Carregando skill pesquisar-nicho...
+  Buscando Meta Ads Library · BR · ACTIVE...</span>
+<span class="cstr">
+  NICHO: ebook produtividade
+  TOTAL ADS ATIVOS: 247
+  CALOR: 🔥🔥🔥
+
+  TOP ANUNCIANTES:
+  - Flávio Augusto — 87 dias — vídeo
+  - Thiago Nigro — 44 dias — carrossel
+
+  VEREDICTO: ENTRAR AGORA
+  → quer criar o produto? /criar-lowticket</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · VERIFICAÇÃO — checklist -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <span class="sec ok a1"><span class="dot"></span>Verificação · tudo funcionando?</span>
+      <h2 class="h2 aB">Checklist de <span class="hok">confirmação</span>.</h2>
+      <div class="acline lb" style="background:var(--ggreen)"></div>
+      <div class="verify-grid">
+        <div class="verify-row r1">
+          <div class="verify-check ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="verify-label">Node.js instalado</div><div class="verify-cmd">node --version → v18+</div></div>
+        </div>
+        <div class="verify-row r2">
+          <div class="verify-check ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="verify-label">Claude Code instalado</div><div class="verify-cmd">claude --version → 1.x</div></div>
+        </div>
+        <div class="verify-row r3">
+          <div class="verify-check ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="verify-label">Autenticado Anthropic</div><div class="verify-cmd">claude login → ✓ credentials salvas</div></div>
+        </div>
+        <div class="verify-row r4">
+          <div class="verify-check ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="verify-label">7 skills instaladas</div><div class="verify-cmd">ls ~/.claude/skills/ → 7 pastas</div></div>
+        </div>
+        <div class="verify-row r5">
+          <div class="verify-check ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="verify-label">/pesquisar-nicho rodou</div><div class="verify-cmd">retornou relatório 🔥🔥🔥 ou ❌</div></div>
+        </div>
+        <div class="verify-row r6" style="border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.05)">
+          <div class="verify-check ok" style="background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.35);color:var(--p)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div><div class="verify-label" style="color:var(--pl)">Pronto para M2</div><div class="verify-cmd">stack ativa · nichos esperando</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · CTA → M2.1 -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <span class="sec a1"><span class="dot"></span>Módulo 2 · Pesquisa de Nicho</span>
+      <h1 class="h1 aB">Stack pronta.<br>Hora de <span class="hi">achar<br>dinheiro</span> de verdade.</h1>
+      <div class="acline lb"></div>
+      <p class="sub a3"><strong>Módulo 1 completo.</strong> Mindset, sistema, stack, ambiente — tudo no lugar.
+        M2.1 mergulha na <strong>pesquisa de nicho com IA</strong>: como ler a Meta Ads Library, classificar concorrentes
+        e sair com 1 nicho validado em mãos.</p>
+      <div class="cta-row">
+        <button class="ctabtn a4" id="cta-next">Módulo 2 →</button>
+        <div class="cta-info">
+          <span class="k">M2 · Aula 2.1 / 4</span>
+          <span class="v">Pesquisa de Nicho com IA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button id="prev">←</button>
+  <span class="ctr"><span class="cur" id="cur">1</span>/<span id="tot">9</span></span>
+  <button id="next">→</button>
+  <button id="full">⛶</button>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const tot=document.getElementById('tot');
+const prog=document.getElementById('prog');
+tot.textContent=total;
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.getElementById('next').addEventListener('click',()=>go(current+1));
+document.getElementById('prev').addEventListener('click',()=>go(current-1));
+document.getElementById('cta-next').addEventListener('click',()=>go(current+1));
+document.getElementById('full').addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()});
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();go(current+1)}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}else if(e.key==='Home')go(0);else if(e.key==='End')go(total-1);else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen()}});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?current+1:current-1)},{passive:true});
+let wl=false;document.addEventListener('wheel',e=>{if(wl)return;go(e.deltaY>0?current+1:current-1);wl=true;setTimeout(()=>wl=false,700)},{passive:true});
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.style.setProperty('--ease','linear');
+requestAnimationFrame(()=>requestAnimationFrame(()=>slides[0].classList.add('on')));
+</script>
+</body>
+</html>

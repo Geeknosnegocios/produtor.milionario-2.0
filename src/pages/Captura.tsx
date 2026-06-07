@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Play, Volume2, Users, Check, MessageCircle, Search, Lightbulb, FileText, Megaphone, Clock, ShieldCheck, Zap, AlertTriangle, Flame, Gift, EyeOff } from "lucide-react";
-import { trackLead } from "@/lib/tracking";
+import { trackLead, trackViewContent } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
 const MICROVSL_VIDEO_ID = "MICROVSL_VIDEO_ID"; // id YouTube do vídeo-convite
@@ -41,6 +41,8 @@ const CTAGroup = ({ origem, sub = true }: { origem: string; sub?: boolean }) => 
 
 const Captura = () => {
   const [playing, setPlaying] = useState(false);
+
+  useEffect(() => { trackViewContent(); }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden">

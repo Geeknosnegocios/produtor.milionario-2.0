@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M6.2 — CBO R$100/dia · Subindo Campanha | Produtor Milionário 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+:root{--mod:#22C55E;--mod2:#06B6D4;--modglow:rgba(34,197,94,.18);}
+.brand-bar{background:linear-gradient(135deg,#22C55E 0%,#06B6D4 100%);}
+.cbo-structure{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.cbo-level{display:flex;gap:12px;align-items:flex-start;}
+.cbo-badge{min-width:100px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:8px 10px;text-align:center;}
+.cbo-badge .cb-type{font-size:.65rem;color:#22C55E;font-family:'JetBrains Mono',monospace;font-weight:600;text-transform:uppercase;}
+.cbo-badge .cb-val{font-size:1rem;font-weight:900;color:#e2e8f0;}
+.cbo-content{flex:1;}
+.cbo-title{font-size:.88rem;font-weight:700;color:#e2e8f0;margin-bottom:4px;}
+.cbo-desc{font-size:.8rem;color:#94a3b8;line-height:1.5;}
+.cbo-level.adset .cbo-badge{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);}
+.cbo-level.adset .cbo-badge .cb-type{color:#3B82F6;}
+.cbo-level.ad .cbo-badge{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.25);}
+.cbo-level.ad .cbo-badge .cb-type{color:#F59E0B;}
+.audience-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0;}
+.aud-card{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:12px;}
+.aud-name{font-size:.82rem;font-weight:700;color:#e2e8f0;margin-bottom:4px;}
+.aud-desc{font-size:.75rem;color:#94a3b8;line-height:1.5;}
+.aud-type{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--mod);margin-top:4px;}
+.checklist-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;}
+.cl-item{display:flex;align-items:flex-start;gap:6px;font-size:.8rem;color:#94a3b8;}
+.cl-item .ci{color:#22C55E;font-size:1rem;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="progbar"><div class="prog" id="prog"></div></div>
+<div class="brand-bar">
+  <span class="mod-badge">M6 · Tráfego</span>
+  <span class="lesson-title">Aula 6.2 — CBO R$100/dia · Subindo Campanha</span>
+  <span class="mod-badge" style="margin-left:auto">Produtor Milionário 2.0</span>
+</div>
+
+<!-- SLIDE 1 — CAPA -->
+<div class="slide active">
+<div class="capa-row">
+  <div class="capa-hero">
+    <div class="capa-mod a1">MÓDULO 6 — TRÁFEGO</div>
+    <h1 class="capa-h a2">CBO R$100/dia<br><span style="color:var(--mod)">Campanha ao Ar</span></h1>
+    <p class="capa-sub a3">Estrutura, configuração e os primeiros 3 dias de campanha.</p>
+    <div class="feat-grid a4" style="margin-top:20px">
+      <div class="feat-card"><div class="feat-icon">🏗️</div><div class="feat-label">Estrutura CBO</div></div>
+      <div class="feat-card"><div class="feat-icon">👥</div><div class="feat-label">3 audiências</div></div>
+      <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-label">5 criativos/adset</div></div>
+      <div class="feat-card"><div class="feat-icon">⏳</div><div class="feat-label">Fase aprendizado</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 2 — CBO VS ABO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">CBO vs ABO</span></h2>
+<p class="sl-sub on-s">CBO (Campaign Budget Optimization) é o padrão atual. Meta distribui o orçamento automaticamente.</p>
+<div class="vsbox" style="margin:16px 0">
+  <div class="vs-col vs-before">
+    <div class="vs-label">ABO (por adset)</div>
+    <ul class="brows">
+      <li>Orçamento fixo por adset</li>
+      <li>Você decide onde gastar</li>
+      <li>Mais controle manual</li>
+      <li>Ineficiente — pode gastar tudo em adset ruim</li>
+      <li>Bom para: testes isolados</li>
+    </ul>
+  </div>
+  <div class="vs-col vs-after">
+    <div class="vs-label">CBO (por campanha)</div>
+    <ul class="brows">
+      <li>Orçamento total na campanha</li>
+      <li>Meta distribui para quem converte</li>
+      <li>Algoritmo otimiza automaticamente</li>
+      <li>Escala melhor com volume</li>
+      <li>Bom para: escala após validação</li>
+    </ul>
+  </div>
+</div>
+<p style="font-size:.82rem;color:#94a3b8;text-align:center">Começar com ABO R$50/adset para validar. Migrar para CBO quando tiver ângulo vencedor.</p>
+</div>
+
+<!-- SLIDE 3 — ESTRUTURA DA CAMPANHA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Estrutura da Campanha</span></h2>
+<p class="sl-sub on-s">1 campanha · 3 adsets · 5 anúncios cada = 15 criativos testados.</p>
+<div class="cbo-structure">
+  <div class="cbo-level">
+    <div class="cbo-badge">
+      <div class="cb-type">campanha</div>
+      <div class="cb-val">R$100</div>
+    </div>
+    <div class="cbo-content">
+      <div class="cbo-title">CBO — Objetivo: Conversões · Purchase</div>
+      <div class="cbo-desc">Orçamento diário total. Meta distribui entre adsets conforme performance. Pixel ID configurado.</div>
+    </div>
+  </div>
+  <div class="cbo-level adset">
+    <div class="cbo-badge">
+      <div class="cb-type">adset 1</div>
+      <div class="cb-val">Broad</div>
+    </div>
+    <div class="cbo-content">
+      <div class="cbo-title">Audiência Ampla — sem interesse</div>
+      <div class="cbo-desc">Brasil · F 25–45 · sem interesses. Deixa o algoritmo achar. Frequentemente vence.</div>
+    </div>
+  </div>
+  <div class="cbo-level adset">
+    <div class="cbo-badge">
+      <div class="cb-type">adset 2</div>
+      <div class="cb-val">Inter.</div>
+    </div>
+    <div class="cbo-content">
+      <div class="cbo-title">Audiência por Interesses</div>
+      <div class="cbo-desc">Renda extra, dinheiro online, freelancer, emprego, ChatGPT. Stacking de interesses relacionados.</div>
+    </div>
+  </div>
+  <div class="cbo-level adset">
+    <div class="cbo-badge">
+      <div class="cb-type">adset 3</div>
+      <div class="cb-val">LAL</div>
+    </div>
+    <div class="cbo-content">
+      <div class="cbo-title">Lookalike 1–3% de compradores</div>
+      <div class="cbo-desc">Só usar após 100+ compras no Pixel. Audiência mais qualificada — converte melhor no longo prazo.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4 — CONFIGURAÇÃO PASSO A PASSO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Configuração no Gerenciador</span></h2>
+<p class="sl-sub on-s">Sequência exata para criar a campanha no Meta Ads Manager.</p>
+<div class="stepflow">
+  <div class="sf-step">
+    <div class="sf-num">1</div>
+    <div class="sf-label">Criar campanha<br>Objetivo: Conversões<br>Evento: Purchase</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">2</div>
+    <div class="sf-label">Orçamento CBO<br>R$100/dia<br>Início: amanhã 00h</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">3</div>
+    <div class="sf-label">Criar 3 adsets<br>Audiências distintas<br>Posições: automáticas</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">4</div>
+    <div class="sf-label">Subir 5 anúncios<br>por adset (15 total)<br>Criativos variados</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">5</div>
+    <div class="sf-label">Revisar e publicar<br>Não mexer em nada<br>por 7 dias</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:12px">
+  <span style="color:#94a3b8"># configurações do adset</span><br>
+  Localização: <span style="color:var(--mod)">Brasil (todas as cidades)</span><br>
+  Gênero: <span style="color:var(--mod)">Mulheres</span> (validar com produto)<br>
+  Idade: <span style="color:var(--mod)">25–45</span><br>
+  Posicionamentos: <span style="color:var(--mod)">Automáticos</span> (deixar Meta decidir)
+</div>
+</div>
+
+<!-- SLIDE 5 — FASE DE APRENDIZADO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Fase de Aprendizado</span></h2>
+<p class="sl-sub on-s">Os primeiros 7 dias são sagrados. Meta está calibrando o algoritmo.</p>
+<div class="stat-row" style="margin:16px 0">
+  <div class="stat-box">
+    <div class="stat-n">7</div>
+    <div class="stat-l">Dias de aprendizado</div>
+    <div class="stat-s">Período mínimo sem mexer. Cada alteração reinicia a fase.</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">50</div>
+    <div class="stat-l">Purchase/semana</div>
+    <div class="stat-s">Meta para sair da aprendizagem. Abaixo = aprendizagem limitada.</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#ef4444">0</div>
+    <div class="stat-l">Alterações na fase</div>
+    <div class="stat-s">Não mudar orçamento, criativo, audiência ou oferta na janela.</div>
+  </div>
+</div>
+<div class="cblock">
+  <span style="color:#94a3b8">✗ Erros que reiniciam a aprendizagem:</span><br>
+  - Alterar orçamento <span style="color:#ef4444">&gt;20%</span> de uma vez<br>
+  - Pausar e religar o adset<br>
+  - Trocar o criativo ou audiência<br>
+  - Mudar o evento de otimização<br><br>
+  <span style="color:#22C55E">✓ Pode fazer: analisar, não tocar</span>
+</div>
+</div>
+
+<!-- SLIDE 6 — CRIATIVO DENTRO DO ANÚNCIO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Configurando o Anúncio</span></h2>
+<p class="sl-sub on-s">Cada criativo HTML vira um anúncio. Configurações que impactam o CPA.</p>
+<div class="feat-grid">
+  <div class="feat-card">
+    <div class="feat-icon">📝</div>
+    <div class="feat-title">Texto principal</div>
+    <div class="feat-label">Caption (hook 3s + body + CTA). Máx 125 chars visíveis antes do "ver mais"</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🔗</div>
+    <div class="feat-title">URL de destino</div>
+    <div class="feat-label">Link da página de vendas (não do checkout diretamente)</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">📢</div>
+    <div class="feat-title">Call to action</div>
+    <div class="feat-label">"Saiba Mais" tende a ter CTR maior que "Comprar Agora" em topo de funil</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🖼️</div>
+    <div class="feat-title">Múltiplos textos</div>
+    <div class="feat-label">Ativar "Vantagem criativa dinâmica" — Meta combina textos e imagens automaticamente</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 7 — ORÇAMENTO INICIAL REALISTA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Orçamento Inicial Realista</span></h2>
+<p class="sl-sub on-s">Com R$27 de front-end, calcular o CPA máximo sustentável.</p>
+<div class="cblock" style="margin:14px 0">
+  <span style="color:#94a3b8">/* cálculo de CPA máximo */</span><br>
+  Ticket médio (com OB + U1 + U2):<br>
+  R$27 × 100% + R$17 × 35% + R$67 × 20% + R$197 × 8%<br>
+  = R$27 + R$5.95 + R$13.40 + R$15.76<br>
+  = <span style="color:#22C55E">R$62.11 ticket médio real</span><br><br>
+  Margem: 60–70% (produto digital)<br>
+  CPA máximo: <span style="color:var(--mod)">R$62.11 × 0.60 = R$37/compra</span><br>
+  <span style="color:#94a3b8">→ campanha sustentável se CPA ≤ R$37</span>
+</div>
+<p style="font-size:.82rem;color:#94a3b8">
+  <strong style="color:#e2e8f0">Importante:</strong> iniciar com orçamento que gere 2–3 compras/dia (R$75–R$100). Menos que isso, o algoritmo não aprende.
+</p>
+</div>
+
+<!-- SLIDE 8 — PRIMEIROS 3 DIAS -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">O que Esperar nos Primeiros 3 Dias</span></h2>
+<p class="sl-sub on-s">Expectativa correta evita pânico e decisões erradas.</p>
+<div class="funil-cakto" style="display:flex;flex-direction:column;gap:8px;margin:14px 0">
+  <div class="fc-item" style="background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2)">
+    <span class="fc-num" style="color:#ef4444">D1</span>
+    <span class="fc-name">CPM alto, poucos cliques, zero ou 1 compra</span>
+    <span class="fc-price" style="color:#ef4444">normal</span>
+  </div>
+  <div class="fc-item" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)">
+    <span class="fc-num" style="color:#F59E0B">D2</span>
+    <span class="fc-name">CPM estabiliza, CTR aumenta, 1–3 compras</span>
+    <span class="fc-price" style="color:#F59E0B">calibrando</span>
+  </div>
+  <div class="fc-item" style="background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.2)">
+    <span class="fc-num" style="color:#22C55E">D3+</span>
+    <span class="fc-name">Algoritmo identificou audiência, CPA cai</span>
+    <span class="fc-price" style="color:#22C55E">otimizando</span>
+  </div>
+</div>
+<p style="font-size:.82rem;color:#94a3b8;margin-top:8px">
+  <strong style="color:#e2e8f0">Regra dos 3 dias:</strong> só avaliar depois de 3 dias completos de veiculação. Antes disso, o dado é ruído — não decisão.
+</p>
+</div>
+
+<!-- SLIDE 9 — RESUMO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Resumo + Próximo Passo</span></h2>
+<p class="sl-sub on-s">Campanha no ar. Agora aprender a ler os dados.</p>
+<ul class="brows">
+  <li>CBO = Meta distribui orçamento para adsets que convertem</li>
+  <li>Estrutura: 1 campanha · 3 adsets (broad, interesses, lookalike) · 5 criativos cada</li>
+  <li>Fase de aprendizado: 7 dias, zero alterações, meta 50 Purchase/semana</li>
+  <li>CPA máximo = ticket médio real × margem (calcular com OB + upsells)</li>
+  <li>Objetivo correto: Conversões → Purchase (nunca Tráfego)</li>
+  <li>Primeiros 3 dias: dado é ruído — aguardar antes de decidir</li>
+</ul>
+<div class="feat-grid" style="margin-top:16px">
+  <div class="feat-card" style="border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)">
+    <div class="feat-icon">✅</div>
+    <div class="feat-title">Feito agora</div>
+    <div class="feat-label">Campanha CBO ao vivo com 15 criativos</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.08)">
+    <div class="feat-icon">→</div>
+    <div class="feat-title">Próxima aula</div>
+    <div class="feat-label">M6.3 — Lendo métricas: quando pausar e quando escalar</div>
+  </div>
+</div>
+</div>
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

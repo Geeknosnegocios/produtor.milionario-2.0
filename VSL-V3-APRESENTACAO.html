@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VSL Produtor Milionário 2.0 — Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080F;
+  --bg2:#0A0F1E;
+  --blue:#3B82F6;
+  --blue-light:#60A5FA;
+  --blue-glow:rgba(59,130,246,.35);
+  --green:#22C55E;
+  --red:#EF4444;
+  --yellow:#FACC15;
+  --white:#FFFFFF;
+  --gray:#94A3B8;
+  --gray-dark:#475569;
+  --border:rgba(59,130,246,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow:hidden}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 50% 0%,rgba(59,130,246,.18),transparent 60%),
+    radial-gradient(ellipse 600px 500px at 80% 100%,rgba(59,130,246,.10),transparent 60%);
+  z-index:0;pointer-events:none;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(59,130,246,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,130,246,.05) 1px,transparent 1px);
+  background-size:60px 60px;
+  z-index:0;pointer-events:none;mask:radial-gradient(ellipse at center,black 30%,transparent 80%);
+}
+.slide{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .55s ease,visibility .55s;
+  padding:6vmin;z-index:1;
+}
+.slide.active{opacity:1;visibility:visible}
+.slide.active .anim{animation:rise .9s cubic-bezier(.22,.9,.3,1) both}
+.slide.active .anim:nth-child(2){animation-delay:.12s}
+.slide.active .anim:nth-child(3){animation-delay:.24s}
+.slide.active .anim:nth-child(4){animation-delay:.36s}
+.slide.active .anim:nth-child(5){animation-delay:.48s}
+.slide.active .anim:nth-child(6){animation-delay:.60s}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+.cw{max-width:1560px;width:100%;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 18px;border-radius:999px;
+  background:rgba(59,130,246,.10);border:1px solid var(--border);
+  font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-light);
+  margin-bottom:32px;
+}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+.eyebrow .dot.red{background:var(--red)}
+
+h1{font-size:clamp(40px,7vw,128px);font-weight:900;line-height:.95;letter-spacing:-.03em;text-wrap:balance}
+h1 .accent{background:linear-gradient(135deg,var(--blue-light) 0%,var(--blue) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .white{color:var(--white)}
+
+h2{font-size:clamp(28px,4.2vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+h3{font-size:clamp(20px,2.4vw,40px);font-weight:700;color:var(--gray);margin-top:24px;text-wrap:balance}
+
+.kicker{font:700 12px/1 'JetBrains Mono',monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--blue-light);margin-bottom:24px}
+
+.huge{font-size:clamp(80px,18vw,320px);font-weight:900;line-height:.9;letter-spacing:-.04em;
+  background:linear-gradient(135deg,var(--blue-light),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 80px var(--blue-glow);
+}
+
+.sub{font-size:clamp(16px,1.8vw,28px);color:var(--gray);line-height:1.5;max-width:1100px;margin:32px auto 0;text-wrap:balance}
+.sub strong{color:var(--white);font-weight:700}
+
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:48px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:48px;text-align:left}
+
+.fase{
+  background:linear-gradient(180deg,rgba(59,130,246,.08),rgba(59,130,246,.02));
+  border:1px solid var(--border);border-radius:18px;padding:28px 20px;
+  transition:transform .3s,border-color .3s;
+}
+.fase .num{font:900 14px/1 'JetBrains Mono',monospace;color:var(--blue-light);letter-spacing:.2em;margin-bottom:14px}
+.fase .name{font-size:clamp(16px,1.6vw,26px);font-weight:800;color:var(--white);margin-bottom:10px}
+.fase .desc{font-size:clamp(12px,1.1vw,16px);color:var(--gray);line-height:1.45}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;text-align:left;max-width:1280px;margin-left:auto;margin-right:auto}
+.col{padding:36px;border-radius:20px;border:1px solid;background:rgba(0,0,0,.3)}
+.col.bad{border-color:rgba(239,68,68,.30);background:rgba(239,68,68,.04)}
+.col.good{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.05)}
+.col h4{font:800 14px/1 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px}
+.col.bad h4{color:var(--red)}
+.col.good h4{color:var(--green)}
+.col ul{list-style:none}
+.col li{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:clamp(15px,1.4vw,22px);color:var(--white);display:flex;align-items:center;gap:14px}
+.col li:last-child{border:none}
+.col li::before{font-weight:900;width:24px;flex-shrink:0}
+.col.bad li::before{content:'✕';color:var(--red)}
+.col.good li::before{content:'✓';color:var(--green)}
+
+.stack{max-width:900px;margin:48px auto 0;text-align:left}
+.stack-row{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:rgba(59,130,246,.05);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;font-size:clamp(13px,1.3vw,19px)}
+.stack-row .item{display:flex;align-items:center;gap:14px;color:var(--white)}
+.stack-row .item::before{content:'✓';color:var(--green);font-weight:900}
+.stack-row .price{font-family:'JetBrains Mono',monospace;color:var(--gray);font-weight:700}
+.stack-total{display:flex;justify-content:space-between;padding:24px;margin-top:18px;background:rgba(59,130,246,.10);border:1px solid var(--blue);border-radius:14px;font-size:clamp(18px,1.6vw,26px);font-weight:800}
+.stack-total .strike{text-decoration:line-through;color:var(--gray);font-size:.7em;margin-right:14px}
+.stack-total .now{color:var(--blue-light)}
+
+.price-mega{font-size:clamp(80px,16vw,260px);font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--blue-light);text-shadow:0 0 60px var(--blue-glow)}
+.price-mega .strike{display:block;font-size:.28em;color:var(--gray);text-decoration:line-through;font-weight:700;letter-spacing:0;margin-bottom:20px;text-shadow:none}
+.price-mega .small{display:block;font-size:.18em;color:var(--gray);font-weight:600;letter-spacing:0;margin-top:24px;text-shadow:none}
+
+.guarantee-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.guarantee-card{background:linear-gradient(180deg,rgba(59,130,246,.10),rgba(59,130,246,.02));border:1px solid var(--border);border-radius:18px;padding:32px 24px;text-align:left}
+.guarantee-card .num{font:900 48px/1 'JetBrains Mono',monospace;color:var(--blue-light);margin-bottom:16px}
+.guarantee-card .label{font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+.guarantee-card .desc{font-size:clamp(14px,1.3vw,18px);color:var(--white);line-height:1.5;font-weight:600}
+
+.cta-mega{
+  display:inline-flex;flex-direction:column;align-items:center;gap:8px;
+  padding:36px 80px;border-radius:18px;
+  background:linear-gradient(135deg,var(--blue-light) 0%,var(--blue) 100%);
+  font-weight:900;color:var(--white);font-size:clamp(20px,2.6vw,42px);letter-spacing:-.01em;
+  box-shadow:0 0 60px var(--blue-glow),0 0 0 1px rgba(255,255,255,.12) inset;
+  text-transform:uppercase;
+  animation:pulse-cta 2.2s infinite;
+}
+@keyframes pulse-cta{0%,100%{box-shadow:0 0 60px var(--blue-glow),0 0 0 1px rgba(255,255,255,.12) inset}50%{box-shadow:0 0 100px var(--blue-glow),0 0 0 1px rgba(255,255,255,.20) inset}}
+.cta-mega .sub-text{font-size:.4em;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.06em}
+
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px;max-width:1280px;margin-left:auto;margin-right:auto;text-align:left}
+.choice{padding:48px 36px;border-radius:20px;border:1px solid}
+.choice.lose{border-color:rgba(239,68,68,.30);background:rgba(239,68,68,.04)}
+.choice.win{border-color:rgba(34,197,94,.40);background:rgba(34,197,94,.06);box-shadow:0 0 60px rgba(34,197,94,.15)}
+.choice .label{font:800 12px/1 'JetBrains Mono',monospace;letter-spacing:.24em;text-transform:uppercase;margin-bottom:18px}
+.choice.lose .label{color:var(--red)}
+.choice.win .label{color:var(--green)}
+.choice .text{font-size:clamp(18px,2vw,32px);font-weight:700;color:var(--white);line-height:1.3}
+
+.proof-row{display:flex;align-items:center;gap:48px;justify-content:center;margin-top:56px;flex-wrap:wrap}
+.proof-card{background:rgba(59,130,246,.06);border:1px solid var(--border);border-radius:18px;padding:32px 40px;text-align:left;min-width:380px}
+.proof-card .name{font:700 13px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+.proof-card .value{font-size:clamp(36px,5vw,72px);font-weight:900;color:var(--blue-light);text-shadow:0 0 30px var(--blue-glow);line-height:1}
+.proof-card .meta{font-size:clamp(13px,1.2vw,17px);color:var(--white);margin-top:14px;font-weight:600}
+
+.hud{position:fixed;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.04);z-index:50}
+.hud .bar{height:100%;background:linear-gradient(90deg,var(--blue-light),var(--blue));width:0;transition:width .55s ease;box-shadow:0 0 14px var(--blue-glow)}
+.counter{position:fixed;right:24px;top:24px;font:700 12px/1 'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--gray);background:rgba(0,0,0,.6);border:1px solid var(--border);padding:10px 16px;border-radius:999px;z-index:50}
+.counter span{color:var(--white)}
+
+.logo-corner{position:fixed;left:24px;top:24px;font:800 13px/1 'JetBrains Mono',monospace;letter-spacing:.16em;color:var(--gray);text-transform:uppercase;z-index:50}
+.logo-corner b{color:var(--blue-light)}
+
+.tag{display:inline-block;padding:6px 14px;background:rgba(59,130,246,.10);border:1px solid var(--border);border-radius:999px;font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-light);margin-bottom:20px}
+
+@media(max-width:900px){
+  .grid-5{grid-template-columns:repeat(2,1fr)}
+  .compare,.choice-grid,.guarantee-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-corner">PRODUTOR MILIONÁRIO <b>2.0</b></div>
+<div class="counter"><span id="cur">1</span> / 22</div>
+<div class="hud"><div class="bar" id="prog"></div></div>
+
+<!-- 1 · CAPA -->
+<section class="slide active">
+  <div class="cw">
+    <div class="eyebrow anim"><span class="dot"></span> ERA IA · 2026</div>
+    <h1 class="anim"><span class="white">PRODUTO LOWTICKET</span><br><span class="accent">NO AR EM 1 HORA</span></h1>
+    <p class="sub anim">Sem programador. Sem equipe. Sem agência.<br>Um cara. Um notebook. Uma IA chamada <strong>Claude</strong>.</p>
+  </div>
+</section>
+
+<!-- 2 · HOOK NUMERO -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FATURAMENTO LÍQUIDO · 90 DIAS</div>
+    <div class="huge anim">R$ 207.430</div>
+    <p class="sub anim">Te mostro como em <strong>4 minutos</strong>.</p>
+  </div>
+</section>
+
+<!-- 3 · DOR -->
+<section class="slide">
+  <div class="cw">
+    <span class="tag anim">DIAGNÓSTICO</span>
+    <h1 class="anim"><span class="white">Você já tentou</span><br><span class="accent">tudo isso</span></h1>
+    <div class="grid-3 anim" style="max-width:1100px;margin:48px auto 0">
+      <div class="fase"><div class="name">Afiliado</div></div>
+      <div class="fase"><div class="name">Curso de guru</div></div>
+      <div class="fase"><div class="name">Maratona YouTube</div></div>
+    </div>
+    <p class="sub anim">Continua <strong>sem tirar um real</strong> do digital.</p>
+  </div>
+</section>
+
+<!-- 4 · CULPA DO METODO -->
+<section class="slide">
+  <div class="cw">
+    <span class="tag anim">A VERDADE</span>
+    <h1 class="anim"><span class="white">Problema não foi você.</span><br><span class="accent">Foi o método.</span></h1>
+    <p class="sub anim" style="font-size:clamp(20px,2.2vw,36px);color:#fff;margin-top:48px"><strong>Estudar é hobby.</strong> Executar paga conta.</p>
+  </div>
+</section>
+
+<!-- 5 · CLAUDE > CHATGPT -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">A VIRADA QUE NINGUÉM TE CONTOU</div>
+    <h1 class="anim"><span class="white">ChatGPT é o iPhone</span><br><span class="white">da sua mãe.</span></h1>
+    <h2 class="anim" style="margin-top:36px"><span class="accent">Claude</span> é o iPhone do produtor que vende.</h2>
+    <p class="sub anim">Diferença? <strong style="color:var(--blue-light)">R$ 200k em 90 dias.</strong></p>
+  </div>
+</section>
+
+<!-- 6 · 5 FASES -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">A MÁQUINA</div>
+    <h1 class="anim"><span class="white">5 fases.</span> <span class="accent">7 skills.</span> <span class="white">1 hora.</span></h1>
+    <div class="grid-5 anim">
+      <div class="fase"><div class="num">01</div><div class="name">Pesquisa</div><div class="desc">Meta Ads Library · 10 nichos validados</div></div>
+      <div class="fase"><div class="num">02</div><div class="name">Produto</div><div class="desc">PDF · planilha · software</div></div>
+      <div class="fase"><div class="num">03</div><div class="name">Copy</div><div class="desc">Schwartz black · 5 headlines · VSL</div></div>
+      <div class="fase"><div class="num">04</div><div class="name">Página</div><div class="desc">HTML pronto · deploy Vercel</div></div>
+      <div class="fase"><div class="num">05</div><div class="name">Tráfego</div><div class="desc">Kit criativos Meta · congruente</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · FASE 1 -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FASE 01 / 05</div>
+    <h1 class="anim"><span class="accent">Pesquisa</span></h1>
+    <p class="sub anim" style="font-size:clamp(20px,2.2vw,34px);color:#fff;margin-top:48px">Skill lê a <strong>Meta Ads Library</strong> e te entrega <strong>10 nichos validados</strong> com calor real.</p>
+    <h3 class="anim">Você não chuta. Você escolhe.</h3>
+  </div>
+</section>
+
+<!-- 8 · FASE 2 -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FASE 02 / 05</div>
+    <h1 class="anim"><span class="accent">Produto</span></h1>
+    <p class="sub anim" style="font-size:clamp(20px,2.2vw,34px);color:#fff;margin-top:48px">IA monta o entregável.<br>PDF · planilha · software · área de membros.</p>
+    <h3 class="anim">O que o mercado quer, do jeito que ele quer.</h3>
+  </div>
+</section>
+
+<!-- 9 · FASE 3 -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FASE 03 / 05</div>
+    <h1 class="anim"><span class="accent">Copy</span></h1>
+    <div class="grid-3 anim" style="max-width:1200px;margin:48px auto 0;text-align:left">
+      <div class="fase"><div class="name">5 headlines</div><div class="desc">Ego · dor · FOMO · revelação · identidade</div></div>
+      <div class="fase"><div class="name">Value stack</div><div class="desc">Bullets · VSL · captions Meta</div></div>
+      <div class="fase"><div class="name">Schwartz black</div><div class="desc">Resposta direta brasileira</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · FASE 4 -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FASE 04 / 05</div>
+    <h1 class="anim"><span class="accent">Página</span></h1>
+    <p class="sub anim" style="font-size:clamp(20px,2.2vw,34px);color:#fff;margin-top:48px">HTML completo cuspido em <strong>segundos</strong>.<br>10 seções. Animações. Pronta pra Vercel.</p>
+    <h3 class="anim">Da copy ao link funcionando: 5 minutos.</h3>
+  </div>
+</section>
+
+<!-- 11 · FASE 5 -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">FASE 05 / 05</div>
+    <h1 class="anim"><span class="accent">Tráfego</span></h1>
+    <div class="grid-3 anim" style="max-width:1200px;margin:48px auto 0;text-align:left">
+      <div class="fase"><div class="name">VSL 60s</div><div class="desc">3 ângulos diferentes</div></div>
+      <div class="fase"><div class="name">UGC + Carrossel</div><div class="desc">5 slides · 3 variações</div></div>
+      <div class="fase"><div class="name">Estáticas</div><div class="desc">5 criativos · 8 hooks</div></div>
+    </div>
+    <h3 class="anim">Sobe e testa.</h3>
+  </div>
+</section>
+
+<!-- 12 · 1 HORA -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">DA IDEIA AO CHECKOUT</div>
+    <div class="huge anim">1 HORA</div>
+    <p class="sub anim">Não é promessa. <strong>É processo.</strong></p>
+  </div>
+</section>
+
+<!-- 13 · PROVA GRANDE -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">RESULTADO · 90 DIAS</div>
+    <div class="huge anim">R$ 207.430</div>
+    <p class="sub anim">Faturamento <strong>líquido</strong>. Sem agência. Sem programador. Sem funcionário.</p>
+  </div>
+</section>
+
+<!-- 14 · LUCAS -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">CASO REAL · ALUNO</div>
+    <h2 class="anim" style="margin-bottom:48px">Lucas faltava <span class="accent">R$ 800 do aluguel</span>.</h2>
+    <div class="proof-row">
+      <div class="proof-card anim">
+        <div class="name">PDF · 18 PÁGINAS</div>
+        <div class="value">40 min</div>
+        <div class="meta">Tempo de produção com Claude</div>
+      </div>
+      <div class="proof-card anim">
+        <div class="name">FATURAMENTO · 11 DIAS</div>
+        <div class="value">R$ 4.270</div>
+        <div class="meta">Líquido · primeira venda em 3h</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 · RENATA -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">CASO REAL · ALUNA</div>
+    <h2 class="anim" style="margin-bottom:48px">Renata · mãe solo · <span class="accent">demitida em janeiro</span>.</h2>
+    <div class="proof-row">
+      <div class="proof-card anim">
+        <div class="name">PRODUTO · LOW TICKET</div>
+        <div class="value">R$ 27</div>
+        <div class="meta">Order bump R$ 17 · upsell R$ 67</div>
+      </div>
+      <div class="proof-card anim">
+        <div class="name">FATURAMENTO · 7 DIAS</div>
+        <div class="value">R$ 1.840</div>
+        <div class="meta">Primeira semana no ar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · NÃO É vs É -->
+<section class="slide">
+  <div class="cw">
+    <h1 class="anim"><span class="white">Pra deixar</span> <span class="accent">claro:</span></h1>
+    <div class="compare anim">
+      <div class="col bad">
+        <h4>Não é</h4>
+        <ul>
+          <li>Curso de ferramenta</li>
+          <li>Aula de "abrir ChatGPT"</li>
+          <li>Pra quem quer estudar</li>
+          <li>Promessa de ficar rico</li>
+        </ul>
+      </div>
+      <div class="col good">
+        <h4>É</h4>
+        <ul>
+          <li>Método de execução</li>
+          <li>Oferta no ar em 1 hora</li>
+          <li>Pra quem executa</li>
+          <li>Sistema com prova real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 · OFERTA INTRO -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">A FORMAÇÃO COMPLETA</div>
+    <h1 class="anim"><span class="white">Produtor</span> <span class="accent">Milionário 2.0</span></h1>
+    <h2 class="anim" style="margin-top:32px;color:var(--gray);font-weight:600">22 aulas · 6 módulos · 7 skills · 8 bônus</h2>
+  </div>
+</section>
+
+<!-- 18 · VALUE STACK -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">O QUE VOCÊ LEVA</div>
+    <div class="stack anim">
+      <div class="stack-row"><div class="item">Curso completo · 22 aulas em vídeo</div><div class="price">R$ 997</div></div>
+      <div class="stack-row"><div class="item">7 skills Claude · 1 comando pra instalar</div><div class="price">R$ 1.997</div></div>
+      <div class="stack-row"><div class="item">Bônus · Tracking Pixel + GTM + CAPI</div><div class="price">R$ 497</div></div>
+      <div class="stack-row"><div class="item">Bônus · Elementor Pro completo</div><div class="price">R$ 397</div></div>
+      <div class="stack-row"><div class="item">Bônus · Criativos com IA · 17 ângulos</div><div class="price">R$ 497</div></div>
+      <div class="stack-row"><div class="item">Bônus · CapCut do zero ao pro</div><div class="price">R$ 297</div></div>
+      <div class="stack-row"><div class="item">Bônus · 200+ plugins Elementor</div><div class="price">R$ 197</div></div>
+      <div class="stack-row"><div class="item">Bônus · Deep Fake e UGC com IA</div><div class="price">R$ 397</div></div>
+      <div class="stack-row"><div class="item">Bônus · Comunidade fechada vitalícia</div><div class="price">R$ 497</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 · PREÇO MEGA -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">HOJE · ACESSO IMEDIATO</div>
+    <div class="price-mega anim">
+      <span class="strike">R$ 5.773</span>
+      R$ 147
+      <span class="small">ou 12x de R$ 14,87 sem juros</span>
+    </div>
+    <p class="sub anim">Não é desconto. É <strong>posicionamento</strong>.<br>Não preciso que pague caro. Preciso que execute.</p>
+  </div>
+</section>
+
+<!-- 20 · GARANTIA -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">GARANTIA DE RESULTADO · NÃO DE REEMBOLSO</div>
+    <h1 class="anim"><span class="white">3 camadas.</span> <span class="accent">Anti-malandro.</span></h1>
+    <div class="guarantee-grid anim">
+      <div class="guarantee-card">
+        <div class="num">30</div>
+        <div class="label">DIAS · CAMADA 1</div>
+        <div class="desc">Aplicou e não tirou a primeira venda? <br>Mando diagnóstico pessoal do seu projeto.</div>
+      </div>
+      <div class="guarantee-card">
+        <div class="num">60</div>
+        <div class="label">DIAS · CAMADA 2</div>
+        <div class="desc">Executou tudo e não viu resultado? <br>Refaço sua campanha junto com você.</div>
+      </div>
+      <div class="guarantee-card">
+        <div class="num">07</div>
+        <div class="label">DIAS · CDC</div>
+        <div class="desc">Direito do consumidor garantido. <br>Mas não compra pra testar. Compra pra usar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 · 2 ESCOLHAS -->
+<section class="slide">
+  <div class="cw">
+    <h1 class="anim"><span class="white">Você tem</span> <span class="accent">2 escolhas:</span></h1>
+    <div class="choice-grid anim">
+      <div class="choice lose">
+        <div class="label">OPÇÃO A</div>
+        <div class="text">Fecha o vídeo. Volta pro feed. Daqui a 6 meses tá no mesmo lugar.</div>
+      </div>
+      <div class="choice win">
+        <div class="label">OPÇÃO B</div>
+        <div class="text">Clica agora. Em 1 hora tem produto no ar. Em 7 dias tem primeira venda.</div>
+      </div>
+    </div>
+    <h3 class="anim" style="margin-top:40px;color:#fff">Não tem terceira.</h3>
+  </div>
+</section>
+
+<!-- 22 · CTA FINAL -->
+<section class="slide">
+  <div class="cw">
+    <div class="kicker anim">COMEÇA AGORA</div>
+    <h1 class="anim" style="margin-bottom:48px"><span class="white">Te vejo</span><br><span class="accent">do outro lado.</span></h1>
+    <div class="anim">
+      <div class="cta-mega">
+        QUERO MEU PRODUTO EM 1 HORA · R$ 147
+        <span class="sub-text">acesso liberado em 1 minuto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){
+  slides[current].classList.remove('active');
+  current=((n%total)+total)%total;
+  slides[current].classList.add('active');
+  cur.textContent=current+1;
+  prog.style.width=`${((current+1)/total)*100}%`;
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+  else if(e.key==='Home'){go(0)}
+  else if(e.key==='End'){go(total-1)}
+});
+let ts=0;
+document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;
+document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+
+</body>
+</html>

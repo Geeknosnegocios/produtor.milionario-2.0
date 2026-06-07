@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M5.3 — Webhook Supabase · Liberar Acesso | Produtor Milionário 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+:root{--mod:#3B82F6;--mod2:#06B6D4;--modglow:rgba(59,130,246,.18);}
+.brand-bar{background:linear-gradient(135deg,#3B82F6 0%,#06B6D4 100%);}
+.flow-arrow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:16px 0;}
+.flow-box{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:10px;padding:10px 14px;text-align:center;min-width:110px;}
+.flow-box .fb-top{font-size:.7rem;color:var(--mod2);font-weight:600;font-family:'JetBrains Mono',monospace;margin-bottom:3px;}
+.flow-box .fb-label{font-size:.82rem;font-weight:700;color:#e2e8f0;}
+.flow-sep{font-size:1.2rem;color:var(--mod);padding:0 6px;font-weight:700;}
+.flow-box.ok{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08);}
+.flow-box.ok .fb-top{color:#22C55E;}
+.event-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;}
+.ev-card{border-radius:8px;padding:10px 12px;}
+.ev-card.green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);}
+.ev-card.red{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.ev-type{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;margin-bottom:4px;}
+.ev-type.g{color:#22C55E;}
+.ev-type.r{color:#ef4444;}
+.ev-desc{font-size:.8rem;color:#94a3b8;}
+.env-row{display:flex;flex-direction:column;gap:6px;margin:10px 0;}
+.env-item{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:6px;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#94a3b8;}
+.env-item .ek{color:var(--mod2);}
+</style>
+</head>
+<body>
+<div class="progbar"><div class="prog" id="prog"></div></div>
+<div class="brand-bar">
+  <span class="mod-badge">M5 · Técnico</span>
+  <span class="lesson-title">Aula 5.3 — Webhook Supabase · Liberar Acesso</span>
+  <span class="mod-badge" style="margin-left:auto">Produtor Milionário 2.0</span>
+</div>
+
+<!-- SLIDE 1 — CAPA -->
+<div class="slide active">
+<div class="capa-row">
+  <div class="capa-hero">
+    <div class="capa-mod a1">MÓDULO 5 — TÉCNICO</div>
+    <h1 class="capa-h a2">Webhook<br><span style="color:var(--mod)">Supabase</span></h1>
+    <p class="capa-sub a3">Aluno compra → acesso liberado automaticamente. Zero intervenção manual.</p>
+    <div class="feat-grid a4" style="margin-top:20px">
+      <div class="feat-card"><div class="feat-icon">🔔</div><div class="feat-label">Notificação de venda</div></div>
+      <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-label">Edge Function Supabase</div></div>
+      <div class="feat-card"><div class="feat-icon">🗄️</div><div class="feat-label">Tabela enrollments</div></div>
+      <div class="feat-card"><div class="feat-icon">🔄</div><div class="feat-label">Revoga em reembolso</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 2 — O QUE É UM WEBHOOK -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">O que é um Webhook</span></h2>
+<p class="sl-sub on-s">Chamada HTTP automática que a plataforma de pagamento dispara quando algo acontece.</p>
+<div class="flow-arrow">
+  <div class="flow-box">
+    <div class="fb-top">EVENTO</div>
+    <div class="fb-label">Aluno compra</div>
+  </div>
+  <span class="flow-sep">→</span>
+  <div class="flow-box">
+    <div class="fb-top">CAKTO</div>
+    <div class="fb-label">POST request</div>
+  </div>
+  <span class="flow-sep">→</span>
+  <div class="flow-box">
+    <div class="fb-top">EDGE FUNCTION</div>
+    <div class="fb-label">Supabase processa</div>
+  </div>
+  <span class="flow-sep">→</span>
+  <div class="flow-box ok">
+    <div class="fb-top">RESULTADO</div>
+    <div class="fb-label">Acesso liberado</div>
+  </div>
+</div>
+<div class="vsbox" style="margin:12px 0">
+  <div class="vs-col vs-before">
+    <div class="vs-label">SEM WEBHOOK</div>
+    <ul class="brows">
+      <li>Aluno compra → espera email</li>
+      <li>Você recebe aviso → libera manualmente</li>
+      <li>Demora horas · erro humano</li>
+      <li>Você acorda às 3h pra liberar</li>
+    </ul>
+  </div>
+  <div class="vs-col vs-after">
+    <div class="vs-label">COM WEBHOOK</div>
+    <ul class="brows">
+      <li>Aluno compra → acesso em segundos</li>
+      <li>Zero intervenção manual</li>
+      <li>Funciona 24/7 dormindo</li>
+      <li>Reembolso → acesso revogado automático</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 3 — EVENTOS QUE PRECISAM SER TRATADOS -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Eventos a Tratar</span></h2>
+<p class="sl-sub on-s">Todo webhook de pagamento tem eventos terminais. Tratar todos ou ter surpresas.</p>
+<div class="event-grid">
+  <div class="ev-card green">
+    <div class="ev-type g">purchase.approved</div>
+    <div class="ev-desc">Pagamento aprovado → INSERT na tabela enrollments, libera acesso</div>
+  </div>
+  <div class="ev-card green">
+    <div class="ev-type g">subscription.renewed</div>
+    <div class="ev-desc">Renovação aprovada → UPDATE expires_at, mantém acesso ativo</div>
+  </div>
+  <div class="ev-card red">
+    <div class="ev-type r">purchase.refunded</div>
+    <div class="ev-desc">Reembolso → UPDATE plan_status = 'cancelled', revoga acesso</div>
+  </div>
+  <div class="ev-card red">
+    <div class="ev-type r">subscription.cancelled</div>
+    <div class="ev-desc">Cancelamento → UPDATE plan_status = 'cancelled'</div>
+  </div>
+  <div class="ev-card red">
+    <div class="ev-type r">purchase.chargeback</div>
+    <div class="ev-desc">Chargeback → UPDATE + flag especial no perfil</div>
+  </div>
+  <div class="ev-card">
+    <div class="ev-type" style="color:#F59E0B">purchase.abandoned</div>
+    <div class="ev-desc" style="color:#64748b">Carrinho abandonado → email de recuperação (opcional)</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4 — ESTRUTURA DA EDGE FUNCTION -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Estrutura da Edge Function</span></h2>
+<p class="sl-sub on-s">Código mínimo que processa o webhook e libera o acesso.</p>
+<div class="cblock" style="font-size:.78rem;line-height:1.8">
+  <span style="color:#94a3b8">// supabase/functions/cakto-webhook/index.ts</span><br>
+  <span style="color:var(--mod)">Deno.serve</span>(async (req) =&gt; &#123;<br>
+  &nbsp; <span style="color:#94a3b8">// 1. validar assinatura HMAC</span><br>
+  &nbsp; const sig = req.headers.get(<span style="color:#22C55E">'x-cakto-signature'</span>);<br>
+  &nbsp; if (!verifyHmac(sig, secret, body)) return <span style="color:#ef4444">401</span>;<br><br>
+  &nbsp; <span style="color:#94a3b8">// 2. parsear evento</span><br>
+  &nbsp; const &#123; event, data &#125; = await req.json();<br><br>
+  &nbsp; <span style="color:#94a3b8">// 3. tratar por tipo</span><br>
+  &nbsp; if (event === <span style="color:#22C55E">'purchase.approved'</span>) &#123;<br>
+  &nbsp;&nbsp;&nbsp; await supabase.from(<span style="color:#22C55E">'enrollments'</span>).upsert(&#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user_id, course_id, plan_status: <span style="color:#22C55E">'active'</span><br>
+  &nbsp;&nbsp;&nbsp; &#125;);<br>
+  &nbsp; &#125;<br>
+  &#125;);
+</div>
+</div>
+
+<!-- SLIDE 5 — VARIÁVEIS DE AMBIENTE -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Variáveis de Ambiente</span></h2>
+<p class="sl-sub on-s">Segredos que nunca entram no código. Configurados no painel Supabase.</p>
+<div class="env-row">
+  <div class="env-item"><span class="ek">CAKTO_WEBHOOK_SECRET</span> = seu_hash_secreto_gerado</div>
+  <div class="env-item"><span class="ek">SUPABASE_URL</span> = https://[ref].supabase.co</div>
+  <div class="env-item"><span class="ek">SUPABASE_SERVICE_ROLE_KEY</span> = eyJ...chave_de_servico</div>
+  <div class="env-item"><span class="ek">COURSE_ID</span> = uuid-do-seu-curso-na-tabela</div>
+</div>
+<div class="cblock">
+  <span style="color:#94a3b8"># configurar no Supabase CLI</span><br>
+  supabase secrets set CAKTO_WEBHOOK_SECRET=<span style="color:var(--mod)">abc123...</span><br>
+  supabase secrets set COURSE_ID=<span style="color:var(--mod)">6de5fdcd-a0d3-...</span><br><br>
+  <span style="color:#94a3b8"># deploy da função</span><br>
+  <span style="color:#22C55E">supabase functions deploy cakto-webhook --project-ref [ref]</span>
+</div>
+</div>
+
+<!-- SLIDE 6 — TABELA ENROLLMENTS -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Tabela Enrollments</span></h2>
+<p class="sl-sub on-s">Schema mínimo para controle de acesso.</p>
+<div class="cblock" style="font-size:.8rem;line-height:1.9">
+  <span style="color:#94a3b8">-- migration SQL</span><br>
+  CREATE TABLE <span style="color:var(--mod)">enrollments</span> (<br>
+  &nbsp; id UUID PRIMARY KEY DEFAULT gen_random_uuid(),<br>
+  &nbsp; user_id UUID REFERENCES <span style="color:#22C55E">profiles(id)</span>,<br>
+  &nbsp; course_id UUID NOT NULL,<br>
+  &nbsp; plan_status TEXT DEFAULT <span style="color:#22C55E">'active'</span>,<br>
+  &nbsp; plan_type TEXT, <span style="color:#64748b">-- 'one_time', 'monthly'</span><br>
+  &nbsp; expires_at TIMESTAMPTZ,<br>
+  &nbsp; external_id TEXT UNIQUE, <span style="color:#64748b">-- ID da transação</span><br>
+  &nbsp; created_at TIMESTAMPTZ DEFAULT NOW()<br>
+  );
+</div>
+<p style="font-size:.82rem;color:#94a3b8;margin-top:8px">
+  <strong style="color:#e2e8f0">Deduplicação:</strong> <code style="color:var(--mod2)">external_id UNIQUE</code> previne liberar acesso duas vezes para o mesmo pagamento — bug crítico que pode custar dinheiro em reembolsos fraudulentos.
+</p>
+</div>
+
+<!-- SLIDE 7 — REGISTRAR NO CAKTO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Registrar Webhook no Cakto</span></h2>
+<p class="sl-sub on-s">Conectar a URL da Edge Function ao painel Cakto.</p>
+<div class="stepflow">
+  <div class="sf-step">
+    <div class="sf-num">1</div>
+    <div class="sf-label">Copiar URL da função<br><span style="font-family:monospace;font-size:.7rem;color:#94a3b8">https://[ref].supabase.co/functions/v1/cakto-webhook</span></div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">2</div>
+    <div class="sf-label">Ir em Cakto → Produto → Webhooks</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">3</div>
+    <div class="sf-label">Colar URL + selecionar eventos</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">4</div>
+    <div class="sf-label">Copiar secret gerado → salvar no Supabase</div>
+  </div>
+  <div class="sf-step">
+    <div class="sf-num">5</div>
+    <div class="sf-label">Disparar evento de teste → verificar log</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:12px">
+  <span style="color:#94a3b8"># verificar logs da função</span><br>
+  supabase functions logs cakto-webhook --project-ref [ref]<br>
+  <span style="color:#22C55E">→ status 200 = sucesso · qualquer 4xx/5xx = investigar</span>
+</div>
+</div>
+
+<!-- SLIDE 8 — PADRÕES DE SEGURANÇA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Segurança do Webhook</span></h2>
+<p class="sl-sub on-s">Sem validação de assinatura, qualquer pessoa pode liberar acesso fake.</p>
+<div class="feat-grid">
+  <div class="feat-card" style="border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08)">
+    <div class="feat-icon">⚠️</div>
+    <div class="feat-title">Sem assinatura</div>
+    <div class="feat-label">Qualquer pessoa POST na URL = acesso liberado. Nunca fazer isso.</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)">
+    <div class="feat-icon">🔐</div>
+    <div class="feat-title">HMAC-SHA256</div>
+    <div class="feat-label">Validar assinatura do header antes de processar qualquer evento</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🔑</div>
+    <div class="feat-title">Service Role Key</div>
+    <div class="feat-label">Usar chave de serviço (bypass RLS) apenas dentro da Edge Function — nunca no frontend</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">📝</div>
+    <div class="feat-title">Log de eventos</div>
+    <div class="feat-label">Salvar cada evento recebido em tabela de log para auditoria futura</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 9 — RESUMO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Resumo + Próximo Passo</span></h2>
+<p class="sl-sub on-s">Acesso automático. Reembolso automático. Negócio que funciona dormindo.</p>
+<ul class="brows">
+  <li>Webhook = Cakto chama sua Edge Function quando algo acontece</li>
+  <li>Tratar: approved, renewed, refunded, cancelled, chargeback</li>
+  <li>Edge Function Supabase: valida assinatura → processa evento → atualiza DB</li>
+  <li>Tabela enrollments: user_id + course_id + plan_status + external_id UNIQUE</li>
+  <li>HMAC-SHA256: validar assinatura antes de qualquer INSERT/UPDATE</li>
+  <li>Service Role Key: NUNCA expor no frontend — só na Edge Function</li>
+  <li>Deploy: <code>supabase functions deploy</code> + registrar URL no Cakto</li>
+</ul>
+<div class="feat-grid" style="margin-top:16px">
+  <div class="feat-card" style="border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.1)">
+    <div class="feat-icon">✅</div>
+    <div class="feat-title">Feito agora</div>
+    <div class="feat-label">Webhook ao vivo — acesso liberado em segundos</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.08)">
+    <div class="feat-icon">→</div>
+    <div class="feat-title">Próxima aula</div>
+    <div class="feat-label">M5.4 — Pixel Meta + GTM: rastrear eventos corretos</div>
+  </div>
+</div>
+</div>
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

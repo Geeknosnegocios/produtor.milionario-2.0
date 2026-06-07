@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M6.4 — Escala Vertical · R$100 → R$1.000/dia · FINAL | Produtor Milionário 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+:root{--mod:#22C55E;--mod2:#06B6D4;--modglow:rgba(34,197,94,.18);}
+.brand-bar{background:linear-gradient(135deg,#22C55E 0%,#06B6D4 100%);}
+.scale-ladder{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.sl-row{display:flex;align-items:center;gap:12px;}
+.sl-week{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#64748b;min-width:50px;font-weight:600;}
+.sl-bar{height:8px;border-radius:4px;background:linear-gradient(135deg,#22C55E,#06B6D4);}
+.sl-budget{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:#e2e8f0;min-width:80px;}
+.sl-note{font-size:.75rem;color:#94a3b8;flex:1;}
+.maquina-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.mq-card{border-radius:12px;padding:14px;text-align:center;}
+.mq-card.pesquisa{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);}
+.mq-card.producao{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.mq-card.trafego{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);}
+.mq-icon{font-size:1.6rem;margin-bottom:6px;}
+.mq-label{font-size:.82rem;font-weight:700;color:#e2e8f0;margin-bottom:4px;}
+.mq-tools{font-size:.72rem;color:#64748b;line-height:1.6;}
+.numbers-final{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;}
+.nf-card{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:14px;text-align:center;}
+.nf-val{font-size:1.6rem;font-weight:900;color:#22C55E;font-family:'JetBrains Mono',monospace;}
+.nf-label{font-size:.75rem;color:#94a3b8;margin-top:4px;}
+.modo-operador{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+.mo-card{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:14px;}
+.mo-title{font-size:.85rem;font-weight:700;color:#e2e8f0;margin-bottom:6px;}
+.mo-tasks{font-size:.78rem;color:#94a3b8;line-height:1.7;}
+.mo-freq{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--mod);margin-top:4px;}
+.final-seal{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(6,182,212,.08));border:2px solid rgba(34,197,94,.3);border-radius:16px;padding:20px;text-align:center;margin:20px 0;}
+.fs-title{font-size:1.1rem;font-weight:900;color:#22C55E;margin-bottom:6px;}
+.fs-sub{font-size:.82rem;color:#94a3b8;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="progbar"><div class="prog" id="prog"></div></div>
+<div class="brand-bar">
+  <span class="mod-badge">M6 · Tráfego</span>
+  <span class="lesson-title">Aula 6.4 — Escala Vertical · R$100 → R$1.000/dia · FINAL</span>
+  <span class="mod-badge" style="margin-left:auto">Produtor Milionário 2.0</span>
+</div>
+
+<!-- SLIDE 1 — CAPA FINAL -->
+<div class="slide active">
+<div class="capa-row">
+  <div class="capa-hero">
+    <div class="capa-mod a1">MÓDULO 6 — AULA FINAL</div>
+    <h1 class="capa-h a2">Escala<br><span style="color:var(--mod)">R$100 → R$1k/dia</span></h1>
+    <p class="capa-sub a3">Como escalar um criativo vencedor. A máquina completa. O que vem depois.</p>
+    <div class="feat-grid a4" style="margin-top:20px">
+      <div class="feat-card"><div class="feat-icon">📈</div><div class="feat-label">Escala vertical 20%</div></div>
+      <div class="feat-card"><div class="feat-icon">↔️</div><div class="feat-label">Escala horizontal</div></div>
+      <div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-label">Máquina completa</div></div>
+      <div class="feat-card"><div class="feat-icon">🏁</div><div class="feat-label">Próximos passos</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 2 — VERTICAL VS HORIZONTAL -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Escala Vertical vs Horizontal</span></h2>
+<p class="sl-sub on-s">Duas estratégias. Usar as duas em momentos diferentes.</p>
+<div class="vsbox" style="margin:16px 0">
+  <div class="vs-col vs-before" style="border-color:rgba(59,130,246,.3)">
+    <div class="vs-label" style="color:#3B82F6">VERTICAL</div>
+    <ul class="brows">
+      <li>Aumentar orçamento do mesmo adset</li>
+      <li>Aumento máximo: 20% a cada 3 dias</li>
+      <li>Respeita a fase de aprendizado</li>
+      <li>Mais simples — menos gestão</li>
+      <li>Risco: criativo cansa mais rápido</li>
+    </ul>
+  </div>
+  <div class="vs-col vs-after">
+    <div class="vs-label">HORIZONTAL</div>
+    <ul class="brows">
+      <li>Duplicar adset vencedor com mesmo orçamento</li>
+      <li>Audiências diferentes por duplicata</li>
+      <li>Mais escalável no longo prazo</li>
+      <li>Sustenta a máquina em vários mercados</li>
+      <li>Risco: audiência pode sobrepor</li>
+    </ul>
+  </div>
+</div>
+<p style="font-size:.82rem;color:#94a3b8;text-align:center">Estratégia ideal: vertical até R$300/dia → duplicação horizontal para múltiplas audiências</p>
+</div>
+
+<!-- SLIDE 3 — ESCADA DE ESCALA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Escada de Escala Semana a Semana</span></h2>
+<p class="sl-sub on-s">Regra dos 20%: nunca aumentar mais de 20% o orçamento sem aguardar 3 dias.</p>
+<div class="scale-ladder">
+  <div class="sl-row">
+    <span class="sl-week">Sem 1</span>
+    <div class="sl-bar" style="width:10%"></div>
+    <span class="sl-budget">R$100/dia</span>
+    <span class="sl-note">Validar CPA. Não tocar nada.</span>
+  </div>
+  <div class="sl-row">
+    <span class="sl-week">Sem 2</span>
+    <div class="sl-bar" style="width:15%"></div>
+    <span class="sl-budget">R$120/dia</span>
+    <span class="sl-note">CPA ok → +20%. Aguardar 3 dias.</span>
+  </div>
+  <div class="sl-row">
+    <span class="sl-week">Sem 3</span>
+    <div class="sl-bar" style="width:22%"></div>
+    <span class="sl-budget">R$200/dia</span>
+    <span class="sl-note">Duplicar adset + escalar vertical.</span>
+  </div>
+  <div class="sl-row">
+    <span class="sl-week">Sem 4-5</span>
+    <div class="sl-bar" style="width:35%"></div>
+    <span class="sl-budget">R$400/dia</span>
+    <span class="sl-note">2 adsets ativos. Novos criativos para cada.</span>
+  </div>
+  <div class="sl-row">
+    <span class="sl-week">Sem 6-8</span>
+    <div class="sl-bar" style="width:60%"></div>
+    <span class="sl-budget">R$700/dia</span>
+    <span class="sl-note">3 adsets. Lookalike 1% entrando.</span>
+  </div>
+  <div class="sl-row">
+    <span class="sl-week">Mês 3</span>
+    <div class="sl-bar" style="width:100%"></div>
+    <span class="sl-budget">R$1.000/dia</span>
+    <span class="sl-note">🎯 Meta. Múltiplos adsets. Criativos rotativos.</span>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4 — OPERADOR DE TRÁFEGO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Modo Operador — Rotina Semanal</span></h2>
+<p class="sl-sub on-s">R$1.000/dia requer no máximo 2–3 horas de gestão por semana.</p>
+<div class="modo-operador">
+  <div class="mo-card">
+    <div class="mo-title">📊 Segunda (análise)</div>
+    <div class="mo-tasks">
+      Ver resultados da semana<br>
+      CPA por criativo e adset<br>
+      Pausar o que não converteu<br>
+      Decidir se escala ou mantém
+    </div>
+    <div class="mo-freq">1×/semana · ~45min</div>
+  </div>
+  <div class="mo-card">
+    <div class="mo-title">🎬 Quarta (produção)</div>
+    <div class="mo-tasks">
+      Gerar 5 criativos novos com /criativo-ad<br>
+      Tirar screenshot com Puppeteer<br>
+      Subir no Ads Manager<br>
+      Substituir criativos com fadiga
+    </div>
+    <div class="mo-freq">1×/semana · ~60min</div>
+  </div>
+  <div class="mo-card">
+    <div class="mo-title">📈 Sexta (escala)</div>
+    <div class="mo-tasks">
+      Aplicar +20% nos vencedores<br>
+      Verificar frequência geral<br>
+      Checar Pixel funcionando<br>
+      Planejar teste da semana seguinte
+    </div>
+    <div class="mo-freq">1×/semana · ~30min</div>
+  </div>
+  <div class="mo-card">
+    <div class="mo-title">🔧 Manutenção contínua</div>
+    <div class="mo-tasks">
+      Webhook OK (sem erro no log)<br>
+      Cakto: sem chargeback surpresa<br>
+      Pixel: compras chegando<br>
+      Estoque de criativos ≥5 na fila
+    </div>
+    <div class="mo-freq">Check rápido diário · 5min</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 5 — A MÁQUINA COMPLETA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">A Máquina Completa</span></h2>
+<p class="sl-sub on-s">Tudo que você construiu neste curso. Funciona 24/7 sem você.</p>
+<div class="maquina-grid">
+  <div class="mq-card pesquisa">
+    <div class="mq-icon">🔍</div>
+    <div class="mq-label">PESQUISA</div>
+    <div class="mq-tools">/pesquisar-nicho<br>Meta Ads Library<br>SearchAPI<br>Validação de demanda</div>
+  </div>
+  <div class="mq-card producao">
+    <div class="mq-icon">⚙️</div>
+    <div class="mq-label">PRODUÇÃO</div>
+    <div class="mq-tools">/criar-lowticket<br>/AGENTE-COPY<br>/AGENTE-PAGINA<br>Briefing → HTML</div>
+  </div>
+  <div class="mq-card trafego">
+    <div class="mq-icon">📈</div>
+    <div class="mq-label">TRÁFEGO</div>
+    <div class="mq-tools">/criativo-ad<br>CBO Meta Ads<br>Pixel + CAPI<br>Escala 20%/semana</div>
+  </div>
+</div>
+<div style="display:flex;gap:10px;margin-top:10px">
+  <div style="flex:1;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:12px;text-align:center">
+    <div style="font-size:.7rem;color:#3B82F6;font-family:monospace;margin-bottom:4px">ENTREGA</div>
+    <div style="font-size:.82rem;color:#e2e8f0">Webhook Supabase</div>
+    <div style="font-size:.72rem;color:#64748b">Acesso liberado automático</div>
+  </div>
+  <div style="flex:1;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:10px;padding:12px;text-align:center">
+    <div style="font-size:.7rem;color:#F59E0B;font-family:monospace;margin-bottom:4px">MONETIZAÇÃO</div>
+    <div style="font-size:.82rem;color:#e2e8f0">Cakto — 9 produtos</div>
+    <div style="font-size:.72rem;color:#64748b">Front + OB + 2 Upsells</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 6 — NÚMEROS QUE FAZEM SENTIDO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Os Números da Máquina</span></h2>
+<p class="sl-sub on-s">Com R$1.000/dia de orçamento e funil otimizado.</p>
+<div class="numbers-final">
+  <div class="nf-card">
+    <div class="nf-val">R$1k</div>
+    <div class="nf-label">Gasto diário</div>
+  </div>
+  <div class="nf-card">
+    <div class="nf-val">~27</div>
+    <div class="nf-label">Compras/dia (CPA R$37)</div>
+  </div>
+  <div class="nf-card">
+    <div class="nf-val">R$62</div>
+    <div class="nf-label">Ticket médio real (com funil)</div>
+  </div>
+  <div class="nf-card">
+    <div class="nf-val">R$674</div>
+    <div class="nf-label">Lucro líquido diário (~40%)</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:8px">
+  <span style="color:#94a3b8">/* projeção mensal */</span><br>
+  Receita bruta: R$1.674 × 30 = <span style="color:#22C55E">R$50.220/mês</span><br>
+  Gasto tráfego: R$1.000 × 30 = R$30.000<br>
+  Lucro líquido estimado: <span style="color:#22C55E">R$20.220/mês</span><br>
+  <span style="color:#64748b">→ margem 40% · escalável com mais produtos</span>
+</div>
+</div>
+
+<!-- SLIDE 7 — PRÓXIMOS PASSOS -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">O que Vem Depois</span></h2>
+<p class="sl-sub on-s">A máquina está rodando. Onde investir a energia agora.</p>
+<div class="feat-grid">
+  <div class="feat-card">
+    <div class="feat-icon">📦</div>
+    <div class="feat-title">2º produto</div>
+    <div class="feat-label">Mesmo tráfego, nova oferta. Aumentar LTV sem aumentar CAC.</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">📧</div>
+    <div class="feat-title">Email marketing</div>
+    <div class="feat-label">Capturar lead antes do checkout. Reativar os que não compraram.</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🔁</div>
+    <div class="feat-title">Produto recorrente</div>
+    <div class="feat-label">Substituir one-time por assinatura. Receita previsível e crescente.</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">👥</div>
+    <div class="feat-title">Comunidade</div>
+    <div class="feat-label">Membros retidos viram embaixadores. LTV explode com comunidade ativa.</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:10px">
+  <span style="color:#94a3b8"># ordem de prioridade pós-curso</span><br>
+  1. Validar primeiro produto (CPA dentro da meta)<br>
+  2. Escalar para R$300/dia<br>
+  3. Lançar 2º produto (mesma audiência)<br>
+  4. Construir lista de email dos compradores<br>
+  5. <span style="color:#22C55E">Meta: R$30k/mês até o mês 6</span>
+</div>
+</div>
+
+<!-- SLIDE 8 — RESUMO DO CURSO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Resumo — 6 Módulos, Uma Máquina</span></h2>
+<p class="sl-sub on-s">Tudo que você aprendeu neste curso.</p>
+<ul class="brows">
+  <li><strong style="color:#8B5CF6">M1 — Fundação:</strong> Mindset, setup Claude Code, 3 pilares (validação + velocidade + volume)</li>
+  <li><strong style="color:#8B5CF6">M2 — Pesquisa:</strong> Ads Library como espião, validação de demanda, escolha do produto</li>
+  <li><strong style="color:#06B6D4">M3 — Produto:</strong> Anatomia do funil, /criar-lowticket, esteira de valor, garantia anti-malandro</li>
+  <li><strong style="color:#F59E0B">M4 — Copy:</strong> Schwartz + Claude, /AGENTE-COPY 11 blocos, ataque ao concorrente, copy omnichannel</li>
+  <li><strong style="color:#3B82F6">M5 — Técnico:</strong> /AGENTE-PAGINA, Cakto 9 produtos, webhook Supabase, Pixel + GTM</li>
+  <li><strong style="color:#22C55E">M6 — Tráfego:</strong> 15 criativos com IA, CBO R$100/dia, métricas, escala vertical</li>
+</ul>
+</div>
+
+<!-- SLIDE 9 — SLIDE FINAL -->
+<div class="slide">
+<div class="final-seal" style="margin-top:30px">
+  <div class="fs-title">🎓 Produtor Milionário 2.0 — Concluído</div>
+  <div class="fs-sub">
+    Você tem o sistema. Você tem as ferramentas. Você tem o conhecimento.<br>
+    O único gap entre você e R$30k/mês é a execução.<br><br>
+    <strong style="color:#22C55E">Execute. Meça. Escale. Repita.</strong>
+  </div>
+</div>
+<div class="stat-row" style="margin:16px 0">
+  <div class="stat-box">
+    <div class="stat-n" style="color:#8B5CF6">22</div>
+    <div class="stat-l">Aulas</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#06B6D4">7+</div>
+    <div class="stat-l">Skills ativas</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">∞</div>
+    <div class="stat-l">Produtos possíveis</div>
+  </div>
+</div>
+<div class="cblock" style="text-align:center;padding:16px">
+  <span style="color:#22C55E;font-size:.9rem;font-weight:700">Andrey Freitas · Produtor Milionário 2.0 — Era IA</span><br>
+  <span style="color:#64748b;font-size:.75rem">geekacademy.site · @Geekinteligencia</span>
+</div>
+</div>
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

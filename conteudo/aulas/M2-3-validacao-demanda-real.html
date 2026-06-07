@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M2.3 · Validação de Demanda Real</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vw,28px);position:relative;z-index:2}
+.score-card{border:1.5px solid var(--brd);border-radius:clamp(12px,1.6vw,18px);padding:clamp(14px,2vw,26px);backdrop-filter:blur(6px);display:flex;flex-direction:column;gap:8px}
+.score-card.ok{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.3)}
+.score-card.wn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.3)}
+.score-card.rd{background:rgba(248,113,113,.05);border-color:rgba(248,113,113,.25)}
+.score-card.vl{background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.3)}
+.score-ico{font-size:clamp(1.4rem,2.4vw,2rem)}
+.score-label{font-family:var(--fd);font-size:clamp(.88rem,1.4vw,1.2rem);font-weight:800;color:var(--txt)}
+.score-val{font-family:var(--fm);font-size:clamp(.68rem,.9vw,.8rem);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.score-card.ok .score-val{color:var(--okl)}
+.score-card.wn .score-val{color:var(--wnl)}
+.score-card.rd .score-val{color:var(--rdl)}
+.score-card.vl .score-val{color:var(--vll)}
+.criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);margin-top:clamp(18px,2.4vw,28px);position:relative;z-index:2}
+.criteria-item{background:rgba(12,21,38,.88);border:1.5px solid var(--brd);border-radius:clamp(12px,1.6vw,18px);padding:clamp(14px,2vw,26px);display:flex;gap:clamp(12px,1.6vw,20px);align-items:flex-start;backdrop-filter:blur(6px)}
+.criteria-num{font-family:var(--fm);font-size:clamp(1.4rem,2.8vw,2.4rem);font-weight:700;color:var(--vl);line-height:1;flex-shrink:0;min-width:clamp(32px,4vw,48px)}
+.criteria-title{font-family:var(--fd);font-size:clamp(.95rem,1.5vw,1.3rem);font-weight:800;color:var(--txt);margin-bottom:4px}
+.criteria-body{font-size:clamp(.78rem,1.1vw,.95rem);color:var(--mt);line-height:1.45}
+@media(max-width:980px){.score-grid{grid-template-columns:1fr 1fr}.criteria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="progbar"><div class="progfill" id="prog" style="width:11%"></div></div>
+<div class="brand-bar">
+  <div class="bm" style="background:var(--gviolet)">PM</div>
+  <div class="bt"><strong>Produtor Milionário 2.0</strong><span>Era IA · M2 Aula 3 / 4</span></div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide active">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.12) 0%,transparent 60%)"></div><div class="orb o2"></div></div>
+    <div class="cw">
+      <div class="capa-row">
+        <div class="capa-left">
+          <span class="sec vl a1"><span class="dot"></span>Módulo 2 · Pesquisa de Nicho</span>
+          <h1 class="h1 aB">Validação de<br><span class="hvl">Demanda</span><br>Real.</h1>
+          <div class="acline lb" style="background:var(--gviolet)"></div>
+          <p class="sub a3"><strong>Sem achismo, sem feeling.</strong> Os 4 critérios objetivos que separam um nicho com demanda real de um nicho que vai consumir seu tempo e dinheiro.</p>
+          <div class="capa-tags">
+            <span class="tag tw t1">⏱ 25 min</span>
+            <span class="tag tg t2">📊 critérios</span>
+            <span class="tag t3" style="background:rgba(139,92,246,.14);border:1.5px solid rgba(139,92,246,.38);color:var(--vll)">✓ decisão</span>
+          </div>
+        </div>
+        <div class="capa-hero hi2">
+          <div class="capa-ring1" style="border-color:rgba(139,92,246,.22)"><div style="position:absolute;width:10px;height:10px;background:var(--vl);border-radius:50%;top:-5px;left:50%;transform:translateX(-50%);box-shadow:0 0 18px var(--vl)"></div></div>
+          <div class="capa-ring2"></div>
+          <div class="capa-core" style="background:radial-gradient(circle,rgba(139,92,246,.18) 0%,rgba(139,92,246,.04) 55%,transparent 75%);border-color:rgba(139,92,246,.28)">
+            <svg class="capa-icon" style="color:var(--vl)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <span class="capa-label" style="color:var(--vl)">SCORE</span>
+            <span class="capa-num" style="color:var(--vl)">4</span>
+            <span class="capa-sub">critérios</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Por que validar -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>O problema</span>
+      <h2 class="h3 a2">Por que 80% dos produtos low ticket <span class="hvl">morrem no lançamento</span></h2>
+      <div class="vsbox a3">
+        <div class="col bad">
+          <div class="col-tag">SEM validação</div>
+          <ul class="col-list">
+            <li>Nicho escolhido por feeling ("acho que tem mercado")</li>
+            <li>Produto criado antes de ver se alguém paga</li>
+            <li>Tráfego gasto em público que não converte</li>
+            <li>R$500-2k desperdiçados em 2 semanas de teste</li>
+            <li>Abandona antes de aprender o que funciona</li>
+          </ul>
+        </div>
+        <div class="sep"><span>VS</span></div>
+        <div class="col good">
+          <div class="col-tag">COM validação</div>
+          <ul class="col-list">
+            <li>Nicho escolhido por dados (Ads Library + score)</li>
+            <li>Produto modelado com o que já vende</li>
+            <li>Copy baseada em padrões validados do mercado</li>
+            <li>Primeiros R$ chegam nos primeiros dias</li>
+            <li>Escala porque a base é sólida</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Os 4 critérios -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(139,92,246,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Os critérios</span>
+      <h2 class="h3 a2">Os <span class="hvl">4 critérios</span> de validação objetiva</h2>
+      <div class="criteria-grid a3">
+        <div class="criteria-item">
+          <div class="criteria-num">01</div>
+          <div>
+            <div class="criteria-title">Ads ativos (Volume)</div>
+            <div class="criteria-body">10+ anúncios ativos no Brasil = demanda. 50+ = mercado aquecido. 100+ = 🔥🔥🔥. Menos de 10 = evitar ou oportunidade virgem.</div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">02</div>
+          <div>
+            <div class="criteria-title">Longevidade (Prova)</div>
+            <div class="criteria-body">Anunciante mais antigo rodando há quanto tempo? 3+ meses = prova de que converte. 6+ meses = nicho seguro para entrar.</div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">03</div>
+          <div>
+            <div class="criteria-title">Ângulo Diferenciado (Posição)</div>
+            <div class="criteria-body">Existe um ângulo que ninguém está usando? Lacuna = oportunidade. Todos iguais = entrar com mecanismo único.</div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">04</div>
+          <div>
+            <div class="criteria-title">Sazonalidade (Urgência)</div>
+            <div class="criteria-body">Nicho tem pico? Copa do Mundo, Natal, Verão = janela de oportunidade. Entrar na janela certa multiplica conversão.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Tabela de decisão -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Decisão</span>
+      <h2 class="h3 a2">Tabela de decisão: <span class="hvl">Entrar, Monitorar ou Evitar</span></h2>
+      <div class="score-grid a3">
+        <div class="score-card ok">
+          <div class="score-ico">🔥🔥🔥</div>
+          <div class="score-label">Entrar Agora</div>
+          <div class="score-val">100+ ads · 3+ meses</div>
+          <div style="font-size:clamp(.75rem,1.1vw,.9rem);color:var(--mt)">Mercado validado. Criar produto e subir campanha esta semana.</div>
+        </div>
+        <div class="score-card vl">
+          <div class="score-ico">🔥🔥</div>
+          <div class="score-label">Entrar</div>
+          <div class="score-val">50-100 ads · 1+ mês</div>
+          <div style="font-size:clamp(.75rem,1.1vw,.9rem);color:var(--mt)">Mercado aquecendo. Bom momento para posicionar com ângulo diferente.</div>
+        </div>
+        <div class="score-card wn">
+          <div class="score-ico">🔥</div>
+          <div class="score-label">Monitorar</div>
+          <div class="score-val">10-50 ads · recente</div>
+          <div style="font-size:clamp(.75rem,1.1vw,.9rem);color:var(--mt)">Mercado emergindo. Voltar em 2-4 semanas para reavaliação.</div>
+        </div>
+        <div class="score-card rd">
+          <div class="score-ico">❌</div>
+          <div class="score-label">Evitar</div>
+          <div class="score-val">menos de 10 ads</div>
+          <div style="font-size:clamp(.75rem,1.1vw,.9rem);color:var(--mt)">Sem demanda comprovada. Ou oportunidade virgem (risco alto).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Sinais de mercado aquecido -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(139,92,246,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Sinais positivos</span>
+      <h2 class="h3 a2">Sinais de <span class="hvl">mercado aquecido</span> — o que procurar</h2>
+      <ul class="brows a3">
+        <li class="vl">Vários anunciantes diferentes rodando (não só 1 grande player) = distribuição saudável</li>
+        <li class="vl">Anúncios com muitos comentários e reações visíveis = engajamento real do público</li>
+        <li class="vl">Mesma promessa aparecendo em múltiplos anúncios = público reconhece e quer esse resultado</li>
+        <li class="ok">Novos anunciantes entrando nos últimos 30 dias = nicho crescendo, não saturando</li>
+        <li class="ok">Produtos com preço acima de R$47 sendo vendidos = público disposto a pagar</li>
+        <li class="wn">Anúncio com contador de estoque ou urgência = conversão alta, mercado maduro</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6 · Red flags -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Red flags</span>
+      <h2 class="h3 a2"><span class="hrd">Red flags</span> que eliminam um nicho imediatamente</h2>
+      <ul class="brows a3">
+        <li class="rd">Apenas 1 anunciante dominante há meses = produto proprietário ou barreira de entrada alta</li>
+        <li class="rd">Todos os anúncios recentes (menos de 30 dias) = nicho novo, sem prova de conversão</li>
+        <li class="rd">Nicho fortemente regulado: saúde (curas), jurídico, financeiro (promessas de retorno) = risco Meta/Procon</li>
+        <li class="rd">Público não paga pelo digital: nicho de gratuidade total = dificuldade para monetizar</li>
+        <li class="wn">Promessas impossíveis dominando o feed = mercado saturado de ceticismo, custo alto por lead</li>
+        <li class="wn">Sazonalidade fechada (Copa já terminou, verão passou) = esperar a próxima janela</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7 · Score de nicho -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o2" style="background:radial-gradient(circle,rgba(139,92,246,.08) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Score</span>
+      <h2 class="h3 a2">Calculando o <span class="hvl">score do seu nicho</span></h2>
+      <div class="cblock a3">
+        <div class="cdot"><span></span><span></span><span></span></div>
+        <span class="cmt">// Score de Validação — preencha para o seu nicho</span><br><br>
+        <span class="ckey">Ads ativos BR</span>     : <span class="cstr">___</span>  <span class="cmt">// &gt;100: +3pts | 50-100: +2pts | 10-50: +1pt | &lt;10: 0pt</span><br>
+        <span class="ckey">Mais antigo</span>        : <span class="cstr">___</span>  <span class="cmt">// 6+meses: +3pts | 3-6meses: +2pts | 1-3meses: +1pt</span><br>
+        <span class="ckey">Ângulo único</span>       : <span class="cstr">___</span>  <span class="cmt">// existe lacuna: +2pts | muito igual: +1pt</span><br>
+        <span class="ckey">Sazonalidade</span>       : <span class="cstr">___</span>  <span class="cmt">// janela aberta: +2pts | perpétuo: +1pt | fechada: 0pt</span><br><br>
+        <span class="cmt">// TOTAL:</span><br>
+        <span class="ckey">9-10 pts</span>  : <span class="cstr">🔥🔥🔥 ENTRAR AGORA</span><br>
+        <span class="ckey">6-8 pts</span>   : <span class="cstr">🔥🔥 ENTRAR</span><br>
+        <span class="ckey">3-5 pts</span>   : <span class="cstr">🔥 MONITORAR</span><br>
+        <span class="ckey">0-2 pts</span>   : <span class="cstr">❌ EVITAR</span><br>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · /pesquisar-nicho ao vivo -->
+  <section class="slide">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.10) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Ao vivo</span>
+      <h2 class="h3 a2"><span class="kh" style="background:rgba(139,92,246,.16);border-color:rgba(139,92,246,.32);color:var(--vll)">/pesquisar-nicho</span> — validação automática com IA</h2>
+      <div class="cblock a3">
+        <div class="cdot"><span></span><span></span><span></span></div>
+        <span class="cmt">// No Claude Code, rode:</span><br>
+        <span class="ccmd">/pesquisar-nicho</span> <span class="cstr">emagrecimento 30 dias</span><br><br>
+        <span class="cmt">// O skill faz automaticamente:</span><br>
+        <span class="ckey">1.</span> Busca Meta Ads Library BR (SearchAPI.io)<br>
+        <span class="ckey">2.</span> Conta anúncios ativos + identifica anunciantes<br>
+        <span class="ckey">3.</span> Detecta sazonalidade e janela temporal<br>
+        <span class="ckey">4.</span> Classifica: 🔥🔥🔥 Absurdo / 🔥🔥 Validado / 🔥 Monitorar / ❌ Evitar<br>
+        <span class="ckey">5.</span> Sugere 3 ângulos de produto com hook de 3s<br><br>
+        <span class="cmt">// Output salvo em:</span><br>
+        <span class="cstr">operacoes/lowticket/swipe/pesquisas/[nicho]-[data].md</span>
+      </div>
+      <p class="sub a4">Na próxima aula: com o nicho validado, você aprende a escolher o formato e preço ideal do produto.</p>
+    </div>
+  </section>
+
+  <!-- 9 · CTA -->
+  <section class="slide" id="slide-cta">
+    <div class="bg"><div class="bgrid"></div><div class="orb o1" style="background:radial-gradient(circle,rgba(139,92,246,.12) 0%,transparent 60%)"></div></div>
+    <div class="cw">
+      <span class="sec vl a1"><span class="dot"></span>Próxima aula</span>
+      <h2 class="h2 a2">Nicho validado.<br>Hora de <span class="hvl">escolher o produto</span>.</h2>
+      <div class="acline lb" style="background:var(--gviolet)"></div>
+      <p class="sub a3">Na próxima aula: <strong>Escolhendo Seu Primeiro Produto</strong> — a matriz dor × público × ticket que determina exatamente qual produto criar, em qual formato, a qual preço.</p>
+      <div class="cta-row a4">
+        <button class="ctabtn" id="cta-next" style="background:var(--gviolet);box-shadow:0 0 80px rgba(139,92,246,.5),0 14px 60px rgba(139,92,246,.25)" onclick="alert('Próxima aula: M2.4')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          M2.4 · Escolhendo Seu Primeiro Produto
+        </button>
+        <div class="cta-info a5">
+          <span class="k">Módulo 2 · Aula 3 de 4</span>
+          <span class="v">Pesquisa de Nicho com IA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>

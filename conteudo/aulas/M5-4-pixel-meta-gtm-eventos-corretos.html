@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M5.4 — Pixel Meta + GTM · Eventos Corretos | Produtor Milionário 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_styles.css">
+<style>
+:root{--mod:#3B82F6;--mod2:#06B6D4;--modglow:rgba(59,130,246,.18);}
+.brand-bar{background:linear-gradient(135deg,#3B82F6 0%,#06B6D4 100%);}
+.event-table{width:100%;border-collapse:collapse;margin:14px 0;}
+.event-table th{background:rgba(59,130,246,.15);color:var(--mod2);font-size:.78rem;font-weight:600;padding:8px 10px;text-align:left;font-family:'JetBrains Mono',monospace;}
+.event-table td{padding:7px 10px;font-size:.8rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.event-table td:first-child{font-family:'JetBrains Mono',monospace;color:var(--mod);font-weight:600;}
+.event-table td:last-child{color:#64748b;font-size:.75rem;}
+.event-table tr:hover td{background:rgba(59,130,246,.05);}
+.funnel-events{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.fe-row{display:flex;align-items:center;gap:10px;}
+.fe-page{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:8px 12px;font-size:.8rem;font-weight:600;color:#e2e8f0;min-width:160px;}
+.fe-arrow{color:var(--mod);font-size:1rem;}
+.fe-event{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--mod2);font-weight:600;}
+.fe-value{margin-left:auto;font-size:.75rem;color:#64748b;}
+.test-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+.ts-card{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:12px;}
+.ts-num{font-family:'JetBrains Mono',monospace;color:var(--mod);font-weight:700;margin-bottom:4px;}
+.ts-text{font-size:.82rem;color:#94a3b8;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="progbar"><div class="prog" id="prog"></div></div>
+<div class="brand-bar">
+  <span class="mod-badge">M5 · Técnico</span>
+  <span class="lesson-title">Aula 5.4 — Pixel Meta + GTM · Eventos Corretos</span>
+  <span class="mod-badge" style="margin-left:auto">Produtor Milionário 2.0</span>
+</div>
+
+<!-- SLIDE 1 — CAPA -->
+<div class="slide active">
+<div class="capa-row">
+  <div class="capa-hero">
+    <div class="capa-mod a1">MÓDULO 5 — TÉCNICO</div>
+    <h1 class="capa-h a2">Pixel Meta<br><span style="color:var(--mod)">+ GTM</span></h1>
+    <p class="capa-sub a3">Rastrear cada evento do funil corretamente. O algoritmo aprende quem compra.</p>
+    <div class="feat-grid a4" style="margin-top:20px">
+      <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-label">Pixel + CAPI server-side</div></div>
+      <div class="feat-card"><div class="feat-icon">🏷️</div><div class="feat-label">GTM para tags</div></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-label">Eventos padrão Meta</div></div>
+      <div class="feat-card"><div class="feat-icon">✅</div><div class="feat-label">Teste com Pixel Helper</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 2 — POR QUE O PIXEL IMPORTA -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Por que o Pixel Importa</span></h2>
+<p class="sl-sub on-s">Sem rastreamento correto, o algoritmo Meta não sabe quem converter.</p>
+<div class="vsbox" style="margin:16px 0">
+  <div class="vs-col vs-before">
+    <div class="vs-label">PIXEL ERRADO / AUSENTE</div>
+    <ul class="brows">
+      <li>Algoritmo otimiza para clique, não compra</li>
+      <li>CPL baixo, CPA alto (cliques baratos, vendas caras)</li>
+      <li>Criativo bom parece ruim porque não converte no dados</li>
+      <li>Remarketing sem audiência qualificada</li>
+      <li>Lookalike fraco — baseado em dado errado</li>
+    </ul>
+  </div>
+  <div class="vs-col vs-after">
+    <div class="vs-label">PIXEL CORRETO + CAPI</div>
+    <ul class="brows">
+      <li>Algoritmo aprende perfil de quem compra</li>
+      <li>CPA cai com o tempo (otimização real)</li>
+      <li>Lookalike baseado em compradores reais</li>
+      <li>Remarketing qualificado (visitou PV mas não comprou)</li>
+      <li>Dashboard mostra CPA real por criativo</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 3 — EVENTOS PADRÃO DO FUNIL -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Eventos por Página do Funil</span></h2>
+<p class="sl-sub on-s">Cada página do funil dispara um evento específico. Nunca o mesmo evento em duas páginas.</p>
+<div class="funnel-events">
+  <div class="fe-row">
+    <div class="fe-page">Página de Vendas</div>
+    <span class="fe-arrow">→</span>
+    <span class="fe-event">ViewContent</span>
+    <span class="fe-value">value: 0, currency: BRL</span>
+  </div>
+  <div class="fe-row">
+    <div class="fe-page">Checkout (Cakto)</div>
+    <span class="fe-arrow">→</span>
+    <span class="fe-event">InitiateCheckout</span>
+    <span class="fe-value">value: 27, currency: BRL</span>
+  </div>
+  <div class="fe-row">
+    <div class="fe-page">Obrigado (pós-compra)</div>
+    <span class="fe-arrow">→</span>
+    <span class="fe-event">Purchase</span>
+    <span class="fe-value">value: 27, currency: BRL ✅</span>
+  </div>
+  <div class="fe-row">
+    <div class="fe-page">Upsell #1</div>
+    <span class="fe-arrow">→</span>
+    <span class="fe-event">ViewContent</span>
+    <span class="fe-value">content_name: upsell1</span>
+  </div>
+  <div class="fe-row">
+    <div class="fe-page">Obrigado Upsell</div>
+    <span class="fe-arrow">→</span>
+    <span class="fe-event">Purchase</span>
+    <span class="fe-value">value: 67, currency: BRL</span>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4 — INSTALAR PIXEL NO HTML -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Instalar o Pixel</span></h2>
+<p class="sl-sub on-s">Código padrão no &lt;head&gt; + evento específico no &lt;body&gt;.</p>
+<div class="cblock" style="font-size:.78rem;line-height:1.8">
+  <span style="color:#94a3b8">&lt;!-- Pixel base no &lt;head&gt; --&gt;</span><br>
+  &lt;script&gt;<br>
+  !function(f,b,e,v,n,t,s){<br>
+  &nbsp;&nbsp;<span style="color:#94a3b8">/* código padrão Meta — copiar do Gerenciador */</span><br>
+  }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');<br>
+  fbq('init', '<span style="color:var(--mod)">SEU_PIXEL_ID</span>');<br>
+  fbq('track', 'PageView');<br>
+  &lt;/script&gt;<br><br>
+  <span style="color:#94a3b8">&lt;!-- Evento específico — na página de obrigado --&gt;</span><br>
+  &lt;script&gt;<br>
+  fbq('track', <span style="color:#22C55E">'Purchase'</span>, &#123;<br>
+  &nbsp;&nbsp;value: <span style="color:#F59E0B">27.00</span>,<br>
+  &nbsp;&nbsp;currency: <span style="color:#22C55E">'BRL'</span><br>
+  &#125;);<br>
+  &lt;/script&gt;
+</div>
+</div>
+
+<!-- SLIDE 5 — GTM -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Google Tag Manager</span></h2>
+<p class="sl-sub on-s">GTM centraliza todas as tags. Mudanças sem deploy no HTML.</p>
+<div class="stat-row" style="margin:16px 0">
+  <div class="stat-box">
+    <div class="stat-n" style="font-size:1.1rem">🏷️</div>
+    <div class="stat-l">Tags</div>
+    <div class="stat-s">Scripts que disparam: Pixel, GA4, heatmap, chat</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="font-size:1.1rem">⚡</div>
+    <div class="stat-l">Triggers</div>
+    <div class="stat-s">Quando disparar: pageview, clique em botão, scroll 50%</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="font-size:1.1rem">📦</div>
+    <div class="stat-l">Variables</div>
+    <div class="stat-s">Valores dinâmicos: URL, valor da compra, user_id</div>
+  </div>
+</div>
+<div class="cblock">
+  <span style="color:#94a3b8">&lt;!-- GTM no &lt;head&gt; (substituir UA-XXXXXXXX) --&gt;</span><br>
+  &lt;script&gt;(function(w,d,s,l,i)&#123;w[l]=w[l]||[];w[l].push(&#123;<br>
+  'gtm.start': new Date().getTime(),event:'gtm.js'&#125;);<br>
+  var f=d.getElementsByTagName(s)[0],j=d.createElement(s);<br>
+  j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i;<br>
+  f.parentNode.insertBefore(j,f);&#125;)(window,document,'script',<br>
+  'dataLayer','<span style="color:var(--mod)">GTM-XXXXXXX</span>');&lt;/script&gt;
+</div>
+</div>
+
+<!-- SLIDE 6 — CAPI SERVER-SIDE -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">CAPI — Conversions API</span></h2>
+<p class="sl-sub on-s">Server-side tracking. Sobrevive a bloqueadores de anúncio e iOS14+.</p>
+<div class="feat-grid">
+  <div class="feat-card">
+    <div class="feat-icon">📱</div>
+    <div class="feat-title">iOS 14+ problem</div>
+    <div class="feat-label">Apple bloqueia Pixel no browser → CAPI envia direto do servidor</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🚫</div>
+    <div class="feat-title">Ad blockers</div>
+    <div class="feat-label">30% dos usuários bloqueiam JS → CAPI cobre essa perda</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🔄</div>
+    <div class="feat-title">Redundância</div>
+    <div class="feat-label">Pixel browser + CAPI server = match rate 70%+ (ótimo para algoritmo)</div>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon">🔗</div>
+    <div class="feat-title">Integração Cakto</div>
+    <div class="feat-label">Cakto tem integração nativa CAPI — ativar nas configurações do produto</div>
+  </div>
+</div>
+<div class="cblock" style="margin-top:12px">
+  <span style="color:#94a3b8"># Cakto → Produto → Integrações → Meta CAPI</span><br>
+  Pixel ID: <span style="color:var(--mod)">SEU_PIXEL_ID</span><br>
+  Access Token: <span style="color:var(--mod)">EAAxxxx... (gerar no Events Manager)</span><br>
+  Test Event Code: <span style="color:#F59E0B">TEST12345 (apenas para testes)</span>
+</div>
+</div>
+
+<!-- SLIDE 7 — TESTAR -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Testando o Rastreamento</span></h2>
+<p class="sl-sub on-s">Confirmar que cada evento chega correto antes de ligar tráfego pago.</p>
+<div class="test-steps">
+  <div class="ts-card">
+    <div class="ts-num">1</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Instalar Meta Pixel Helper</strong><br>Extensão Chrome que mostra eventos disparando em tempo real</div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-num">2</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Abrir página de vendas</strong><br>Verificar ViewContent verde no Pixel Helper</div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-num">3</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Fazer compra teste</strong><br>Página obrigado → Purchase com value correto</div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-num">4</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Events Manager Meta</strong><br>Confirmar Purchase chegando com value e currency</div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-num">5</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Configurar evento otimização</strong><br>Campanha → Objetivo "Conversão" → Evento "Purchase"</div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-num">6</div>
+    <div class="ts-text"><strong style="color:#e2e8f0">Aguardar 50 eventos</strong><br>Meta precisa de 50 Purchase/semana para sair da fase aprendizado</div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 8 — CONFIGURAR CAMPANHA COM CONVERSÃO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Campanha Otimizada para Compra</span></h2>
+<p class="sl-sub on-s">Objetivo errado = tráfego errado = não vende.</p>
+<div class="cblock" style="margin:14px 0">
+  <span style="color:#94a3b8">✗ ERRADO — Objetivo Tráfego</span><br>
+  Meta traz cliques baratos → usuários que NÃO compram<br>
+  CPM baixo · CPA alto · algoritmo confuso<br><br>
+  <span style="color:#22C55E">✓ CORRETO — Objetivo Conversões (Purchase)</span><br>
+  Meta busca perfil de quem compra no mercado<br>
+  CPM maior no início · CPA cai com 50+ conversões
+</div>
+<ul class="brows">
+  <li>Objetivo: <strong style="color:#22C55E">Conversões</strong> → Pixel → evento Purchase</li>
+  <li>Orçamento inicial: R$50–100/dia por adset</li>
+  <li>Fase de aprendizado: 7 dias — não mexer em nada</li>
+  <li>50 Purchase/semana sai da aprendizagem e otimiza de verdade</li>
+  <li>Lookalike: criar audiência de compradores → lookalike 1% após 100 compras</li>
+</ul>
+</div>
+
+<!-- SLIDE 9 — RESUMO E MÓDULO COMPLETO -->
+<div class="slide">
+<h2 class="sl-title on-h"><span class="hl">Resumo M5 — Infraestrutura Completa</span></h2>
+<p class="sl-sub on-s">Módulo 5 finalizado. Máquina técnica montada e funcionando.</p>
+<ul class="brows">
+  <li>M5.1: Página de vendas HTML gerada pelo /AGENTE-PAGINA em 5 minutos</li>
+  <li>M5.2: Funil Cakto com 9 produtos, OB, upsells, downsells configurados</li>
+  <li>M5.3: Webhook Supabase — acesso liberado automaticamente em segundos</li>
+  <li>M5.4: Pixel + GTM + CAPI — algoritmo aprende quem compra</li>
+</ul>
+<div class="stat-row" style="margin:16px 0">
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">5min</div>
+    <div class="stat-l">Página ao ar</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">9</div>
+    <div class="stat-l">Produtos no funil</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-n" style="color:#22C55E">24/7</div>
+    <div class="stat-l">Liberação automática</div>
+  </div>
+</div>
+<div class="feat-grid" style="margin-top:8px">
+  <div class="feat-card" style="border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.1)">
+    <div class="feat-icon">✅</div>
+    <div class="feat-title">Módulo 5 concluído</div>
+    <div class="feat-label">Infraestrutura técnica completa</div>
+  </div>
+  <div class="feat-card" style="border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)">
+    <div class="feat-icon">→</div>
+    <div class="feat-title">Módulo 6</div>
+    <div class="feat-label">Tráfego pago: criativos, campanhas, métricas e escala</div>
+  </div>
+</div>
+</div>
+
+<div class="hud">
+  <button onclick="go(current-1)">←</button>
+  <div class="ctr"><span class="cur" id="cur">1</span><span class="htot">/9</span></div>
+  <button onclick="go(current+1)">→</button>
+  <button onclick="document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()">⛶</button>
+</div>
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const cur=document.getElementById('cur');
+const prog=document.getElementById('prog');
+function go(n){slides[current].classList.remove('active','on');current=((n%total)+total)%total;slides[current].classList.add('active');requestAnimationFrame(()=>requestAnimationFrame(()=>slides[current].classList.add('on')));cur.textContent=current+1;prog.style.width=`${((current+1)/total)*100}%`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(current+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(current-1)}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+let ts=0;document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?current+1:current-1)});
+let wt=0;document.addEventListener('wheel',e=>{const n=Date.now();if(n-wt<700)return;wt=n;go(e.deltaY>0?current+1:current-1)},{passive:true});
+go(0);
+</script>
+</body>
+</html>
