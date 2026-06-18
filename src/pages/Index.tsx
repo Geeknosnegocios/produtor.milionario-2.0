@@ -4,8 +4,7 @@ import Header from "@/components/Header";
 import ProofSection from "@/components/ProofSection";
 import Footer from "@/components/Footer";
 import FixedCTA from "@/components/FixedCTA";
-import { useExitIntent } from "@/hooks/useExitIntent";
-import { trackViewContent, trackLead } from "@/lib/tracking";
+import { trackViewContent } from "@/lib/tracking";
 
 const ModulesSection = lazy(() => import("@/components/ModulesSection"));
 const PainPointsSection = lazy(() => import("@/components/PainPointsSection"));
@@ -20,21 +19,9 @@ const AuthorSection = lazy(() => import("@/components/AuthorSection"));
 const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
-const ExitIntentModal = lazy(() => import("@/components/ExitIntentModal"));
 
 const Index = () => {
-  const [showExitModal, setShowExitModal] = useState(false);
   const [splineReady, setSplineReady] = useState(false);
-
-  useExitIntent(() => {
-    setShowExitModal(true);
-    trackLead('exit-intent-popup', 147);
-  }, {
-    cooldownMinutes: 5,
-    storageKey: 'produtor-milionario-exit-intent',
-    enableScrollTrigger: true,
-    enableIdleTrigger: true,
-  });
 
   useEffect(() => {
     trackViewContent();
@@ -88,11 +75,6 @@ const Index = () => {
         <FAQSection />
         <ContactSection />
         <CTASection />
-        <ExitIntentModal
-          open={showExitModal}
-          onOpenChange={setShowExitModal}
-          checkoutUrl="https://pay.cakto.com.br/y2pgfgv_879248"
-        />
       </Suspense>
       <Footer />
       <FixedCTA />
