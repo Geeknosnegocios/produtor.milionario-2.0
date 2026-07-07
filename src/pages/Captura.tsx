@@ -4,7 +4,7 @@ import { trackLead, trackViewContent } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
 const MICROVSL_VIDEO_ID = "MICROVSL_VIDEO_ID"; // id YouTube do vídeo-convite
-const GRUPO_URL = "https://chat.whatsapp.com/HCZgsievkKV5TchvfKF4aG"; // link grupo WhatsApp
+const GRUPO_URL = "https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"; // link grupo WhatsApp
 
 const goGroup = (origem: string) => {
   try { trackLead(origem, 0); } catch { /* noop */ }

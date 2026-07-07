@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const handleWhatsApp = () => {
-    window.open("https://chat.whatsapp.com/HCZgsievkKV5TchvfKF4aG", "_blank");
+    window.open("https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI", "_blank");
   };
 
   return (

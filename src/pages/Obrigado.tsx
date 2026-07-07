@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Check, Bell, CalendarDays, MessageCircle, AlertTriangle } from "lucide-react";
 
 // ===== CONFIG (preencher) =====
-const GRUPO_URL = "https://chat.whatsapp.com/HCZgsievkKV5TchvfKF4aG"; // link do grupo WhatsApp
+const GRUPO_URL = "https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"; // link do grupo WhatsApp
 
 const Obrigado = () => {
   const [nome, setNome] = useState("");
