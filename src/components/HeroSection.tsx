@@ -15,7 +15,7 @@ const HeroSection = () => {
 
   const handleCTA = () => {
     trackInitiateCheckout({ value: 147, source: 'hero' });
-    window.location.href = "https://pay.cakto.com.br/y2pgfgv_879248";
+    window.location.href = "https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0";
   };
 
   return (

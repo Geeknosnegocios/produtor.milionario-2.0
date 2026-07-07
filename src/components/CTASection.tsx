@@ -5,7 +5,7 @@ import { ArrowRight, Shield, Zap, Infinity as InfinityIcon, Sparkles, CreditCard
 const CTASection = () => {
   const handleCTA = () => {
     import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'cta-section' }));
-    window.open("https://pay.cakto.com.br/y2pgfgv_879248", "_blank");
+    window.open("https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0", "_blank");
   };
 
   return (

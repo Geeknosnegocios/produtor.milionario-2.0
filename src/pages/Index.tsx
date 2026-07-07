@@ -1,9 +1,10 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import HeroSection from "@/components/HeroSection";
 import Header from "@/components/Header";
 import ProofSection from "@/components/ProofSection";
 import Footer from "@/components/Footer";
 import FixedCTA from "@/components/FixedCTA";
+import ExitIntentModal from "@/components/ExitIntentModal";
 import { trackViewContent } from "@/lib/tracking";
 
 const ModulesSection = lazy(() => import("@/components/ModulesSection"));
@@ -20,8 +21,12 @@ const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
 
+const CHECKOUT_URL = "https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0";
+
 const Index = () => {
   const [splineReady, setSplineReady] = useState(false);
+  const [exitOpen, setExitOpen] = useState(false);
+  const exitFiredRef = useRef(false);
 
   useEffect(() => {
     trackViewContent();
@@ -37,6 +42,25 @@ const Index = () => {
     const t = setTimeout(fire, 1500);
     return () => clearTimeout(t);
   }, []);
+
+  // Exit-intent: dispara o popup quando o mouse sai pelo topo (após 4s na página)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try { if (localStorage.getItem('produtor-milionario-exit-accepted') === 'true') return; } catch { /* noop */ }
+    const start = Date.now();
+    const handle = (e: MouseEvent) => {
+      if (exitFiredRef.current) return;
+      if (exitOpen) return;
+      const to = e.relatedTarget as Node | null;
+      if (to !== null) return;
+      if (e.clientY > 0) return;
+      if (Date.now() - start < 4000) return;
+      exitFiredRef.current = true;
+      setExitOpen(true);
+    };
+    document.addEventListener('mouseout', handle);
+    return () => document.removeEventListener('mouseout', handle);
+  }, [exitOpen]);
 
   return (
     <div className="min-h-screen relative isolate">
@@ -78,6 +102,13 @@ const Index = () => {
       </Suspense>
       <Footer />
       <FixedCTA />
+
+      {/* Exit-intent popup · fechar no X redireciona pro checkout de saída */}
+      <ExitIntentModal
+        open={exitOpen}
+        onOpenChange={setExitOpen}
+        checkoutUrl={CHECKOUT_URL}
+      />
     </div>
   );
 };

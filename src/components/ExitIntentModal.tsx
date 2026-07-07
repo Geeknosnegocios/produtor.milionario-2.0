@@ -8,8 +8,8 @@ interface ExitIntentModalProps {
   checkoutUrl: string;
 }
 
-// Backredirect URL · R$127 downsell checkout · UPDATE quando user mandar
-const BACKREDIRECT_URL = "https://pay.cakto.com.br/frbugun";
+// Backredirect URL · X do popup → redireciona pro checkout de saída
+const BACKREDIRECT_URL = "https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=saide-2-0";
 
 const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalProps) => {
   const handleAccept = () => {
