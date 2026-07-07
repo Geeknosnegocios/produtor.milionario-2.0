@@ -4,8 +4,6 @@ import Header from "@/components/Header";
 import ProofSection from "@/components/ProofSection";
 import Footer from "@/components/Footer";
 import FixedCTA from "@/components/FixedCTA";
-import GiftExitModal from "@/components/GiftExitModal";
-import { useGiftExitIntent } from "@/hooks/useGiftExitIntent";
 import { trackViewContent } from "@/lib/tracking";
 
 const ModulesSection = lazy(() => import("@/components/ModulesSection"));
@@ -24,7 +22,6 @@ const CTASection = lazy(() => import("@/components/CTASection"));
 
 const Index = () => {
   const [splineReady, setSplineReady] = useState(false);
-  const [giftOpen, setGiftOpen] = useGiftExitIntent({ delayMs: 4000 });
 
   useEffect(() => {
     trackViewContent();
@@ -81,14 +78,6 @@ const Index = () => {
       </Suspense>
       <Footer />
       <FixedCTA />
-
-      {/* Exit-intent: presente do grupo WhatsApp */}
-      <GiftExitModal
-        open={giftOpen}
-        onOpenChange={setGiftOpen}
-        groupUrl="https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"
-        videoUrl="https://www.youtube.com/watch?v=KixSgwClqh4"
-      />
     </div>
   );
 };
