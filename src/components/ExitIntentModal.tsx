@@ -15,7 +15,7 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
   const handleAccept = () => {
     localStorage.setItem('produtor-milionario-exit-accepted', 'true');
     import("@/lib/tracking").then(({ trackInitiateCheckout }) =>
-      trackInitiateCheckout({ value: 147, source: 'exit-modal' })
+      trackInitiateCheckout({ value: 247, source: 'exit-modal' })
     );
     window.location.href = checkoutUrl;
   };
@@ -96,7 +96,7 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
             </div>
             <div className="text-center">
               <p className="text-[10px] sm:text-xs text-blue-300 uppercase font-mono tracking-[0.18em] mb-1 font-bold">Hoje</p>
-              <p className="text-4xl sm:text-5xl font-black text-blue-300 font-mono leading-none tracking-tighter">R$ 147</p>
+              <p className="text-4xl sm:text-5xl font-black text-blue-300 font-mono leading-none tracking-tighter">R$ 247</p>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
           <BookmarkButton
             size="lg"
             onClick={handleAccept}
-            text="QUERO O BÔNUS · R$147"
+            text="QUERO O BÔNUS · R$247"
             sub="acesso liberado em 1 minuto"
             fullWidth
           />

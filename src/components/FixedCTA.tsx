@@ -24,7 +24,7 @@ const FixedCTA = () => {
   }, []);
 
   const handleCTA = () => {
-    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'fixed-cta' }));
+    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 247, source: 'fixed-cta' }));
     window.open("https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0", "_blank");
   };
 
@@ -92,9 +92,9 @@ const FixedCTA = () => {
                   <div className="flex items-center gap-2 mt-1 justify-center sm:justify-start text-[11px] md:text-xs flex-wrap">
                     <span className="text-white/40 line-through font-mono">R$ 5.364</span>
                     <ArrowRight className="w-3 h-3 text-blue-400/60" />
-                    <span className="text-blue-300 font-bold font-mono">R$ 147</span>
+                    <span className="text-blue-300 font-bold font-mono">R$ 247</span>
                     <span className="hidden sm:inline text-white/30">·</span>
-                    <span className="hidden sm:inline text-white/50 font-mono">12x R$ 14,87</span>
+                    <span className="hidden sm:inline text-white/50 font-mono">12x R$ 20,59</span>
                     <span className="px-1.5 py-0.5 rounded bg-blue-500/15 border border-blue-500/30 text-blue-300 font-mono text-[9px] uppercase tracking-wider font-bold">
                       98% OFF
                     </span>

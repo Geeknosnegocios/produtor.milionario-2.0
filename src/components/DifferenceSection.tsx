@@ -11,7 +11,7 @@ const produtorBenefits = [
   { icon: Sparkles, label: "Claude · IA premium dos americanos" },
   { icon: Zap, label: "7 comandos automatizados" },
   { icon: Target, label: "Produto LowTicket no ar em 1 hora" },
-  { icon: Crown, label: "R$147 LowTicket vs R$1.997+ outros" },
+  { icon: Crown, label: "R$247 LowTicket vs R$1.997+ outros" },
 ];
 
 const DifferenceSection = () => {

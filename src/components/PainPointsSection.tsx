@@ -154,7 +154,7 @@ const PainPointsSection = () => {
 
             <div className="mt-3 sm:mt-5 pt-2 sm:pt-4 border-t border-blue-500/15 flex items-center justify-between gap-2">
               <span className="text-[9px] sm:text-xs text-blue-400 font-mono">RESULTADO</span>
-              <span className="text-[9px] sm:text-sm text-blue-300 font-mono truncate">1h · R$147 · venda</span>
+              <span className="text-[9px] sm:text-sm text-blue-300 font-mono truncate">1h · R$247 · venda</span>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ const Header = () => {
     }, []);
 
     const handleCTA = () => {
-        import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'header' }));
+        import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 247, source: 'header' }));
         window.open("https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0", "_blank");
     };
 
@@ -83,7 +83,7 @@ const Header = () => {
                         className="hidden sm:flex border-blue-500/50 text-blue-400 hover:bg-blue-500/10 hover:border-blue-500 rounded-full px-6"
                     >
                         <Sparkles className="w-4 h-4 mr-2" />
-                        R$147 · 1 hora
+                        R$247 · 1 hora
                     </Button>
                 </div>
             </div>

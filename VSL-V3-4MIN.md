@@ -101,7 +101,7 @@
 
 > Total real: **R$ 5.773**
 >
-> Hoje: **R$ 147 à vista.** Ou **12x de R$ 14,87** sem juros.
+> Hoje: **R$ 247 à vista.** Ou **12x de R$ 20,59** sem juros.
 >
 > Não é desconto. É posicionamento. Não preciso que pague caro. Preciso que execute.
 

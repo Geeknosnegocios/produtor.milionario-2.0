@@ -14,7 +14,7 @@ const forYou = [
   {
     icon: Wallet,
     title: "Tem orçamento curto",
-    description: "R$147 cabe. Não vai gastar R$5k em agência. Precisa de retorno antes de escalar investimento."
+    description: "R$247 cabe. Não vai gastar R$5k em agência. Precisa de retorno antes de escalar investimento."
   },
   {
     icon: Bot,
@@ -63,7 +63,7 @@ const TargetAudienceSection = () => {
             Pra Quem é o <span className="text-blue-400">Produtor Milionário 2.0</span>
           </h2>
           <p className="ty-lead">
-            Filtro honesto. Antes de R$147 sair da sua conta, lê os dois lados.
+            Filtro honesto. Antes de R$247 sair da sua conta, lê os dois lados.
           </p>
         </div>
 
@@ -125,7 +125,7 @@ const TargetAudienceSection = () => {
 
             <div className="mt-5 pt-4 border-t border-blue-500/20 flex items-center justify-between z-10 relative">
               <span className="text-xs text-blue-400 font-mono">VOCÊ SE ENCAIXA</span>
-              <span className="text-sm text-blue-300 font-mono">→ R$147 vale cada centavo</span>
+              <span className="text-sm text-blue-300 font-mono">→ R$247 vale cada centavo</span>
             </div>
           </div>
 

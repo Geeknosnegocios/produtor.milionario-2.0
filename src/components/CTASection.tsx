@@ -4,7 +4,7 @@ import { ArrowRight, Shield, Zap, Infinity as InfinityIcon, Sparkles, CreditCard
 
 const CTASection = () => {
   const handleCTA = () => {
-    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'cta-section' }));
+    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 247, source: 'cta-section' }));
     window.open("https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0", "_blank");
   };
 
@@ -83,11 +83,11 @@ const CTASection = () => {
                 <div className="flex items-baseline justify-center gap-1 mb-1">
                   <span className="text-3xl sm:text-4xl text-blue-300 font-light">R$</span>
                   <span className="text-7xl sm:text-8xl md:text-9xl font-black bg-gradient-to-br from-blue-300 via-blue-400 to-blue-600 bg-clip-text text-transparent leading-none tracking-tighter">
-                    147
+                    247
                   </span>
                 </div>
                 <p className="text-sm text-white/50 mt-2">
-                  ou <strong className="text-blue-300 font-mono">12x R$ 14,87</strong> sem juros
+                  ou <strong className="text-blue-300 font-mono">12x R$ 20,59</strong> sem juros
                 </p>
               </div>
 
@@ -113,7 +113,7 @@ const CTASection = () => {
                   { icon: Zap, title: "Acesso Imediato", subtitle: "Login em 1 minuto" },
                   { icon: Shield, title: "Garantia Resultado", subtitle: "Não de reembolso" },
                   { icon: InfinityIcon, title: "Acesso Vitalício", subtitle: "Sem renovação" },
-                  { icon: CreditCard, title: "12x R$14,87", subtitle: "Sem juros · Pix · Cartão" },
+                  { icon: CreditCard, title: "12x R$20,59", subtitle: "Sem juros · Pix · Cartão" },
                 ].map((feature, index) => {
                   const Icon = feature.icon;
                   return (

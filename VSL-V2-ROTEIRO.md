@@ -136,7 +136,7 @@
 
 **Total real:** R$ 5.773
 
-> Hoje: R$ 147 à vista. Ou 12x de R$ 14,87 sem juros.
+> Hoje: R$ 247 à vista. Ou 12x de R$ 20,59 sem juros.
 >
 > Não é desconto. É posicionamento. Eu não preciso que você pague caro. Eu preciso que você execute.
 
@@ -172,7 +172,7 @@
 >
 > Te vejo do outro lado.
 
-**[Botão pulsa na tela. CTA "QUERO MEU PRODUTO EM 1 HORA · R$ 147". Logo final. Cortou.]**
+**[Botão pulsa na tela. CTA "QUERO MEU PRODUTO EM 1 HORA · R$ 247". Logo final. Cortou.]**
 
 ---
 
@@ -242,7 +242,7 @@ Subir 4 versões com mesmo corpo. Top performer = winner em 5 dias.
 - [ ] Prova com 2+ casos reais com número específico ✅
 - [ ] Future pacing presente (1 hora · 7 dias · 90 dias) ✅
 - [ ] Ataque ao concorrente sem nomear (ChatGPT, gurus, agência) ✅
-- [ ] Value stack explodido com âncora R$ 5.773 → R$ 147 ✅
+- [ ] Value stack explodido com âncora R$ 5.773 → R$ 247 ✅
 - [ ] Garantia 3 camadas sem "satisfação" ✅
 - [ ] CTA com escolha binária forçada ✅
 - [ ] Zero "Descubra como" / "Aprenda a" / "Transforme" ✅

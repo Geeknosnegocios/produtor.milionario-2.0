@@ -94,7 +94,7 @@ export function trackInitiateCheckout(params: CheckoutEventParams) {
   fireEvent('InitiateCheckout', data, 'initiate_checkout');
 }
 
-export function trackLead(source: string, value = 147) {
+export function trackLead(source: string, value = 247) {
   const data = { value, currency: 'BRL', content_name: 'Produtor Milionário 2.0', source };
   fireEvent('Lead', data, 'lead');
 }
@@ -104,7 +104,7 @@ export function trackViewContent() {
     content_name: 'Produtor Milionário 2.0',
     content_ids: ['produtor-milionario-2'],
     content_type: 'product',
-    value: 147,
+    value: 247,
     currency: 'BRL',
   };
   fireEvent('ViewContent', data, 'view_content');

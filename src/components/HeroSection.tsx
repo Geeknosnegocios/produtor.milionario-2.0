@@ -14,7 +14,7 @@ const HeroSection = () => {
   const [playing, setPlaying] = useState(false);
 
   const handleCTA = () => {
-    trackInitiateCheckout({ value: 147, source: 'hero' });
+    trackInitiateCheckout({ value: 247, source: 'hero' });
     window.location.href = "https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0";
   };
 
@@ -179,8 +179,8 @@ const HeroSection = () => {
               onClick={handleCTA}
               text={
                 <>
-                  <span className="sm:hidden text-sm">QUERO EM 1 HORA · R$147</span>
-                  <span className="hidden sm:inline">QUERO MEU PRODUTO EM 1 HORA · R$147</span>
+                  <span className="sm:hidden text-sm">QUERO EM 1 HORA · R$247</span>
+                  <span className="hidden sm:inline">QUERO MEU PRODUTO EM 1 HORA · R$247</span>
                 </>
               }
               sub="acesso liberado em 1 minuto"
@@ -239,7 +239,7 @@ const HeroSection = () => {
                     </li>
                     <li className="flex items-center gap-3 text-neutral-200">
                       <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-                      12x R$14,87 sem juros · acesso em 1 minuto
+                      12x R$20,59 sem juros · acesso em 1 minuto
                     </li>
                   </ul>
                 </div>

@@ -27,8 +27,8 @@ const faqs = [
     answer: "Vale mais ainda. Você vai refazer copy (com IA), página (com 1 comando), criativos (17 ângulos). Aluno que já tinha produto cresceu 3-5x em 30 dias."
   },
   {
-    question: "R$147 cabe em quantas vezes?",
-    answer: "12x de R$14,87 sem juros no cartão. Pix à vista R$147,00. Acesso liberado em 1 minuto após confirmação."
+    question: "R$247 cabe em quantas vezes?",
+    answer: "12x de R$20,59 sem juros no cartão. Pix à vista R$247,00. Acesso liberado em 1 minuto após confirmação."
   },
   {
     question: "E se eu desistir nos primeiros dias?",

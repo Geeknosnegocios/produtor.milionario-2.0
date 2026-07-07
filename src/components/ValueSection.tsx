@@ -82,11 +82,11 @@ const ValueSection = () => {
   }, []);
 
   const total = valueItems.reduce((acc, item) => acc + item.value, 0);
-  const offerPrice = 147;
+  const offerPrice = 247;
   const discount = Math.round(((total - offerPrice) / total) * 100);
 
   const handleCTA = () => {
-    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 147, source: 'value-section' }));
+    import("@/lib/tracking").then(({ trackInitiateCheckout }) => trackInitiateCheckout({ value: 247, source: 'value-section' }));
     window.open("https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0", "_blank");
   };
 
@@ -137,7 +137,7 @@ const ValueSection = () => {
 
                 {/* Main question */}
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl text-white font-light tracking-tighter text-center mb-4 leading-[1.05]">
-                  Por que <span className="text-orange-400 font-medium">R$147</span> e não <span className="line-through text-white/30">R$1.997</span>?
+                  Por que <span className="text-orange-400 font-medium">R$247</span> e não <span className="line-through text-white/30">R$1.997</span>?
                 </h3>
 
                 {/* Manifesto */}
@@ -155,9 +155,9 @@ const ValueSection = () => {
                     </div>
                     <p className="text-xs text-blue-300 uppercase font-mono tracking-wider mb-2 text-center">Hoje · turma piloto</p>
                     <p className="text-4xl lg:text-5xl font-black text-white text-center">
-                      R$<span className="text-blue-300">147</span>
+                      R$<span className="text-blue-300">247</span>
                     </p>
-                    <p className="text-[10px] text-blue-400/70 text-center mt-2 font-mono">12x de R$14,87</p>
+                    <p className="text-[10px] text-blue-400/70 text-center mt-2 font-mono">12x de R$20,59</p>
                   </div>
 
                   {/* TURMA 2 */}
@@ -412,7 +412,7 @@ const ValueSection = () => {
                     </div>
                     <div className="rounded-lg bg-blue-500/10 border border-blue-500/40 p-3 text-center">
                       <p className="text-[10px] text-blue-300 uppercase font-mono tracking-wider mb-1">Era IA</p>
-                      <p className="text-sm font-bold text-blue-300">R$ 147</p>
+                      <p className="text-sm font-bold text-blue-300">R$ 247</p>
                     </div>
                   </div>
 
@@ -433,7 +433,7 @@ const ValueSection = () => {
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.08]">
                       <CreditCard className="w-3.5 h-3.5 text-blue-300" />
-                      <span className="text-white/70 text-xs">12x R$ 14,87</span>
+                        <span className="text-white/70 text-xs">12x R$ 20,59</span>
                       <span className="text-blue-300 text-[10px] font-mono">SEM JUROS</span>
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.08]">
@@ -448,8 +448,8 @@ const ValueSection = () => {
                       onClick={handleCTA}
                       text={
                         <>
-                          <span className="sm:hidden">QUERO ACESSO · R$147</span>
-                          <span className="hidden sm:inline">SIM, QUERO ACESSO HOJE · R$147</span>
+                          <span className="sm:hidden">QUERO ACESSO · R$247</span>
+                          <span className="hidden sm:inline">SIM, QUERO ACESSO HOJE · R$247</span>
                         </>
                       }
                       sub="acesso liberado em 1 minuto"

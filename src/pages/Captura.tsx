@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { trackLead, trackViewContent } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
-const MICROVSL_VIDEO_ID = "MICROVSL_VIDEO_ID"; // id YouTube do vídeo-convite
+const MICROVSL_VIDEO_ID = "KixSgwClqh4"; // id YouTube do vídeo-convite
 const GRUPO_URL = "https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"; // link grupo WhatsApp
 const PRESENTE_VIDEO_EMBED = "https://www.youtube.com/embed/KixSgwClqh4"; // vídeo-presente do grupo
 
