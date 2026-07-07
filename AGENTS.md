@@ -18,7 +18,7 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 - CAPI + Pixel + GTM funcionando com dedup
 - Gravações das 22 aulas: 0/22 (pendente)
 - Área de membros: pendente
-- Downsell (slug Cakto `saide-2-0`): preço na Cakto precisa subir junto
+- Downsell (slug Cakto `saide-2-0`): **R$ 197** (configurado na Cakto, NÃO no código)
 
 ## Quando alguém pedir algo aqui, sempre
 
@@ -47,7 +47,7 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 4. `src/components/CTASection.tsx` — tracking + preço + parcela
 5. `src/components/FixedCTA.tsx` — tracking + preço + parcela
 6. `src/components/Header.tsx` — tracking + texto
-7. `src/components/ExitIntentModal.tsx` — tracking + 2 textos (NÃO mexer no R$ 127 do backredirect)
+7. `src/components/ExitIntentModal.tsx` — tracking + 2 textos (NÃO mexer no R$ 197 do backredirect — é o downsell)
 8. `src/components/FAQSection.tsx` — pergunta + resposta
 9. `src/components/DifferenceSection.tsx` — comparação
 10. `src/components/PainPointsSection.tsx` — resultado
