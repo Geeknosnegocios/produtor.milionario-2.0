@@ -15,21 +15,22 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
   const handleAccept = () => {
     localStorage.setItem('produtor-milionario-exit-accepted', 'true');
     import("@/lib/tracking").then(({ trackInitiateCheckout }) =>
-      trackInitiateCheckout({ value: 247, source: 'exit-modal' })
+      trackInitiateCheckout({ value: 197, source: 'exit-modal' })
     );
-    window.location.href = checkoutUrl;
+    // Exit modal vende o downsell (R$ 197), mesmo destino do X
+    window.location.href = BACKREDIRECT_URL;
   };
 
   const handleDecline = () => {
     onOpenChange(false);
   };
 
-  // X close → backredirect pra downsell R$127
+  // X close → backredirect pro checkout de saída (R$ 197)
   const handleClose = (nextOpen: boolean) => {
     if (!nextOpen) {
       // Mark accepted to avoid re-showing
       localStorage.setItem('produtor-milionario-exit-accepted', 'true');
-      // Backredirect pra checkout R$127
+      // Backredirect pro checkout de saída (R$ 197)
       window.location.href = BACKREDIRECT_URL;
       return;
     }
@@ -96,7 +97,7 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
             </div>
             <div className="text-center">
               <p className="text-[10px] sm:text-xs text-blue-300 uppercase font-mono tracking-[0.18em] mb-1 font-bold">Hoje</p>
-              <p className="text-4xl sm:text-5xl font-black text-blue-300 font-mono leading-none tracking-tighter">R$ 247</p>
+              <p className="text-4xl sm:text-5xl font-black text-blue-300 font-mono leading-none tracking-tighter">R$ 197</p>
             </div>
           </div>
 
@@ -128,7 +129,7 @@ const ExitIntentModal = ({ open, onOpenChange, checkoutUrl }: ExitIntentModalPro
           <BookmarkButton
             size="lg"
             onClick={handleAccept}
-            text="QUERO O BÔNUS · R$247"
+            text="QUERO O BÔNUS · R$197"
             sub="acesso liberado em 1 minuto"
             fullWidth
           />
