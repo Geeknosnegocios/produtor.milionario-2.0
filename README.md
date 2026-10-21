@@ -60,6 +60,7 @@ npm run lint     # eslint
 | `/upsell` | `Upsell.tsx` | Upsell 1 |
 | `/upsell-2` | `Upsell2.tsx` | Upsell 2 |
 | `/aula` e `/captura` | `Captura.tsx` | Página de captura da aula grátis (leva pro grupo WhatsApp) |
+| `/blackfriday` | `BlackFriday.tsx` | Edição Black Friday: FPM 2.0 + Infinity Pixel + Infinity Farm + 3 meses GeekZap, R$247 |
 | `/obrigado` | `Obrigado.tsx` | Thank you page |
 
 ---

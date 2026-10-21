@@ -99,9 +99,9 @@ export function trackLead(source: string, value = 247) {
   fireEvent('Lead', data, 'lead');
 }
 
-export function trackViewContent() {
+export function trackViewContent(contentName = "Produtor Milionário 2.0") {
   const data = {
-    content_name: 'Produtor Milionário 2.0',
+    content_name: contentName,
     content_ids: ['produtor-milionario-2'],
     content_type: 'product',
     value: 247,

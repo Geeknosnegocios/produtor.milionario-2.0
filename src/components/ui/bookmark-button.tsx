@@ -8,6 +8,8 @@ interface BookmarkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   sub?: ReactNode;
   size?: "sm" | "md" | "lg" | "xl";
   fullWidth?: boolean;
+  /** wrap?: deixa o texto quebrar em 2 linhas (default: truncate) */
+  wrap?: boolean;
 }
 
 /**
@@ -15,7 +17,7 @@ interface BookmarkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * Icon container expands to fill the button, text fades right.
  */
 const BookmarkButton = forwardRef<HTMLButtonElement, BookmarkButtonProps>(
-  ({ text, sub, size = "md", fullWidth, className, ...props }, ref) => {
+  ({ text, sub, size = "md", fullWidth, wrap, className, ...props }, ref) => {
     const config = {
       sm: { h: "h-10", iconSize: "w-7 h-7", svgSize: "w-3.5 h-3.5", textPad: "pl-10 pr-4", text: "text-xs", hoverW: "group-hover/bm:w-[calc(100%-8px)]" },
       md: { h: "h-12", iconSize: "w-10 h-10", svgSize: "w-4 h-4", textPad: "pl-12 pr-4", text: "text-sm", hoverW: "group-hover/bm:w-[calc(100%-8px)]" },
@@ -60,14 +62,15 @@ const BookmarkButton = forwardRef<HTMLButtonElement, BookmarkButtonProps>(
         {/* Text · fades + slides right on hover */}
         <span
           className={cn(
-            "relative z-[1] flex flex-col items-start font-bold text-white",
+            "relative z-[1] flex flex-col font-bold text-white",
             "transition-all duration-300 min-w-0 flex-1",
+            wrap ? "items-center justify-center text-center leading-snug whitespace-normal break-words" : "items-start",
             "group-hover/bm:opacity-0 group-hover/bm:translate-x-8",
             config.textPad,
             config.text
           )}
         >
-          <span className="truncate w-full">{text}</span>
+          <span className={wrap ? "whitespace-normal break-words" : "truncate w-full"}>{text}</span>
           {sub && <span className="text-[9px] sm:text-[10px] md:text-xs font-normal text-white/70 mt-0.5 truncate w-full">{sub}</span>}
         </span>
       </button>

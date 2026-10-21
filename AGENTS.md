@@ -57,6 +57,7 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 14. `VSL-V3-APRESENTACAO.html` — preço mega + CTA
 15. `conteudo/aulas/M1-1-mindset-produtor-2-0.html` — range didático
 16. **Cakto** — o produto no checkout tem que estar no mesmo valor (CRÍTICO)
+17. `src/pages/BlackFriday.tsx` — `BF_CHECKOUT_URL` + preço R$247 / 12x R$20,59 (rota `/blackfriday`)
 
 > Dica: `grep -rn "247\|20,59" src/ index.html VSL-*.md VSL-*.html` pra conferir o estado.
 

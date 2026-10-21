@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Upsell from "./pages/Upsell";
 import Upsell2 from "./pages/Upsell2";
 import Captura from "./pages/Captura";
+import BlackFriday from "./pages/BlackFriday";
 import Obrigado from "./pages/Obrigado";
 import NotFound from "./pages/NotFound";
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/upsell" element={<Upsell />} />
           <Route path="/upsell-2" element={<Upsell2 />} />
           <Route path="/aula" element={<Captura />} />
+          <Route path="/blackfriday" element={<BlackFriday />} />
           <Route path="/captura" element={<Captura />} />
           <Route path="/obrigado" element={<Obrigado />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

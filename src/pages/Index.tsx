@@ -20,6 +20,7 @@ const AuthorSection = lazy(() => import("@/components/AuthorSection"));
 const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
+const BlackFridayBanner = lazy(() => import("@/components/BlackFridayBanner"));
 
 const CHECKOUT_URL = "https://pay.geekacademy.site/c/produtor-milion-rio-2-0-up?o=perpetuo-fpm2-0";
 
@@ -84,6 +85,7 @@ const Index = () => {
 
       <Header />
       <HeroSection />
+      <BlackFridayBanner />
       <ProofSection />
       <Suspense fallback={<div className="min-h-[400px]" />}>
         <ModulesSection />
