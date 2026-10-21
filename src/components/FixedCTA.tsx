@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { BookmarkButton } from "./ui/bookmark-button";
-import { ArrowRight, Zap, Clock, Users } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 
 const FixedCTA = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [viewers, setViewers] = useState(70 + Math.floor(Math.random() * 60));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,13 +12,8 @@ const FixedCTA = () => {
     };
     window.addEventListener("scroll", handleScroll);
 
-    const tick = setInterval(() => {
-      setViewers((v) => Math.max(60, Math.min(140, v + (Math.random() > 0.5 ? 1 : -1) * (1 + Math.floor(Math.random() * 3)))));
-    }, 8000);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearInterval(tick);
     };
   }, []);
 
@@ -43,21 +37,12 @@ const FixedCTA = () => {
           {/* Main frame */}
           <div className="relative rounded-xl border border-blue-500/40 bg-[#0E0F11] overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.2)]">
 
-            {/* Top live ticker · desktop only */}
-            <div className="hidden md:flex bg-gradient-to-r from-red-500/12 via-orange-500/12 to-red-500/12 border-b border-orange-500/20 px-4 py-1.5 items-center justify-center gap-3 text-[10px]">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                <span className="text-red-300 font-mono uppercase tracking-wider font-bold">AO VIVO</span>
-              </div>
+            {/* Top info bar · Black Friday */}
+            <div className="hidden md:flex bg-gradient-to-r from-orange-500/12 via-red-500/12 to-orange-500/12 border-b border-orange-500/20 px-4 py-1.5 items-center justify-center gap-3 text-[10px]">
+              <span className="text-orange-300 font-mono uppercase tracking-wider font-bold">Edição Black Friday</span>
               <span className="text-white/40">·</span>
               <span className="text-white/70 font-mono">
-                <Users className="inline w-2.5 h-2.5 mr-1 -mt-0.5" />
-                {viewers} pessoas vendo agora
-              </span>
-              <span className="text-white/40">·</span>
-              <span className="text-orange-300 font-mono">
-                <Clock className="inline w-2.5 h-2.5 mr-1 -mt-0.5" />
-                preço sobe em breve
+                pacote completo por R$ 247
               </span>
             </div>
 
@@ -76,10 +61,6 @@ const FixedCTA = () => {
                   <div className="flex items-center gap-2 mb-0.5 justify-center sm:justify-start">
                     <span className="text-[10px] sm:text-[11px] text-blue-400 uppercase font-mono tracking-[0.18em] font-bold">
                       Produtor 2.0
-                    </span>
-                    <span className="md:hidden flex items-center gap-1 text-[9px] text-red-300 font-mono">
-                      <span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"></span>
-                      {viewers} ON
                     </span>
                   </div>
 

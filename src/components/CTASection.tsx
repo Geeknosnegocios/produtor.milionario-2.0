@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BookmarkButton } from "@/components/ui/bookmark-button";
-import { ArrowRight, Shield, Zap, Infinity as InfinityIcon, Sparkles, CreditCard, Clock, Users, Lock } from "lucide-react";
+import { ArrowRight, Shield, Zap, Infinity as InfinityIcon, Sparkles, CreditCard, Lock } from "lucide-react";
 
 const CTASection = () => {
   const handleCTA = () => {
@@ -23,22 +23,11 @@ const CTASection = () => {
           {/* Solid frame */}
           <div className="relative rounded-3xl border border-blue-500/40 bg-[#0E0F11] overflow-hidden">
 
-            {/* Top live bar */}
+            {/* Top info bar · factual, sem contador falsificado */}
             <div className="bg-gradient-to-r from-red-500/15 via-orange-500/15 to-red-500/15 border-b border-orange-500/20 px-4 py-2.5 flex items-center justify-center gap-3 flex-wrap text-xs">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                <span className="text-red-300 font-mono uppercase tracking-wider font-bold">AO VIVO</span>
-              </div>
+              <span className="text-orange-300 font-mono uppercase tracking-wider font-bold">Edição Black Friday</span>
               <span className="text-white/60">·</span>
-              <span className="text-white/70">
-                <Users className="inline w-3 h-3 mr-1 -mt-0.5" />
-                117 vendo agora
-              </span>
-              <span className="text-white/60">·</span>
-              <span className="text-white/70">
-                <Clock className="inline w-3 h-3 mr-1 -mt-0.5" />
-                Maria de Belo Horizonte acabou de comprar
-              </span>
+              <span className="text-white/70 font-mono">formação + Infinity Pixel + Infinity Farm + 3 meses de GeekZap</span>
             </div>
 
             <div className="p-6 sm:p-10 md:p-14 lg:p-16">

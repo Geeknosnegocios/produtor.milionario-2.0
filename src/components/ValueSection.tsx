@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BookmarkButton } from "@/components/ui/bookmark-button";
 import { Check, ArrowRight, Gift, Sparkles, AlertCircle, Users, Clock, Lock, TrendingUp, Flame, CreditCard, BookOpen, Layers, Boxes, Infinity as InfinityIcon, MessageCircle, Zap } from "lucide-react";
@@ -48,39 +47,7 @@ const valueItems = [
   },
 ];
 
-const monthsPt = ['jan', 'fev', 'mar', 'abr', 'maio', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-
-// Evergreen deadline · always jumps to next end-of-month if <5 days away
-const getEvergreenDeadline = () => {
-  const now = new Date();
-  const eom = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-  const daysLeft = Math.ceil((eom.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  const target = daysLeft < 5
-    ? new Date(now.getFullYear(), now.getMonth() + 2, 0)
-    : eom;
-  return `${target.getDate()} ${monthsPt[target.getMonth()]}`;
-};
-
-// Live viewers · randomized 70-130 with ±5 jitter every 8s
-const getLiveViewers = () => 70 + Math.floor(Math.random() * 60);
-
 const ValueSection = () => {
-  const [deadline, setDeadline] = useState(getEvergreenDeadline());
-  const [viewers, setViewers] = useState(getLiveViewers());
-
-  useEffect(() => {
-    // Update deadline at midnight (catches month-end rollover)
-    const tick = setInterval(() => setDeadline(getEvergreenDeadline()), 60 * 1000);
-    // Live viewers fluctuation
-    const viewersTick = setInterval(() => {
-      setViewers((v) => Math.max(60, Math.min(140, v + (Math.random() > 0.5 ? 1 : -1) * (1 + Math.floor(Math.random() * 5)))));
-    }, 8000);
-    return () => {
-      clearInterval(tick);
-      clearInterval(viewersTick);
-    };
-  }, []);
-
   const total = valueItems.reduce((acc, item) => acc + item.value, 0);
   const offerPrice = 247;
   const discount = Math.round(((total - offerPrice) / total) * 100);
@@ -212,16 +179,16 @@ const ValueSection = () => {
                     </div>
                   </div>
 
-                  {/* Tempo · evergreen */}
+                  {/* Edição · pacote */}
                   <div className="rounded-xl bg-orange-500/10 border border-orange-500/30 p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center flex-shrink-0">
                         <Clock className="w-5 h-5 text-orange-400" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-[10px] text-orange-400/80 uppercase font-mono tracking-wider mb-0.5">Preço Vence</p>
-                        <p className="text-base font-black text-white">{deadline}</p>
-                        <p className="text-[10px] text-orange-300 font-mono mt-0.5">23h59 · sem prorrogação</p>
+                        <p className="text-[10px] text-orange-400/80 uppercase font-mono tracking-wider mb-0.5">Edição</p>
+                        <p className="text-base font-black text-white">Black Friday</p>
+                        <p className="text-[10px] text-orange-300 font-mono mt-0.5">composição atual · R$ 247</p>
                       </div>
                     </div>
                   </div>
@@ -349,16 +316,15 @@ const ValueSection = () => {
 
               <div className="relative bg-gradient-to-br from-[#0a0e1a] via-[#0E0F11] to-[#0a0e1a] border-2 border-blue-500/40 rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(59,130,246,0.3)]">
 
-                {/* Top urgency bar */}
+                {/* Top info bar · oferta da edição */}
                 <div className="bg-gradient-to-r from-red-500/15 via-orange-500/15 to-red-500/15 border-b border-orange-500/20 px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    <span className="text-xs text-red-300 font-mono uppercase tracking-wider font-bold">AO VIVO</span>
-                    <span className="text-xs text-white/70">· {viewers} pessoas vendo essa página agora</span>
+                    <span className="text-xs text-orange-300 font-mono uppercase tracking-wider font-bold">Oferta Ativa</span>
+                    <span className="text-xs text-white/70">· edição Black Friday</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-3 h-3 text-orange-400" />
-                    <span className="text-xs text-orange-300 font-mono">expira {deadline} · 23h59</span>
+                    <span className="text-xs text-orange-300 font-mono">método + Pixel + Farm + GeekZap</span>
                   </div>
                 </div>
 
