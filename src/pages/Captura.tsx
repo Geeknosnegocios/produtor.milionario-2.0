@@ -1,16 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { Sparkles, Play, Volume2, Users, Check, MessageCircle, Search, Lightbulb, FileText, Megaphone, Clock, ShieldCheck, Zap, AlertTriangle, Flame, Gift, EyeOff } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { trackLead, trackViewContent } from "@/lib/tracking";
+import { trackLead, trackScrollDepth, trackViewContent } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
 const MICROVSL_VIDEO_ID = "KixSgwClqh4"; // id YouTube do vídeo-convite
 const GRUPO_URL = "https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"; // link grupo WhatsApp
 const PRESENTE_VIDEO_EMBED = "https://www.youtube.com/embed/KixSgwClqh4"; // vídeo-presente do grupo
 
+// Mobile: navega na mesma aba (abre o app do WhatsApp direto).
+// Desktop: nova aba — a LP continua aberta (back sem perder o exit gift).
+function abreGrupo(): void {
+  try {
+    const ehMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
+    if (ehMobile) {
+      window.location.href = GRUPO_URL;
+      return;
+    }
+    const win = window.open(GRUPO_URL, "_blank", "noopener,noreferrer");
+    if (!win) window.location.href = GRUPO_URL; // popup bloqueado → fallback
+  } catch {
+    window.location.href = GRUPO_URL;
+  }
+}
+
 const goGroup = (origem: string) => {
   try { trackLead(origem, 0); } catch { /* noop */ }
-  window.location.href = GRUPO_URL;
+  abreGrupo();
 };
 
 const Ribbon = () => (
@@ -49,11 +65,34 @@ const Captura = () => {
 
   useEffect(() => { trackViewContent(); }, []);
 
-  // Exit-intent: dispara o popup de presente quando o mouse sai pelo topo
+  // Scroll depth: 25/50/75/100 — uma vez cada, só dataLayer (GTM)
+  useEffect(() => {
+    const disparados: Record<number, boolean> = {};
+    const cortes = [25, 50, 75, 100];
+    const onScroll = () => {
+      const altura = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const pct = Math.round((window.scrollY / altura) * 100);
+      for (const c of cortes) {
+        if (!disparados[c] && pct >= c) {
+          disparados[c] = true;
+          try { trackScrollDepth(c); } catch { /* noop */ }
+        }
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Exit-intent: mouse saindo pelo topo (desktop) ou scroll-up rápido
+  // depois de engajar (mobile — mouseout não existe lá)
   useEffect(() => {
     if (typeof window === "undefined") return;
     try { if (sessionStorage.getItem("captura-gift-dismissed") === "1") return; } catch { /* noop */ }
     giftStartRef.current = Date.now();
+    const abre = () => {
+      giftFiredRef.current = true;
+      setGiftOpen(true);
+    };
     const handle = (e: MouseEvent) => {
       if (giftFiredRef.current) return;
       if (giftOpen) return;
@@ -61,11 +100,27 @@ const Captura = () => {
       if (to !== null) return;
       if (e.clientY > 0) return;
       if (Date.now() - giftStartRef.current < 4000) return;
-      giftFiredRef.current = true;
-      setGiftOpen(true);
+      abre();
+    };
+    const ehMobile = window.matchMedia("(pointer: coarse)").matches;
+    let topoMaximo = window.scrollY;
+    const handleMobile = () => {
+      if (giftFiredRef.current || giftOpen) return;
+      if (Date.now() - giftStartRef.current < 8000) {
+        topoMaximo = window.scrollY;
+        return;
+      }
+      topoMaximo = Math.max(topoMaximo, window.scrollY);
+      const altura = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      if (topoMaximo / altura < 0.25) return; // só quem engajou de fato
+      if (window.scrollY < topoMaximo - 220) abre();
     };
     document.addEventListener("mouseout", handle);
-    return () => document.removeEventListener("mouseout", handle);
+    if (ehMobile) window.addEventListener("scroll", handleMobile, { passive: true });
+    return () => {
+      document.removeEventListener("mouseout", handle);
+      window.removeEventListener("scroll", handleMobile);
+    };
   }, [giftOpen]);
 
   const closeGift = (next: boolean) => {
@@ -193,9 +248,11 @@ const Captura = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-blue-500/10 border border-blue-500/30 mx-auto w-fit left-0 right-0 relative">
-              <Clock className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-white/70"><span className="line-through text-white/30 font-mono">60 dias</span> <span className="text-blue-400">→</span> <span className="text-blue-300 font-mono font-semibold">1 hora, ao vivo</span></span>
+            <div className="mt-10 flex justify-center">
+              <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-blue-500/10 border border-blue-500/30">
+                <Clock className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-white/70"><span className="line-through text-white/30 font-mono">60 dias</span> <span className="text-blue-400">→</span> <span className="text-blue-300 font-mono font-semibold">1 hora, ao vivo</span></span>
+              </div>
             </div>
           </div>
         </section>
