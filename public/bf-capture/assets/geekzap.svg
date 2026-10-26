@@ -1,0 +1,10 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="64" fill="#0f172a"/>
+  <!-- Paper plane body -->
+  <path d="M104 24L24 56L50 68L58 104L104 24Z" fill="#22c55e"/>
+  <!-- Paper plane fold line -->
+  <path d="M50 68L70 48" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+  <!-- Shine dot -->
+  <circle cx="94" cy="34" r="4" fill="rgba(255,255,255,0.3)"/>
+</svg>

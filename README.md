@@ -49,6 +49,8 @@ npm run lint     # eslint
 |---|---|---|
 | `FB_CAPI_TOKEN` | **sim** | Token de acesso da Meta Conversions API. Se faltar, `/api/capi` retorna 500 silencioso. |
 | `FB_PIXEL_ID` | não | Override do pixel ID (default: `2072830730255789`) |
+| `BLACKFRIDAY_SUPABASE_URL` | sim para captura Black Friday | URL do projeto Supabase Geek Academy usado pelo endpoint server-side de leads |
+| `BLACKFRIDAY_SUPABASE_SECRET_KEY` | sim para captura Black Friday | Chave secreta Supabase server-side; nunca usar prefixo `VITE_` |
 
 ---
 
@@ -60,7 +62,10 @@ npm run lint     # eslint
 | `/upsell` | `Upsell.tsx` | Upsell 1 |
 | `/upsell-2` | `Upsell2.tsx` | Upsell 2 |
 | `/aula` e `/captura` | `Captura.tsx` | Página de captura da aula grátis (leva pro grupo WhatsApp) |
-| `/blackfriday` | `BlackFriday.tsx` | Edição Black Friday: FPM 2.0 + Infinity Pixel + Infinity Farm + 3 meses GeekZap, R$247 |
+| `/blackfriday` | `src/pages/BlackFriday.tsx` + `public/bf-capture/index.html` | Captura da aula Black Friday com cadastro no Supabase |
+| `/blackfriday/obrigado` | `src/pages/BlackFridayThanks.tsx` + `public/bf-capture/obrigado/index.html` | Confirmação do cadastro e entrada voluntária no grupo; o presente será enviado por lá |
+| `/blackfriday/privacidade` | `src/pages/BlackFridayPrivacy.tsx` + `public/bf-capture/privacidade/index.html` | Privacidade específica da captura Black Friday |
+| `/blackfriday/oferta` | `BlackFridayOferta.tsx` | Edição Black Friday: FPM 2.0 + Infinity Pixel + Infinity Farm + 3 meses GeekZap, R$247 |
 | `/obrigado` | `Obrigado.tsx` | Thank you page |
 
 ---

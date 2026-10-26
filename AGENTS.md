@@ -57,7 +57,15 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 14. `VSL-V3-APRESENTACAO.html` — preço mega + CTA
 15. `conteudo/aulas/M1-1-mindset-produtor-2-0.html` — range didático
 16. **Cakto** — o produto no checkout tem que estar no mesmo valor (CRÍTICO)
-17. `src/pages/BlackFriday.tsx` — `BF_CHECKOUT_URL` + preço R$247 / 12x R$20,59 (rota `/blackfriday`)
+17. `src/pages/BlackFridayOferta.tsx` — `BF_CHECKOUT_URL` + preço R$247 / 12x R$20,59 (rota `/blackfriday/oferta`)
+
+### Captura Black Friday 2026
+
+- `/blackfriday` é a captura estática em `public/bf-capture/`, carregada pelos wrappers `src/pages/BlackFriday.tsx`, `BlackFridayThanks.tsx` e `BlackFridayPrivacy.tsx`; CSS e JS ficam isolados do SPA.
+- Cadastro grava em `public.blackfriday_leads` no Supabase Geek Academy via `api/blackfriday-leads.ts`.
+- `BLACKFRIDAY_SUPABASE_SECRET_KEY` é apenas server-side na Vercel; nunca usar prefixo `VITE_` nem colocar a chave no bundle.
+- Após salvar, encaminha a pessoa para `/blackfriday/obrigado`, onde ela escolhe entrar no grupo do WhatsApp. O presente será enviado manualmente no grupo.
+- A antiga página de venda foi preservada em `/blackfriday/oferta` via `src/pages/BlackFridayOferta.tsx`.
 
 > Dica: `grep -rn "247\|20,59" src/ index.html VSL-*.md VSL-*.html` pra conferir o estado.
 
