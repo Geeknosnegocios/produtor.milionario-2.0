@@ -18,8 +18,13 @@ const BlackFridayThanks = () => {
   }, []);
 
   useEffect(() => {
+    const previousTitle = document.title;
+    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    const previousDescription = description?.content;
+    document.title = "Cadastro confirmado — Black Friday FPM 2.0";
+    if (description) description.content = "Seu cadastro foi registrado. Entre no grupo oficial para receber o link da aula e o presente da Black Friday.";
     const frame = frameRef.current;
-    if (!frame) return;
+    if (!frame) return () => { document.title = previousTitle; if (description && previousDescription) description.content = previousDescription; };
     let detach = () => undefined;
     const onLoad = () => {
       detach();
@@ -29,6 +34,8 @@ const BlackFridayThanks = () => {
     return () => {
       frame.removeEventListener("load", onLoad);
       detach();
+      document.title = previousTitle;
+      if (description && previousDescription) description.content = previousDescription;
     };
   }, [attachTracking]);
 
