@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
-import logoEtzin from "@/assets/logo-etzin.svg";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -35,24 +34,13 @@ const Header = () => {
         >
             <div className="container mx-auto max-w-7xl px-4">
                 <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Logo · ETzin alien em pixel art */}
-                    <div className="flex items-center gap-3">
-                        <img
-                            src={logoEtzin}
-                            alt="Produtor Milionário 2.0"
-                            className="w-10 h-10 md:w-11 md:h-11 shadow-[0_0_20px_rgba(59,130,246,0.4)] rounded-lg"
-                            width={44}
-                            height={44}
-                        />
-                        <div className="flex flex-col leading-none">
-                            <span className="text-sm md:text-base font-extrabold tracking-tight text-white">
-                                Produtor Milionário <span className="text-blue-400">2.0</span>
-                            </span>
-                            <span className="text-[9px] md:text-[10px] font-medium tracking-[0.18em] text-blue-400 uppercase font-mono mt-0.5">
-                                LowTicket com Claude
-                            </span>
-                        </div>
-                    </div>
+                    <img
+                        src="/brand/fpm2/fpm-horizontal-escuro.svg"
+                        alt="FPM 2.0 — Produtor Milionário"
+                        className="block w-[220px] md:w-[250px] h-auto shrink-0"
+                        width={1510}
+                        height={350}
+                    />
 
                     {/* Navigation - hidden on mobile */}
                     <nav className="hidden md:flex items-center gap-8">

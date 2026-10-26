@@ -18,7 +18,6 @@ import {
   Award,
   CheckCircle2,
 } from "lucide-react";
-import logoEtzin from "@/assets/logo-etzin.svg";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
@@ -68,22 +67,17 @@ export default function Upsell() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-white/5">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-0.5">
               <img
-                src={logoEtzin}
-                alt="Produtor Milionário 2.0"
-                className="w-10 h-10 md:w-11 md:h-11 shadow-[0_0_20px_rgba(59,130,246,0.4)] rounded-lg"
-                width={44}
-                height={44}
+                src="/brand/fpm2/fpm-horizontal-escuro.svg"
+                alt="FPM 2.0 — Produtor Milionário"
+                className="block w-[180px] md:w-[228px] h-auto"
+                width={1510}
+                height={350}
               />
-              <div className="flex flex-col leading-none">
-                <span className="text-sm md:text-base font-extrabold tracking-tight text-white">
-                  Produtor Milionário <span className="text-blue-400">2.0</span>
-                </span>
-                <span className="text-[9px] md:text-[10px] font-medium tracking-[0.18em] text-blue-400 uppercase font-mono mt-0.5">
-                  OFERTA EXCLUSIVA · PÓS-COMPRA
-                </span>
-              </div>
+              <span className="text-[9px] md:text-[10px] font-medium tracking-[0.18em] text-blue-400 uppercase font-mono">
+                OFERTA EXCLUSIVA · PÓS-COMPRA
+              </span>
             </div>
 
             <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-red-500/40">

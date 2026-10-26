@@ -1,6 +1,5 @@
 import { MessageCircle, Sparkles, Shield, Mail, Clock, BookOpen, Youtube, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
-import logoEtzin from "@/assets/logo-etzin.svg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,17 +17,14 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4">
               <img
-                src={logoEtzin}
-                alt="Produtor Milionário 2.0"
-                className="w-11 h-11 rounded-lg shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-                width={44}
-                height={44}
+                src="/brand/fpm2/fpm-horizontal-escuro.svg"
+                alt="FPM 2.0 — Produtor Milionário"
+                className="block w-[250px] max-w-full h-auto"
+                width={1510}
+                height={350}
               />
-              <h3 className="text-2xl font-extrabold gradient-text">
-                Produtor Milionário 2.0
-              </h3>
             </div>
             <p className="text-sm text-blue-400 mb-2">LowTicket com Claude</p>
             <p className="text-muted-foreground mb-6 leading-relaxed">

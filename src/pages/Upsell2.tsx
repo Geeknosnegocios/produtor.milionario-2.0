@@ -15,7 +15,6 @@ import {
   Trophy,
   CheckCircle2,
 } from "lucide-react";
-import logoEtzin from "@/assets/logo-etzin.svg";
 import review1 from "@/assets/reviews/review-1.jpg";
 import review2 from "@/assets/reviews/review-2.jpg";
 import review3 from "@/assets/reviews/review-3.jpg";
@@ -61,7 +60,7 @@ export default function Upsell2() {
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="flex items-center gap-3">
               <img
-                src={logoEtzin}
+                src="/brand/fpm2/fpm-icone.svg"
                 alt="Mentoria VIP"
                 className="w-10 h-10 md:w-11 md:h-11 shadow-[0_0_20px_rgba(251,191,36,0.4)] rounded-lg"
                 width={44}
