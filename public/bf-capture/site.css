@@ -541,3 +541,6 @@ button:disabled::before{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){.ticker>.banner-track{animation:banner-marquee 32s linear infinite!important}}
 
 @media(max-width:800px){.edition-summary{gap:9px}.edition-motion-toggle{min-height:34px}}
+
+/* Give the mobile hero portrait its own clear band above the headline. */
+@media(max-width:800px){.hero.capture-hero.wrap{padding-top:calc(clamp(250px,72vw,310px) + 24px)}.hero-background{inset:0 0 auto;height:clamp(250px,72vw,310px)}.hero-background img{object-fit:cover;object-position:center top}.hero-background::after{background:linear-gradient(0deg,#020617 0%,rgb(2 6 23 / .12) 42%,transparent 76%)}}
