@@ -543,4 +543,4 @@ button:disabled::before{animation-play-state:paused}
 @media(max-width:800px){.edition-summary{gap:9px}.edition-motion-toggle{min-height:34px}}
 
 /* Use the supplied mobile portrait as the full hero backdrop. */
-@media(max-width:800px){.hero.capture-hero.wrap{padding-top:24px}.hero-background img{object-fit:cover;object-position:center top;opacity:.74}.hero-background::after{background:linear-gradient(180deg,rgb(2 6 23 / .24) 0%,rgb(2 6 23 / .42) 37%,rgb(2 6 23 / .82) 64%,#020617 100%),linear-gradient(90deg,rgb(2 6 23 / .48) 0%,rgb(2 6 23 / .2) 70%,rgb(2 6 23 / .24) 100%)}}
+@media(max-width:800px){.hero.capture-hero.wrap{padding-top:24px}.hero-background img{object-fit:cover;object-position:right top;opacity:.74}.hero-background::after{background:linear-gradient(180deg,rgb(2 6 23 / .24) 0%,rgb(2 6 23 / .42) 37%,rgb(2 6 23 / .82) 64%,#020617 100%),linear-gradient(90deg,rgb(2 6 23 / .48) 0%,rgb(2 6 23 / .2) 70%,rgb(2 6 23 / .24) 100%)}}
