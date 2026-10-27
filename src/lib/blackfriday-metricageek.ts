@@ -1,4 +1,5 @@
 import { createHash, createHmac } from 'node:crypto';
+import { isAllowedMetricageekIngestUrl } from './metricageek-endpoint';
 
 type LeadForTracking = {
   request_id: string;
@@ -36,14 +37,7 @@ export async function deliverBlackFridayLead(lead: LeadForTracking, attemptCount
   const signingSecret = process.env.BLACKFRIDAY_METRICAGEEK_SIGNING_SECRET || '';
   if (!endpoint || signingSecret.length < 32) return { ok: false, code: 'metricageek_tracking_not_configured' };
 
-  let parsed: URL;
-  try { parsed = new URL(endpoint); } catch { return { ok: false, code: 'metricageek_endpoint_invalid' }; }
-  if (parsed.protocol !== 'https:' || parsed.hostname !== 'metricageek.vercel.app' || parsed.search || parsed.hash) {
-    return { ok: false, code: 'metricageek_endpoint_not_allowed' };
-  }
-  if (!/^https:\/\/metricageek\.vercel\.app\/api\/campaign-events\/[0-9a-f-]{36}$/i.test(endpoint)) {
-    return { ok: false, code: 'metricageek_endpoint_invalid' };
-  }
+  if (!isAllowedMetricageekIngestUrl(endpoint)) return { ok: false, code: 'metricageek_endpoint_not_allowed' };
 
   let phoneHash: string;
   try { phoneHash = sha256(normalizedBrazilPhone(lead.whatsapp)); }

@@ -1,3 +1,5 @@
+import { isAllowedMetricageekIngestUrl, isAllowedMetricageekScriptUrl } from '../src/lib/metricageek-endpoint';
+
 type ApiRequest = { method?: string };
 type ApiResponse = { setHeader(name: string, value: string): void; status(code: number): ApiResponse; json(body: Record<string, unknown>): void };
 
@@ -13,7 +15,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   let configUrl: URL;
   try {
     const ingest = new URL(ingestUrl);
-    if (ingest.protocol !== 'https:' || ingest.hostname !== 'metricageek.vercel.app' || ingest.search || ingest.hash || !/^\/api\/campaign-events\/[0-9a-f-]{36}$/i.test(ingest.pathname)) {
+    if (!isAllowedMetricageekIngestUrl(ingestUrl)) {
       return respond(res, 503, { configured: false });
     }
     configUrl = new URL(`${ingest.pathname}/config`, ingest.origin);
@@ -25,7 +27,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const response = await fetch(configUrl, { signal: AbortSignal.timeout(4000), cache: 'no-store' });
     if (!response.ok) return respond(res, 503, { configured: false });
     const config = await response.json() as { script_url?: string; pixel_id?: string; consent_required?: boolean; campaign_key?: string };
-    if (typeof config.script_url !== 'string' || !config.script_url.startsWith('https://metricageek.vercel.app/p/')) {
+    if (typeof config.script_url !== 'string' || !isAllowedMetricageekScriptUrl(config.script_url)) {
       return respond(res, 503, { configured: false });
     }
     return respond(res, 200, {
