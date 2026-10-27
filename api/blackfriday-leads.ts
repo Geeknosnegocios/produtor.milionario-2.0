@@ -1,4 +1,4 @@
-import { deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek';
+import { deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek.ts';
 
 type LeadPayload = {
   name?: unknown;

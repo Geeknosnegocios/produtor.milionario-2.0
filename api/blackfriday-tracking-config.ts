@@ -1,4 +1,4 @@
-import { isAllowedMetricageekIngestUrl, isAllowedMetricageekScriptUrl } from '../src/lib/metricageek-endpoint';
+import { isAllowedMetricageekIngestUrl, isAllowedMetricageekScriptUrl } from '../src/lib/metricageek-endpoint.ts';
 
 type ApiRequest = { method?: string };
 type ApiResponse = { setHeader(name: string, value: string): void; status(code: number): ApiResponse; json(body: Record<string, unknown>): void };
