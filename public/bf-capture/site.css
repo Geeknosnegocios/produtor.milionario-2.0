@@ -548,3 +548,26 @@ button:disabled::before{animation-play-state:paused}
 @media(max-width:560px){.edition-wires .edition-base-path{stroke-width:2.4;opacity:.72}.edition-wires .edition-light-path{stroke-width:3.6;stroke-dasharray:2.2 97.8;opacity:1;filter:drop-shadow(0 0 5px #93c5fd) drop-shadow(0 0 12px rgb(59 130 246 / .85));animation-duration:3.6s}}
 /* Preserve visible route lights when the visitor requests reduced motion. */
 @media(prefers-reduced-motion:reduce){.edition-wires .edition-base-path{stroke:#7db3ff;opacity:.72}.edition-wires .edition-light-path{animation:none;stroke:#bfdbfe;stroke-dasharray:none;stroke-width:2.5;opacity:.38;filter:drop-shadow(0 0 4px #60a5fa)}}
+/* Green centered thank-you experience. */
+body.thankyou-page{background:radial-gradient(ellipse 54rem 35rem at 50% 0%,rgb(34 197 94 / .22),transparent 72%),linear-gradient(180deg,#052414 0%,#03180f 58%,#020b07 100%);color:#f0fdf4}
+.thankyou-page .header{height:82px;justify-content:center}
+.thankyou-page .thankyou{display:flex;width:min(900px,calc(100% - 40px));min-height:calc(100svh - 180px);margin-inline:auto;padding:0 0 58px;flex-direction:column;align-items:center;text-align:center}
+.thankyou-page .success-sign{width:58px;height:58px;margin:0 0 12px;background:rgb(34 197 94 / .18);color:#86efac}
+.thankyou-page .thanks-portrait-stage{position:relative;display:grid;place-items:end center;width:min(100%,420px);height:clamp(230px,32vw,330px);margin:0 auto 10px;overflow:hidden;background:radial-gradient(ellipse at 50% 86%,rgb(34 197 94 / .23),transparent 70%)}
+.thankyou-page .thanks-portrait{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;object-position:center bottom;filter:none}
+.thankyou-page .edition{margin:0 0 14px;color:#86efac}
+.thankyou-page .thankyou h1{max-width:17ch;font-size:clamp(44px,6vw,76px);line-height:1.02}
+.thankyou-page .thankyou h1 span{color:#4ade80}
+.thankyou-page .thanks-lead{max-width:58ch;margin:20px auto 28px;color:#d1fae5;font-size:18px;line-height:1.55}
+.thankyou-page .thankyou .button.primary{display:flex;width:min(100%,680px);min-height:76px;margin:0 auto;padding:19px clamp(18px,4vw,34px);background-color:#22c55e;background-image:none;color:#052e16;font-size:clamp(15px,2vw,18px);line-height:1.35;text-align:center;box-shadow:0 12px 36px rgb(0 0 0 / .4);animation:none}
+.thankyou-page .thankyou .button.primary>svg{color:#052e16}
+.thankyou-page .thankyou .button.primary:hover{background-color:#4ade80;background-image:none;color:#052e16;filter:none;box-shadow:0 14px 36px rgb(0 0 0 / .42);transform:translateY(-2px)}
+.thankyou-page .thankyou .button.primary:active{background-color:#16a34a;background-image:none;color:#052e16;filter:none;box-shadow:inset 0 2px 8px rgb(5 46 22 / .25),0 4px 12px rgb(0 0 0 / .3);transform:scale(.98)}
+
+.thankyou-page .thanks-group-note{display:block;margin:13px auto 0;color:#bbf7d0;font-size:12px;line-height:1.5}
+.thankyou-page .thanks-note{max-width:62ch;margin:26px auto 12px;color:#a7f3d0;font-size:12px;line-height:1.6}
+.thankyou-page .text-link{justify-content:center;color:#86efac}
+.thankyou-page .footer{min-height:88px;justify-content:center;flex-wrap:wrap;gap:10px 24px;text-align:center;color:#86efac;font-size:12px}
+.thankyou-page .footer a:hover{color:#d1fae5}
+@media(max-width:600px){.thankyou-page .header{height:70px}.thankyou-page .thankyou{width:calc(100% - 32px);min-height:0;padding-bottom:42px}.thankyou-page .thanks-portrait-stage{height:clamp(225px,64vw,290px);margin-top:-8px}.thankyou-page .success-sign{width:52px;height:52px;margin-bottom:10px}.thankyou-page .edition{margin-bottom:12px}.thankyou-page .thankyou h1{max-width:16ch;font-size:clamp(40px,10vw,54px)}.thankyou-page .thanks-lead{max-width:36ch;margin:16px auto 23px;font-size:16px}.thankyou-page .thankyou .button.primary{min-height:76px;padding:18px 16px;font-size:15px}.thankyou-page .thanks-group-note{font-size:12px}.thankyou-page .thanks-note{font-size:12px;margin-top:22px}.thankyou-page .footer{padding-block:24px;gap:12px}}
+@media(prefers-reduced-motion:reduce){.thankyou-page .thankyou .button.primary{animation:none!important;transition:none}}
