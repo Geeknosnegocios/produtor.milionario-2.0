@@ -1,5 +1,5 @@
 import { createHash, createHmac } from 'node:crypto';
-import { isAllowedMetricageekIngestUrl } from './metricageek-endpoint';
+import { isAllowedMetricageekIngestUrl } from './metricageek-endpoint.ts';
 
 type LeadForTracking = {
   request_id: string;

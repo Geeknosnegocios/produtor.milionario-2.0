@@ -7,13 +7,13 @@
   ],
   "functions": {
     "api/blackfriday-leads.ts": {
-      "includeFiles": "src/lib/blackfriday-metricageek.ts"
+      "includeFiles": "src/lib/*.ts"
     },
     "api/blackfriday-tracking-config.ts": {
       "includeFiles": "src/lib/metricageek-endpoint.ts"
     },
     "api/cron/blackfriday-tracking.ts": {
-      "includeFiles": "src/lib/blackfriday-metricageek.ts"
+      "includeFiles": "src/lib/*.ts"
     }
   },
   "rewrites": [
