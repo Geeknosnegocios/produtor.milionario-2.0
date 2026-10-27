@@ -1,8 +1,12 @@
+import { deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek';
+
 type LeadPayload = {
   name?: unknown;
   email?: unknown;
   whatsapp?: unknown;
   consent?: unknown;
+  measurementConsent?: unknown;
+  attribution?: { fbp?: unknown; fbc?: unknown };
   requestId?: unknown;
   startedAt?: unknown;
   website?: unknown;
@@ -55,6 +59,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const email = String(payload.email || "").trim().toLowerCase();
   const whatsapp = String(payload.whatsapp || "").replace(/\D/g, "");
   const requestId = String(payload.requestId || "");
+  const measurementConsent = payload.measurementConsent === true;
   const elapsed = Date.now() - Number(payload.startedAt || 0);
 
   if (name.length < 2 || name.length > 100) return respond(res, 400, { ok: false, error: "invalid_name" });
@@ -72,15 +77,16 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const value = payload.utm?.[key];
     return typeof value === "string" && value.length ? [[key, value.slice(0, 250)]] : [];
   }));
+  const validFbCookie = (value: unknown) => typeof value === 'string' && value.length <= 600 && /^fb\.1\.\d{10,13}\.[A-Za-z0-9_.-]{1,512}$/.test(value) ? value : null;
 
   try {
-    const saved = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?on_conflict=email,campaign`, {
+    const saved = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?on_conflict=email,campaign&select=id,request_id,created_at,full_name,email,whatsapp,consent,measurement_consent,attribution,tracking_status,tracking_attempts`, {
       method: "POST",
       headers: {
         apikey: supabaseSecret,
         Authorization: `Bearer ${supabaseSecret}`,
         "Content-Type": "application/json",
-        Prefer: "resolution=ignore-duplicates,return=minimal",
+        Prefer: "resolution=ignore-duplicates,return=representation",
       },
       body: JSON.stringify({
         request_id: requestId,
@@ -91,6 +97,15 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         consent: true,
         consent_version: "blackfriday-2026-10-26-v1",
         consented_at: new Date().toISOString(),
+        measurement_consent: measurementConsent,
+        measurement_consent_version: measurementConsent ? "blackfriday-measurement-2026-10-27-v1" : null,
+        measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
+        attribution: {
+          fbp: measurementConsent ? validFbCookie(payload.attribution?.fbp) : null,
+          fbc: measurementConsent ? validFbCookie(payload.attribution?.fbc) : null,
+        },
+        tracking_status: measurementConsent ? "pending" : "not_required",
+        tracking_next_retry_at: measurementConsent ? new Date().toISOString() : null,
         utm,
         source: "produtor-geekacademy-site",
       }),
@@ -99,7 +114,61 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       console.error("[blackfriday-leads] Supabase insert failed", saved.status);
       return respond(res, 503, { ok: false, error: "registration_unavailable" });
     }
-    return respond(res, 200, { ok: true, next: NEXT_PATH });
+
+    let inserted: Record<string, unknown>[] = [];
+    try { inserted = await saved.json(); } catch { /* A missing representation is handled as a duplicate lookup. */ }
+    const leadCreated = !!inserted[0];
+    let lead = inserted[0] as Record<string, unknown> | undefined;
+    if (!lead) {
+      const query = new URLSearchParams({
+        email: `eq.${email}`,
+        campaign: 'eq.blackfriday-2026',
+        select: 'id,request_id,created_at,full_name,email,whatsapp,consent,measurement_consent,attribution,tracking_status,tracking_attempts',
+        limit: '1',
+      });
+      const existing = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?${query}`, {
+        headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}` },
+      });
+      if (!existing.ok) return respond(res, 503, { ok: false, error: 'registration_unavailable' });
+      try { lead = (await existing.json())[0]; } catch { /* The registration itself remains saved. */ }
+    }
+
+    if (lead?.measurement_consent === true && lead.tracking_status === 'pending') {
+      const attempts = Number(lead.tracking_attempts || 0) + 1;
+      const claim = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?id=eq.${encodeURIComponent(String(lead.id))}&tracking_status=eq.pending`, {
+        method: 'PATCH',
+        headers: {
+          apikey: supabaseSecret,
+          Authorization: `Bearer ${supabaseSecret}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({ tracking_status: 'processing', tracking_attempts: attempts, tracking_claimed_at: new Date().toISOString() }),
+      });
+      let claimed: Record<string, unknown>[] = [];
+      if (claim.ok) { try { claimed = await claim.json(); } catch { /* A concurrent request owns this delivery. */ } }
+      if (claimed[0]) {
+        const delivery = await deliverBlackFridayLead(claimed[0] as unknown as Parameters<typeof deliverBlackFridayLead>[0], attempts);
+        const status = delivery.ok ? 'sent' : attempts >= 8 ? 'dead' : 'pending';
+        await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?id=eq.${encodeURIComponent(String(lead.id))}&tracking_status=eq.processing`, {
+          method: 'PATCH',
+          headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+          body: JSON.stringify({
+            tracking_status: status,
+            tracking_claimed_at: null,
+            tracking_next_retry_at: status === 'pending' ? nextTrackingRetry(attempts) : null,
+            tracking_last_error: delivery.ok ? null : delivery.code,
+          }),
+        }).catch(() => undefined);
+      }
+    }
+    return respond(res, 200, {
+      ok: true,
+      next: NEXT_PATH,
+      lead_created: leadCreated,
+      measurement_consent: lead?.measurement_consent === true,
+      event_id: lead?.measurement_consent === true ? lead.request_id : undefined,
+    });
   } catch {
     return respond(res, 503, { ok: false, error: "registration_unavailable" });
   }

@@ -33,6 +33,12 @@ npm run lint     # eslint
 
 > Requer Node 20+. Recomendado usar `nvm`.
 
+### Captura Black Friday e consentimento de medição
+
+O consentimento de e-mail/WhatsApp continua obrigatório para registrar a inscrição. A autorização opcional de medição de anúncios é separada e começa desmarcada. O Pixel do Metricageek só carrega após essa autorização; o evento `Lead` segue ao servidor somente para um cadastro novo com medição autorizada. Reenvios reutilizam o registro e o event ID existentes.
+
+Antes de produção, aplique `supabase/migrations/20261027120000_blackfriday_measurement_tracking.sql`, configure as variáveis Metricageek/cron no Vercel e aprove o texto da autorização e da página de privacidade. A origem `produtor.geekacademy.site` também precisa estar liberada no workspace Metricageek.
+
 ---
 
 ## Variáveis de ambiente
@@ -47,10 +53,13 @@ npm run lint     # eslint
 
 | Var | Obrigatório | Descrição |
 |---|---|---|
-| `FB_CAPI_TOKEN` | **sim** | Token de acesso da Meta Conversions API. Se faltar, `/api/capi` retorna 500 silencioso. |
-| `FB_PIXEL_ID` | não | Override do pixel ID (default: `2072830730255789`) |
+| `FB_CAPI_TOKEN` | fluxos antigos | Token usado pelo relay legado da página de vendas; a captura Black Friday usa o Metricageek. |
+| `FB_PIXEL_ID` | fluxos antigos | Pixel padrão legado da página de vendas. A Black Friday lê o Pixel do workspace Metricageek. |
 | `BLACKFRIDAY_SUPABASE_URL` | sim para captura Black Friday | URL do projeto Supabase Geek Academy usado pelo endpoint server-side de leads |
 | `BLACKFRIDAY_SUPABASE_SECRET_KEY` | sim para captura Black Friday | Chave secreta Supabase server-side; nunca usar prefixo `VITE_` |
+| `BLACKFRIDAY_METRICAGEEK_INGEST_URL` | sim para CAPI Black Friday | URL de ingestão da fonte `capture`, copiada da integração do workspace Metricageek |
+| `BLACKFRIDAY_METRICAGEEK_SIGNING_SECRET` | sim para CAPI Black Friday | Segredo mostrado uma vez ao criar a fonte. Guardar somente como segredo Vercel. |
+| `CRON_SECRET` | sim para retentativas | Segredo forte de pelo menos 32 caracteres para `/api/cron/blackfriday-tracking` |
 
 ---
 

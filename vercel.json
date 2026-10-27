@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron/blackfriday-tracking",
+      "schedule": "0 12 * * *"
+    }
+  ],
   "rewrites": [
     { "source": "/((?!api/|assets/|bf-capture/).*)", "destination": "/index.html" }
   ]

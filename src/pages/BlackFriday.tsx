@@ -1,29 +1,8 @@
-import { useCallback, useEffect, useRef } from "react";
-import { trackCustomEvent, trackLead, trackViewContent } from "@/lib/tracking";
-
-type FpmEvent = CustomEvent<{ event?: string; [key: string]: unknown }>;
+import { useEffect, useRef } from "react";
 
 const BlackFriday = () => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const captureSrc = `/bf-capture/index.html${typeof window === "undefined" ? "" : window.location.search}`;
-
-  const attachTracking = useCallback(() => {
-    const childWindow = frameRef.current?.contentWindow;
-    if (!childWindow) return () => undefined;
-
-    const handleEvent = (rawEvent: Event) => {
-      const eventName = (rawEvent as FpmEvent).detail?.event;
-      if (eventName === "lead_saved") {
-        trackLead("blackfriday-capture", 0);
-      }
-      if (eventName === "cta_click_group_intent" || eventName === "group_redirect_initiated") {
-        trackCustomEvent(eventName, { placement: "blackfriday-thankyou" });
-      }
-    };
-
-    childWindow.addEventListener("fpm:event", handleEvent);
-    return () => childWindow.removeEventListener("fpm:event", handleEvent);
-  }, []);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -46,19 +25,10 @@ const BlackFriday = () => {
     if (ogTitle) ogTitle.content = pageTitle;
     if (ogDescription) ogDescription.content = "Aula gratuita e ao vivo sobre como estruturar um produto low ticket com IA. Cadastre-se e receba o kit de preparação.";
     if (ogUrl) ogUrl.content = "https://produtor.geekacademy.site/blackfriday";
-    trackViewContent("Produtor Milionário 2.0 — Captura Black Friday 2026");
     const frame = frameRef.current;
     if (!frame) return;
 
-    let detach = () => undefined;
-    const onLoad = () => {
-      detach();
-      detach = attachTracking();
-    };
-    frame.addEventListener("load", onLoad);
     return () => {
-      frame.removeEventListener("load", onLoad);
-      detach();
       document.title = previousTitle;
       if (description && previous.description) description.content = previous.description;
       if (canonical && previous.canonical) canonical.href = previous.canonical;
@@ -66,7 +36,7 @@ const BlackFriday = () => {
       if (ogDescription && previous.ogDescription) ogDescription.content = previous.ogDescription;
       if (ogUrl && previous.ogUrl) ogUrl.content = previous.ogUrl;
     };
-  }, [attachTracking]);
+  }, []);
 
   return (
     <iframe
