@@ -1,4 +1,4 @@
-import { deliverBlackFridayLead, nextTrackingRetry } from '../../src/lib/blackfriday-metricageek';
+import { deliverBlackFridayLead, nextTrackingRetry } from '../../src/lib/blackfriday-metricageek.ts';
 
 type ApiRequest = { method?: string; headers: Record<string, string | string[] | undefined> };
 type ApiResponse = { setHeader(name: string, value: string): void; status(code: number): ApiResponse; json(body: Record<string, unknown>): void };
