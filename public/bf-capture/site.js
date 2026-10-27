@@ -42,22 +42,6 @@
 
   });
 
-  const editionMotionButton=document.querySelector('#edition-motion-toggle');
-
-  const editionMap=document.querySelector('.edition-map');
-
-  if(editionMotionButton&&editionMap){
-
-    let lightsPaused=false;
-
-    const renderEditionMotion=()=>{editionMap.classList.toggle('motion-paused',lightsPaused);editionMotionButton.setAttribute('aria-pressed',String(lightsPaused));editionMotionButton.textContent=lightsPaused?'Retomar luzes':'Pausar luzes';editionMotionButton.setAttribute('aria-label',lightsPaused?'Retomar luzes nos caminhos':'Pausar luzes nos caminhos');};
-
-    editionMotionButton.addEventListener('click',()=>{lightsPaused=!lightsPaused;renderEditionMotion();});
-
-    renderEditionMotion();
-
-  }
-
   const form = document.querySelector('#capture-form');
 
   let captureDialog = null;
