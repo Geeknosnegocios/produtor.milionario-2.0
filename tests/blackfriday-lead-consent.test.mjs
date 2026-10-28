@@ -10,6 +10,23 @@ const NEW_TOKEN = 'bb'.repeat(32);
 const REQUEST_ID = '123e4567-e89b-42d3-a456-426614174000';
 const tokenHash = token => createHash('sha256').update(token).digest('hex');
 
+test('valid signup accepts autofill and a device clock ahead of the server', async t => {
+  withEnv(t);
+  let writes = 0;
+  withFetch(t, async (_url, options) => {
+    assert.equal(options.method, 'POST');
+    writes++;
+    return new Response(JSON.stringify([{ id: 'lead-clock-test', measurement_consent: false }]), { status: 201 });
+  });
+  for (const startedAt of [Date.now(), Date.now() + 3_600_000]) {
+    const res = response();
+    await handler({ method: 'POST', headers: { host: HOST, origin: `https://${HOST}` }, body: { ...payload(false), startedAt } }, res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.body.ok, true);
+  }
+  assert.equal(writes, 2);
+});
+
 function response() {
   return {
     headers: {}, statusCode: 0, body: undefined,

@@ -86,7 +86,6 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const requestId = String(payload.requestId || "");
   const accessToken = String(payload.accessToken || '');
   const measurementConsent = payload.measurementConsent === true;
-  const elapsed = Date.now() - Number(payload.startedAt || 0);
 
   if (name.length < 2 || name.length > 100) return respond(res, 400, { ok: false, error: "invalid_name" });
   if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return respond(res, 400, { ok: false, error: "invalid_email" });
@@ -94,7 +93,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (payload.consent !== true) return respond(res, 400, { ok: false, error: "consent_required" });
   if (!UUID_PATTERN.test(requestId)) return respond(res, 400, { ok: false, error: "invalid_request" });
   if (!ACCESS_TOKEN_PATTERN.test(accessToken)) return respond(res, 400, { ok: false, error: 'invalid_request' });
-  if (!Number.isFinite(elapsed) || elapsed < 1800) return respond(res, 400, { ok: false, error: "request_too_fast" });
+  // Client wall clocks and autofill speed cannot establish whether a signup is legitimate.
+  // Keep the same-origin, honeypot, field, consent and request-token checks above.
 
   const supabaseUrl = process.env.BLACKFRIDAY_SUPABASE_URL?.replace(/\/+$/, "");
   const supabaseSecret = process.env.BLACKFRIDAY_SUPABASE_SECRET_KEY;
