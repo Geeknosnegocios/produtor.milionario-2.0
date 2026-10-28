@@ -1,4 +1,21 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron/blackfriday-tracking",
+      "schedule": "0 12 * * *"
+    }
+  ],
+  "functions": {
+    "api/blackfriday-leads.ts": {
+      "includeFiles": "src/lib/*.ts"
+    },
+    "api/blackfriday-tracking-config.ts": {
+      "includeFiles": "src/lib/metricageek-endpoint.ts"
+    },
+    "api/cron/blackfriday-tracking.ts": {
+      "includeFiles": "src/lib/*.ts"
+    }
+  },
   "rewrites": [
     { "source": "/((?!api/|assets/|bf-capture/).*)", "destination": "/index.html" }
   ]

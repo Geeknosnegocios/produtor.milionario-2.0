@@ -1,10 +1,84 @@
+import { createTrackingLoader } from './tracking-consent.mjs';
+
 (() => {
 
   'use strict';
 
   const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00' };
 
-  const fire = (event, properties = {}) => { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event, ...properties }); window.dispatchEvent(new CustomEvent('fpm:event', { detail: { event, ...properties } })); };
+  const measurementBox = document.querySelector('#measurement-consent');
+  if (measurementBox) {
+    try { measurementBox.checked = sessionStorage.getItem('bf_measurement_consent') === '1'; } catch { /* Consent remains unchecked. */ }
+  }
+  let measurementAllowed = () => {
+    try { return !!(measurementBox && measurementBox.checked) || sessionStorage.getItem('bf_measurement_consent') === '1'; }
+    catch { return !!(measurementBox && measurementBox.checked); }
+  };
+  let trackingReady = () => Promise.resolve(false);
+  let thankYouViewSent = false;
+
+  const sendMetricageekEvent = event => {
+    const send = () => {
+      if (!window.gpx || !measurementAllowed()) return;
+      if (event === 'form_start') window.gpx.event('FormStart', {}, null, { event_id: crypto.randomUUID() });
+      if (event === 'group_invite_click') window.gpx.event('GroupInviteClick', { placement: 'thank-you' }, null, { event_id: crypto.randomUUID() });
+      if (event === 'thank_you_view') window.gpx.event('ThankYouView', {}, null, { event_id: crypto.randomUUID() });
+    };
+    if (window.gpx) send();
+    else void trackingReady().then(send);
+  };
+
+  const fire = (event, properties = {}) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, ...properties });
+    window.dispatchEvent(new CustomEvent('fpm:event', { detail: { event, ...properties } }));
+    if (['form_start', 'group_invite_click', 'thank_you_view'].includes(event)) sendMetricageekEvent(event);
+  };
+
+  const loadTrackingScript = createTrackingLoader({
+    hasConsent: measurementAllowed,
+    fetchConfig: async () => {
+      const response = await fetch('/api/blackfriday-tracking-config', { credentials: 'same-origin', cache: 'no-store' });
+      if (!response.ok) return null;
+      return response.json();
+    },
+    appendScript: scriptUrl => new Promise(resolve => {
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        script.async = true;
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.head.append(script);
+      }),
+  });
+
+  trackingReady = async () => {
+    const loaded = await loadTrackingScript();
+    if (!loaded || !measurementAllowed() || !window.gpx || typeof window.gpx.consent !== 'function') return false;
+    window.gpx.consent(true);
+    if (document.body.classList.contains('thankyou-page') && !thankYouViewSent) {
+      thankYouViewSent = true;
+      fire('thank_you_view');
+    }
+    return true;
+  };
+
+  if (measurementAllowed()) void trackingReady();
+
+  if (measurementBox) {
+    measurementBox.addEventListener('change', () => {
+      try {
+        if (measurementBox.checked) sessionStorage.setItem('bf_measurement_consent', '1');
+        else sessionStorage.removeItem('bf_measurement_consent');
+      } catch { /* Do not block form use when storage is unavailable. */ }
+      if (measurementBox.checked) void trackingReady();
+      else window.gpx?.consent(false);
+      if (measurementBox.checked && form && form.contains(document.activeElement) && !formStarted) {
+        formStarted = true;
+        fire('form_start');
+      }
+    });
+  }
 
   const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
 
@@ -69,6 +143,13 @@
   if (form) {
 
     let requestId = crypto.randomUUID();
+    let formStarted = false;
+
+    form.addEventListener('focusin', () => {
+      if (formStarted || !measurementAllowed()) return;
+      formStarted = true;
+      fire('form_start');
+    });
 
     let accessToken = Array.from(crypto.getRandomValues(new Uint8Array(32)), n => n.toString(16).padStart(2, '0')).join('');
 
@@ -116,11 +197,23 @@
 
       try {
 
-        const response = await fetch('/api/blackfriday-leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ name, email, whatsapp, consent: true, utm, requestId, accessToken, startedAt, website: form.elements.website.value }) });
+        const readCookie = name => { const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return match ? decodeURIComponent(match[1]) : null; };
+        const measurementConsent = !!measurementBox?.checked;
+        const response = await fetch('/api/blackfriday-leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ name, email, whatsapp, consent: true, measurementConsent, attribution: measurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc') } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value }) });
 
         const result = await response.json();
 
-        if (!response.ok || result.ok !== true) throw new Error(result.error || 'Não foi possível salvar. Tente novamente.');
+        if (!response.ok || result.ok !== true) {
+          const message = result.error === 'consent_change_requires_original_browser'
+            ? 'Para alterar a autorização de medição, volte ao formulário no navegador usado no cadastro original. Se não tiver mais acesso a esse navegador, use os canais oficiais da Geek Academy.'
+            : result.error || 'Não foi possível salvar. Tente novamente.';
+          throw new Error(message);
+        }
+
+        if (result.measurement_consent === true && result.event_id && measurementAllowed()) {
+          await trackingReady();
+          if (window.gpx) window.gpx.event('Lead', {}, null, { event_id: result.event_id, event_time: Math.floor(Date.now() / 1000), pixel_only: true });
+        }
 
         fire('lead_saved', { origin: utm.utm_source || 'direct' });
 
@@ -144,7 +237,7 @@
 
   }
 
-  document.querySelectorAll('a').forEach(a => { if(new URL(a.href).hash === '#cadastro') a.addEventListener('click', event => {fire('cta_click_group_intent', { placement: a.classList.contains('mobile-cta') ? 'mobile-sticky' : 'page', capture_mode: CONFIG.CAPTURE_MODE });if(captureDialog){event.preventDefault();captureDialog.showModal();}}); });
+  document.querySelectorAll('a').forEach(a => { if(new URL(a.href).hash === '#cadastro') a.addEventListener('click', event => {if(captureDialog){event.preventDefault();captureDialog.showModal();}}); });
 
   const steps = [
 
@@ -314,7 +407,7 @@
 
   if(countdown){tick();setInterval(tick,30000);}
 
-  document.querySelector('#join-group')?.addEventListener('click', () => {fire('cta_click_group_intent', {placement:'thank-you'});fire('group_redirect_initiated');});
+  document.querySelector('#join-group')?.addEventListener('click', () => {fire('group_invite_click');});
 
   document.querySelector('#download-gift')?.addEventListener('click',()=>fire('gift_download_requested'));
 
