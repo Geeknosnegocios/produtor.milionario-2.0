@@ -253,3 +253,7 @@ grep -rn "147\|14,87" src/ index.html VSL-*.md VSL-*.html
 - **Tracking:** sempre usar helpers de `src/lib/tracking.ts` (nunca chamar `fbq` direto)
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`)
 - **Idioma:** PT-BR em copy e comentários
+
+### Estado de qualidade de correspondência Black Friday
+
+O evento Lead agora encaminha identidade de contato normalizada e hashes de nomes/localização quando disponíveis, mais external_id estável e sinais de IP/UA do request. PageView continua sujeito à autorização de medição; a persistência usa prova privada de navegador no relay. A função Supabase merge_gpx_identity foi aplicada com EXECUTE apenas para service_role. Purchase depende de webhook do checkout e ainda não está configurado neste workspace. A correspondência avançada automática no pixel requer ads_management; a conexão consultada recebeu erro Meta #100 Missing Permission. A nota 9,0 precisa ser confirmada pelo Event Match Quality após eventos suficientes.
