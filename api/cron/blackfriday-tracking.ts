@@ -1,4 +1,6 @@
 import { deliverBlackFridayLead, nextTrackingRetry } from '../../src/lib/blackfriday-metricageek.ts';
+import { randomUUID } from 'node:crypto';
+import { buildBlackFridayClaimFilter } from '../../src/lib/blackfriday-tracking-claim.ts';
 
 type ApiRequest = { method?: string; headers: Record<string, string | string[] | undefined> };
 type ApiResponse = { setHeader(name: string, value: string): void; status(code: number): ApiResponse; json(body: Record<string, unknown>): void };
@@ -27,7 +29,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     or: `(and(tracking_status.eq.pending,tracking_next_retry_at.lte.${now.toISOString()}),and(tracking_status.eq.processing,tracking_claimed_at.lt.${stale.toISOString()}))`,
     select: 'id,request_id,created_at,full_name,email,whatsapp,consent,measurement_consent,attribution,tracking_status,tracking_attempts',
     order: 'tracking_next_retry_at.asc',
-    limit: '50',
+    limit: '8',
   });
   const due = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?${dueQuery}`, {
     headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}` },
@@ -41,6 +43,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   let dead = 0;
   for (const lead of leads) {
     const attempts = Number(lead.tracking_attempts || 0) + 1;
+    const claimToken = randomUUID();
     const retryFilter = `(and(tracking_status.eq.pending,tracking_next_retry_at.lte.${now.toISOString()}),and(tracking_status.eq.processing,tracking_claimed_at.lt.${stale.toISOString()}))`;
     const claim = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?id=eq.${encodeURIComponent(String(lead.id))}&measurement_consent=is.true&or=${encodeURIComponent(retryFilter)}`, {
       method: 'PATCH',
@@ -50,7 +53,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         'Content-Type': 'application/json',
         Prefer: 'return=representation',
       },
-      body: JSON.stringify({ tracking_status: 'processing', tracking_attempts: attempts, tracking_claimed_at: new Date().toISOString() }),
+      body: JSON.stringify({ tracking_status: 'processing', tracking_attempts: attempts, tracking_claimed_at: new Date().toISOString(), tracking_claim_token: claimToken }),
     });
     if (!claim.ok) continue;
     const claimRows = await claim.json().catch(() => []) as Record<string, unknown>[];
@@ -59,17 +62,20 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     const delivery = await deliverBlackFridayLead(claimRows[0] as unknown as Parameters<typeof deliverBlackFridayLead>[0], attempts);
     const status = delivery.ok ? 'sent' : attempts >= 8 ? 'dead' : 'pending';
-    const update = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?id=eq.${encodeURIComponent(String(lead.id))}&tracking_status=eq.processing`, {
+    const update = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?${buildBlackFridayClaimFilter(String(lead.id), claimToken)}`, {
       method: 'PATCH',
-      headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
       body: JSON.stringify({
         tracking_status: status,
         tracking_claimed_at: null,
+        tracking_claim_token: null,
         tracking_next_retry_at: status === 'pending' ? nextTrackingRetry(attempts) : null,
         tracking_last_error: delivery.ok ? null : delivery.code,
       }),
     });
     if (!update.ok) { pending++; continue; }
+    const finalized = await update.json().catch(() => []) as Record<string, unknown>[];
+    if (!finalized[0]) continue;
     if (status === 'sent') sent++;
     else if (status === 'dead') dead++;
     else pending++;

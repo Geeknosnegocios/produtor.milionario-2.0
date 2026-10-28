@@ -14,6 +14,15 @@ type LeadForTracking = {
 
 type Delivery = { ok: boolean; code: string };
 
+export function classifyMetricageekReceipt(status: number, body: { status?: unknown; duplicate?: unknown }): Delivery {
+  if (status === 200 && body.status === 'sent') return { ok: true, code: 'accepted' };
+  if (status >= 200 && status < 300 && (body.status === 'pending' || body.status === 'processing')) {
+    return { ok: false, code: 'metricageek_delivery_pending' };
+  }
+  if (status >= 200 && status < 300 && body.duplicate === true && body.status === 'sent') return { ok: true, code: 'accepted' };
+  return { ok: false, code: status >= 400 ? `metricageek_http_${status}` : 'metricageek_delivery_unconfirmed' };
+}
+
 const sha256 = (value: string) => createHash('sha256').update(value.trim().toLowerCase()).digest('hex');
 
 function normalizedBrazilPhone(value: string): string {
@@ -80,11 +89,8 @@ export async function deliverBlackFridayLead(lead: LeadForTracking, attemptCount
       body: raw,
       signal: AbortSignal.timeout(6000),
     });
-    if (!response.ok) return { ok: false, code: `metricageek_http_${response.status}` };
     const result = await response.json().catch(() => ({})) as { status?: string; duplicate?: boolean };
-    if (['sent', 'pending', 'processing', 'suppressed_by_consent'].includes(String(result.status))) return { ok: true, code: 'accepted' };
-    if (result.duplicate && result.status === 'dead') return { ok: false, code: 'metricageek_event_dead' };
-    return { ok: false, code: 'metricageek_delivery_pending' };
+    return classifyMetricageekReceipt(response.status, result);
   } catch {
     return { ok: false, code: 'metricageek_network_error' };
   }

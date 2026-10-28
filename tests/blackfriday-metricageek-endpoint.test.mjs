@@ -22,6 +22,7 @@ test('allows only the Metricageek tracker script on canonical and project previe
   const slug = 'blackfriday-fpm2-2026';
   assert.equal(isAllowedMetricageekScriptUrl(`https://metricageek.vercel.app/p/${slug}.js?consent=external`), true);
   assert.equal(isAllowedMetricageekScriptUrl(`https://metricageek-b2uogwcv9-andreys-projects-5cafebdf.vercel.app/p/${slug}.js?consent=external`), true);
+  assert.equal(isAllowedMetricageekScriptUrl(`https://metricageek.vercel.app/p/${slug}.js`), false);
   assert.equal(isAllowedMetricageekScriptUrl(`https://metricageek.vercel.app/p/${slug}.js?next=https://evil.test`), false);
   assert.equal(isAllowedMetricageekScriptUrl(`https://metricageek.vercel.app/p/${slug}.js.evil`), false);
 });

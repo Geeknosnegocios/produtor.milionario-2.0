@@ -37,7 +37,7 @@ npm run lint     # eslint
 
 O consentimento de e-mail/WhatsApp continua obrigatório para registrar a inscrição. A autorização opcional de medição de anúncios é separada e começa desmarcada. O Pixel do Metricageek só carrega após essa autorização; o evento `Lead` segue ao servidor somente para um cadastro novo com medição autorizada. Reenvios reutilizam o registro e o event ID existentes.
 
-Antes de produção, aplique `supabase/migrations/20261027120000_blackfriday_measurement_tracking.sql`, configure as variáveis Metricageek/cron no Vercel e aprove o texto da autorização e da página de privacidade. A origem `produtor.geekacademy.site` também precisa estar liberada no workspace Metricageek.
+Antes de produção, aplique `supabase/migrations/20261027120000_blackfriday_measurement_tracking.sql` e `supabase/migrations/20261028103004_blackfriday_tracking_claim_token.sql`, configure as variáveis Metricageek/cron no Vercel e aprove o texto da autorização e da página de privacidade. A origem `produtor.geekacademy.site` também precisa estar liberada no workspace Metricageek.
 
 ---
 

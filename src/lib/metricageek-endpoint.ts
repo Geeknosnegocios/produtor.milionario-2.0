@@ -22,7 +22,7 @@ export function isAllowedMetricageekScriptUrl(value: string): boolean {
     const url = new URL(value);
     return url.protocol === 'https:' && isMetricageekHost(url.hostname) && !url.hash &&
       /^\/p\/[a-z0-9][a-z0-9_-]{0,79}\.js$/i.test(url.pathname) &&
-      (!url.search || url.search === '?consent=external');
+      url.search === '?consent=external';
   } catch {
     return false;
   }

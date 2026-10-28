@@ -1,3 +1,5 @@
+import { createTrackingLoader } from './tracking-consent.mjs';
+
 (() => {
 
   'use strict';
@@ -5,10 +7,15 @@
   const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00' };
 
   const measurementBox = document.querySelector('#measurement-consent');
+  if (measurementBox) {
+    try { measurementBox.checked = sessionStorage.getItem('bf_measurement_consent') === '1'; } catch { /* Consent remains unchecked. */ }
+  }
   let measurementAllowed = () => {
     try { return !!(measurementBox && measurementBox.checked) || sessionStorage.getItem('bf_measurement_consent') === '1'; }
     catch { return !!(measurementBox && measurementBox.checked); }
   };
+  let trackingReady = () => Promise.resolve(false);
+  let thankYouViewSent = false;
 
   const sendMetricageekEvent = event => {
     const send = () => {
@@ -18,7 +25,7 @@
       if (event === 'thank_you_view') window.gpx.event('ThankYouView', {}, null, { event_id: crypto.randomUUID() });
     };
     if (window.gpx) send();
-    else void trackingReady.then(send);
+    else void trackingReady().then(send);
   };
 
   const fire = (event, properties = {}) => {
@@ -28,34 +35,44 @@
     if (['form_start', 'group_invite_click', 'thank_you_view'].includes(event)) sendMetricageekEvent(event);
   };
 
-  const trackingReady = (async () => {
-    try {
+  const loadTrackingScript = createTrackingLoader({
+    hasConsent: measurementAllowed,
+    fetchConfig: async () => {
       const response = await fetch('/api/blackfriday-tracking-config', { credentials: 'same-origin', cache: 'no-store' });
-      const config = await response.json();
-      if (!response.ok || config.configured !== true || typeof config.script_url !== 'string') return false;
-      await new Promise(resolve => {
+      if (!response.ok) return null;
+      return response.json();
+    },
+    appendScript: scriptUrl => new Promise(resolve => {
         const script = document.createElement('script');
-        script.src = config.script_url;
+        script.src = scriptUrl;
         script.async = true;
         script.onload = () => resolve(true);
         script.onerror = () => resolve(false);
         document.head.append(script);
-      });
-      if (!window.gpx || typeof window.gpx.consent !== 'function') return false;
-      window.gpx.consent(measurementAllowed());
-      if (document.body.classList.contains('thankyou-page') && measurementAllowed()) fire('thank_you_view');
-      return true;
-    } catch { return false; }
-  })();
+      }),
+  });
+
+  trackingReady = async () => {
+    const loaded = await loadTrackingScript();
+    if (!loaded || !measurementAllowed() || !window.gpx || typeof window.gpx.consent !== 'function') return false;
+    window.gpx.consent(true);
+    if (document.body.classList.contains('thankyou-page') && !thankYouViewSent) {
+      thankYouViewSent = true;
+      fire('thank_you_view');
+    }
+    return true;
+  };
+
+  if (measurementAllowed()) void trackingReady();
 
   if (measurementBox) {
-    try { measurementBox.checked = sessionStorage.getItem('bf_measurement_consent') === '1'; } catch { /* Consent remains unchecked. */ }
     measurementBox.addEventListener('change', () => {
       try {
         if (measurementBox.checked) sessionStorage.setItem('bf_measurement_consent', '1');
         else sessionStorage.removeItem('bf_measurement_consent');
       } catch { /* Do not block form use when storage is unavailable. */ }
-      void trackingReady.then(() => window.gpx?.consent(measurementBox.checked));
+      if (measurementBox.checked) void trackingReady();
+      else window.gpx?.consent(false);
       if (measurementBox.checked && form && form.contains(document.activeElement) && !formStarted) {
         formStarted = true;
         fire('form_start');
@@ -186,10 +203,15 @@
 
         const result = await response.json();
 
-        if (!response.ok || result.ok !== true) throw new Error(result.error || 'Não foi possível salvar. Tente novamente.');
+        if (!response.ok || result.ok !== true) {
+          const message = result.error === 'consent_change_requires_original_browser'
+            ? 'Para alterar a autorização de medição, volte ao formulário no navegador usado no cadastro original. Se não tiver mais acesso a esse navegador, use os canais oficiais da Geek Academy.'
+            : result.error || 'Não foi possível salvar. Tente novamente.';
+          throw new Error(message);
+        }
 
-        if (result.lead_created === true && result.measurement_consent === true && result.event_id && measurementAllowed()) {
-          await trackingReady;
+        if (result.measurement_consent === true && result.event_id && measurementAllowed()) {
+          await trackingReady();
           if (window.gpx) window.gpx.event('Lead', {}, null, { event_id: result.event_id, event_time: Math.floor(Date.now() / 1000), pixel_only: true });
         }
 
