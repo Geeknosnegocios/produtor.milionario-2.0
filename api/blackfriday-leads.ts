@@ -159,7 +159,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (leadCreated) setAccessCookie(res, accessToken);
     else if (lead && lead.measurement_consent !== measurementConsent && !ownsLead(getAccessToken(req), lead.browser_token_hash)) {
-      return respond(res, 409, { ok: false, error: 'consent_change_requires_original_browser' });
+      // A repeat registration may proceed, but another browser cannot change saved consent.
+      return respond(res, 200, { ok: true, next: NEXT_PATH, lead_created: false, measurement_consent: false });
     } else if (lead && ownsLead(getAccessToken(req), lead.browser_token_hash) && lead.measurement_consent !== measurementConsent) {
       const wasConsented = lead.measurement_consent === true;
       const nextStatus = measurementConsent
@@ -190,6 +191,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       try { lead = (await updated.json())[0] || lead; } catch { return respond(res, 503, { ok: false, error: 'consent_update_unavailable' }); }
     }
 
+    // The registration is durable already. Advertising delivery must not fail signup.
+    try {
     if (lead?.measurement_consent === true && lead.tracking_status === 'pending') {
       const attempts = Number(lead.tracking_attempts || 0) + 1;
       const claimToken = randomUUID();
@@ -221,6 +224,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         }).catch(() => undefined);
       }
     }
+    }
+    catch { /* The persisted outbox is retried by the scheduled worker. */ }
     const mayIdentify = !!lead && (leadCreated || ownsLead(getAccessToken(req), lead.browser_token_hash)) && lead.measurement_consent === true && measurementConsent;
     const browserIdentity: Record<string, string[]> = {};
     if (mayIdentify) {

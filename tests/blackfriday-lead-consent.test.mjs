@@ -88,8 +88,10 @@ test('duplicate signup requires the original browser token to change saved measu
   const res = response();
   await handler({ method: 'POST', headers: { host: HOST, origin: `https://${HOST}` }, body: payload(true) }, res);
   assert.equal(calls.some(call => call.method === 'PATCH'), false);
-  assert.equal(res.statusCode, 409);
-  assert.deepEqual(res.body, { ok: false, error: 'consent_change_requires_original_browser' });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.ok, true);
+  assert.equal(res.body.measurement_consent, false);
+  assert.equal(res.body.event_id, undefined);
 });
 
 test('same-browser resubmission may update the saved measurement choice while preserving event ID', async t => {

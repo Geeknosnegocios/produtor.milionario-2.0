@@ -1,5 +1,6 @@
 import { createTrackingLoader } from './tracking-consent.mjs';
 import { identifySavedLead } from './tracking-identity.mjs';
+import { submitRegistration, boundedTracking } from './registration-request.mjs';
 
 (() => {
 
@@ -144,6 +145,7 @@ import { identifySavedLead } from './tracking-identity.mjs';
   }
 
   if (form) {
+    let submitting = false;
 
     let requestId = crypto.randomUUID();
     let formStarted = false;
@@ -165,6 +167,7 @@ import { identifySavedLead } from './tracking-identity.mjs';
     form.addEventListener('submit', async e => {
 
       e.preventDefault();
+      if (submitting) return;
 
       const errorBox = form.querySelector('#form-error');
 
@@ -193,6 +196,7 @@ import { identifySavedLead } from './tracking-identity.mjs';
       const utm = campaign;
 
       submit.disabled = true;
+      submitting = true;
 
       submit.querySelector('span').textContent = 'Salvando seu cadastro…';
 
@@ -202,22 +206,12 @@ import { identifySavedLead } from './tracking-identity.mjs';
 
         const readCookie = name => { const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return match ? decodeURIComponent(match[1]) : null; };
         const measurementConsent = !!measurementBox?.checked;
-        if (measurementConsent) await trackingReady();
+        if (measurementConsent) await boundedTracking(trackingReady);
         const currentMeasurementConsent = measurementConsent && measurementAllowed();
-        const response = await fetch('/api/blackfriday-leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ name, email, whatsapp, consent: true, measurementConsent: currentMeasurementConsent, attribution: currentMeasurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc'), sid: window.gpx?.sid } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value }) });
-
-        const result = await response.json();
-
-        if (!response.ok || result.ok !== true) {
-          const message = result.error === 'consent_change_requires_original_browser'
-            ? 'Para alterar a autorização de medição, volte ao formulário no navegador usado no cadastro original. Se não tiver mais acesso a esse navegador, use os canais oficiais da Geek Academy.'
-            : result.error || 'Não foi possível salvar. Tente novamente.';
-          throw new Error(message);
-        }
+        const result = await submitRegistration({ name, email, whatsapp, consent: true, measurementConsent: currentMeasurementConsent, attribution: currentMeasurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc'), sid: window.gpx?.sid } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value });
 
         if (result.measurement_consent === true && result.event_id && measurementAllowed()) {
-          await trackingReady();
-          await identifySavedLead(window.gpx, result, measurementAllowed);
+          await boundedTracking(async () => { await trackingReady(); await identifySavedLead(window.gpx, result, measurementAllowed); });
         }
 
         fire('lead_saved', { origin: utm.utm_source || 'direct' });
@@ -229,6 +223,7 @@ import { identifySavedLead } from './tracking-identity.mjs';
         fail(error instanceof Error ? error.message : 'O envio falhou. Confira sua conexão e tente novamente.');
 
         submit.disabled = false;
+        submitting = false;
 
         submit.querySelector('span').textContent = 'Quero a aula + meu kit gratuito';
 
