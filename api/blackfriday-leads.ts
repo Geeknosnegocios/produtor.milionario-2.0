@@ -1,4 +1,4 @@
-import { deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek.ts';
+import { captureTrackingContext, deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek.ts';
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { buildBlackFridayClaimFilter } from '../src/lib/blackfriday-tracking-claim.ts';
 
@@ -8,7 +8,7 @@ type LeadPayload = {
   whatsapp?: unknown;
   consent?: unknown;
   measurementConsent?: unknown;
-  attribution?: { fbp?: unknown; fbc?: unknown };
+  attribution?: { fbp?: unknown; fbc?: unknown; sid?: unknown };
   requestId?: unknown;
   accessToken?: unknown;
   startedAt?: unknown;
@@ -128,10 +128,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         measurement_consent: measurementConsent,
         measurement_consent_version: measurementConsent ? "blackfriday-measurement-2026-10-27-v1" : null,
         measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
-        attribution: {
-          fbp: measurementConsent ? validFbCookie(payload.attribution?.fbp) : null,
-          fbc: measurementConsent ? validFbCookie(payload.attribution?.fbc) : null,
-        },
+        attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
         tracking_status: measurementConsent ? "pending" : "not_required",
         tracking_next_retry_at: measurementConsent ? new Date().toISOString() : null,
         utm,
@@ -181,7 +178,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
           measurement_consent: measurementConsent,
           measurement_consent_version: measurementConsent ? 'blackfriday-measurement-2026-10-27-v1' : null,
           measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
-          attribution: measurementConsent ? { fbp: validFbCookie(payload.attribution?.fbp), fbc: validFbCookie(payload.attribution?.fbc) } : { fbp: null, fbc: null },
+          attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
           tracking_status: nextStatus,
           tracking_attempts: measurementConsent && !wasConsented ? 0 : lead.tracking_attempts,
           tracking_claimed_at: null,

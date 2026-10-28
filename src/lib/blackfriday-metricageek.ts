@@ -1,4 +1,5 @@
 import { createHash, createHmac } from 'node:crypto';
+import { isIP } from 'node:net';
 import { isAllowedMetricageekIngestUrl } from './metricageek-endpoint.ts';
 
 type LeadForTracking = {
@@ -40,6 +41,52 @@ function cookieId(value: unknown, prefix: 'fbp' | 'fbc'): string | undefined {
   return pattern.test(value) ? value : undefined;
 }
 
+const bounded = (value: unknown, max = 512): string | undefined => typeof value === 'string' && value.length <= max && !/[\r\n]/.test(value) ? value.trim() || undefined : undefined;
+const letters = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+
+export function captureTrackingContext(headers: Record<string, string | string[] | undefined>, input: Record<string, unknown> = {}): Record<string, string | null> {
+  const header = (key: string) => bounded(Array.isArray(headers[key]) ? headers[key]?.[0] : headers[key]);
+  const ip = (header('x-vercel-forwarded-for') || header('x-forwarded-for') || '').split(',')[0].trim();
+  const decode = (value: string | undefined) => { try { return value ? decodeURIComponent(value) : null; } catch { return null; } };
+  const sid = bounded(input.sid, 128);
+  return {
+    fbp: cookieId(input.fbp, 'fbp') || null,
+    fbc: cookieId(input.fbc, 'fbc') || null,
+    ...(sid && /^[A-Za-z0-9._:-]{8,128}$/.test(sid) ? { sid } : {}),
+    ...(isIP(ip) ? { client_ip_address: ip } : {}),
+    ...(header('user-agent') ? { client_user_agent: header('user-agent')! } : {}),
+    ...(header('x-vercel-ip-country') ? { country: header('x-vercel-ip-country')! } : {}),
+    ...(header('x-vercel-ip-country-region') ? { st: header('x-vercel-ip-country-region')! } : {}),
+    ...(header('x-vercel-ip-city') ? { ct: decode(header('x-vercel-ip-city')) } : {}),
+    ...(header('x-vercel-ip-postal-code') ? { zp: header('x-vercel-ip-postal-code')! } : {}),
+  };
+}
+
+export function buildBlackFridayIdentity(lead: Pick<LeadForTracking, 'request_id' | 'full_name' | 'email' | 'whatsapp' | 'measurement_consent' | 'attribution'>): Record<string, string> {
+  if (!lead.measurement_consent) return {};
+  const attribution = lead.attribution || {};
+  const sid = bounded(attribution.sid, 128);
+  const identity: Record<string, string> = {
+    em_hash: sha256(lead.email), ph_hash: sha256(normalizedBrazilPhone(lead.whatsapp)),
+    external_id_hash: sha256(sid && /^[A-Za-z0-9._:-]{8,128}$/.test(sid) ? sid : lead.request_id),
+  };
+  const parts = lead.full_name.trim().split(/\s+/);
+  const first = parts.shift();
+  const values: Record<string, string | undefined> = {
+    fn: first?.toLowerCase().replace(/[\d\p{P}\p{S}]/gu, ''),
+    ln: parts.length ? parts.join('').toLowerCase().replace(/[\d\p{P}\p{S}]/gu, '') : undefined,
+    ct: letters(bounded(attribution.ct) || ''), st: letters(bounded(attribution.st) || ''),
+    country: (bounded(attribution.country) || '').toLowerCase(), zp: (bounded(attribution.zp) || '').replace(/[^a-zA-Z0-9]/g, '').toLowerCase(),
+  };
+  for (const [key, value] of Object.entries(values)) if (value) identity[`${key}_hash`] = sha256(value);
+  for (const key of ['fbp', 'fbc'] as const) { const value = cookieId(attribution[key], key); if (value) identity[key] = value; }
+  const ip = bounded(attribution.client_ip_address);
+  if (ip && isIP(ip)) identity.client_ip_address = ip;
+  const ua = bounded(attribution.client_user_agent);
+  if (ua) identity.client_user_agent = ua;
+  return identity;
+}
+
 export async function deliverBlackFridayLead(lead: LeadForTracking, attemptCount: number): Promise<Delivery> {
   if (!lead.measurement_consent) return { ok: true, code: 'not_required' };
   const endpoint = process.env.BLACKFRIDAY_METRICAGEEK_INGEST_URL || '';
@@ -48,19 +95,9 @@ export async function deliverBlackFridayLead(lead: LeadForTracking, attemptCount
 
   if (!isAllowedMetricageekIngestUrl(endpoint)) return { ok: false, code: 'metricageek_endpoint_not_allowed' };
 
-  let phoneHash: string;
-  try { phoneHash = sha256(normalizedBrazilPhone(lead.whatsapp)); }
+  let identity: Record<string, string>;
+  try { identity = buildBlackFridayIdentity(lead); }
   catch { return { ok: false, code: 'invalid_phone_for_tracking' }; }
-
-  const attribution = lead.attribution || {};
-  const identity: Record<string, string> = {
-    em_hash: sha256(lead.email),
-    ph_hash: phoneHash,
-  };
-  const fbp = cookieId(attribution.fbp, 'fbp');
-  const fbc = cookieId(attribution.fbc, 'fbc');
-  if (fbp) identity.fbp = fbp;
-  if (fbc) identity.fbc = fbc;
 
   const event = {
     event_id: lead.request_id,
