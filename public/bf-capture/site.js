@@ -1,4 +1,5 @@
 import { createTrackingLoader } from './tracking-consent.mjs';
+import { identifySavedLead } from './tracking-identity.mjs';
 
 (() => {
 
@@ -56,6 +57,8 @@ import { createTrackingLoader } from './tracking-consent.mjs';
     const loaded = await loadTrackingScript();
     if (!loaded || !measurementAllowed() || !window.gpx || typeof window.gpx.consent !== 'function') return false;
     window.gpx.consent(true);
+    await window.gpx.ready;
+    if (!measurementAllowed()) return false;
     if (document.body.classList.contains('thankyou-page') && !thankYouViewSent) {
       thankYouViewSent = true;
       fire('thank_you_view');
@@ -199,7 +202,9 @@ import { createTrackingLoader } from './tracking-consent.mjs';
 
         const readCookie = name => { const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return match ? decodeURIComponent(match[1]) : null; };
         const measurementConsent = !!measurementBox?.checked;
-        const response = await fetch('/api/blackfriday-leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ name, email, whatsapp, consent: true, measurementConsent, attribution: measurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc') } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value }) });
+        if (measurementConsent) await trackingReady();
+        const currentMeasurementConsent = measurementConsent && measurementAllowed();
+        const response = await fetch('/api/blackfriday-leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ name, email, whatsapp, consent: true, measurementConsent: currentMeasurementConsent, attribution: currentMeasurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc'), sid: window.gpx?.sid } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value }) });
 
         const result = await response.json();
 
@@ -212,7 +217,7 @@ import { createTrackingLoader } from './tracking-consent.mjs';
 
         if (result.measurement_consent === true && result.event_id && measurementAllowed()) {
           await trackingReady();
-          if (window.gpx) window.gpx.event('Lead', {}, null, { event_id: result.event_id, event_time: Math.floor(Date.now() / 1000), pixel_only: true });
+          await identifySavedLead(window.gpx, result, measurementAllowed);
         }
 
         fire('lead_saved', { origin: utm.utm_source || 'direct' });

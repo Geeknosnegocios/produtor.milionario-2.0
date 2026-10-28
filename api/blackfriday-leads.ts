@@ -1,4 +1,4 @@
-import { deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek.ts';
+import { buildBlackFridayIdentity, captureTrackingContext, deliverBlackFridayLead, nextTrackingRetry } from '../src/lib/blackfriday-metricageek.ts';
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { buildBlackFridayClaimFilter } from '../src/lib/blackfriday-tracking-claim.ts';
 
@@ -8,7 +8,7 @@ type LeadPayload = {
   whatsapp?: unknown;
   consent?: unknown;
   measurementConsent?: unknown;
-  attribution?: { fbp?: unknown; fbc?: unknown };
+  attribution?: { fbp?: unknown; fbc?: unknown; sid?: unknown };
   requestId?: unknown;
   accessToken?: unknown;
   startedAt?: unknown;
@@ -104,7 +104,6 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const value = payload.utm?.[key];
     return typeof value === "string" && value.length ? [[key, value.slice(0, 250)]] : [];
   }));
-  const validFbCookie = (value: unknown) => typeof value === 'string' && value.length <= 600 && /^fb\.1\.\d{10,13}\.[A-Za-z0-9_.-]{1,512}$/.test(value) ? value : null;
 
   try {
     const saved = await fetch(`${supabaseUrl}/rest/v1/blackfriday_leads?on_conflict=email,campaign&select=id,request_id,created_at,full_name,email,whatsapp,consent,measurement_consent,attribution,tracking_status,tracking_attempts,browser_token_hash`, {
@@ -128,10 +127,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         measurement_consent: measurementConsent,
         measurement_consent_version: measurementConsent ? "blackfriday-measurement-2026-10-27-v1" : null,
         measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
-        attribution: {
-          fbp: measurementConsent ? validFbCookie(payload.attribution?.fbp) : null,
-          fbc: measurementConsent ? validFbCookie(payload.attribution?.fbc) : null,
-        },
+        attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
         tracking_status: measurementConsent ? "pending" : "not_required",
         tracking_next_retry_at: measurementConsent ? new Date().toISOString() : null,
         utm,
@@ -181,7 +177,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
           measurement_consent: measurementConsent,
           measurement_consent_version: measurementConsent ? 'blackfriday-measurement-2026-10-27-v1' : null,
           measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
-          attribution: measurementConsent ? { fbp: validFbCookie(payload.attribution?.fbp), fbc: validFbCookie(payload.attribution?.fbc) } : { fbp: null, fbc: null },
+          attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
           tracking_status: nextStatus,
           tracking_attempts: measurementConsent && !wasConsented ? 0 : lead.tracking_attempts,
           tracking_claimed_at: null,
@@ -225,12 +221,20 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         }).catch(() => undefined);
       }
     }
+    const mayIdentify = !!lead && (leadCreated || ownsLead(getAccessToken(req), lead.browser_token_hash)) && lead.measurement_consent === true && measurementConsent;
+    const browserIdentity: Record<string, string[]> = {};
+    if (mayIdentify) {
+      const hashes = buildBlackFridayIdentity(lead as unknown as Parameters<typeof buildBlackFridayIdentity>[0]);
+      for (const key of ['em', 'ph', 'fn', 'ln'] as const) if (hashes[`${key}_hash`]) browserIdentity[key] = [hashes[`${key}_hash`]];
+    }
     return respond(res, 200, {
       ok: true,
       next: NEXT_PATH,
       lead_created: leadCreated,
       measurement_consent: lead?.measurement_consent === true,
-      event_id: lead?.measurement_consent === true ? lead.request_id : undefined,
+      event_id: mayIdentify ? lead!.request_id : undefined,
+      event_time: mayIdentify ? Math.floor(new Date(String(lead!.created_at)).getTime() / 1000) : undefined,
+      identity: mayIdentify ? browserIdentity : undefined,
     });
   } catch {
     return respond(res, 503, { ok: false, error: "registration_unavailable" });
