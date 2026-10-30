@@ -191,7 +191,7 @@ import { submitRegistration, boundedTracking } from './registration-request.mjs'
 
       if (!/^[1-9]\d9\d{8}$/.test(whatsapp)) return fail('Informe seu celular com DDD. Exemplo: (11) 91234-5678.', phone);
 
-      if (!form.elements.consent.checked) return fail('Marque a autorização para receber as informações da aula.', form.elements.consent);
+      if (form.elements.consent && !form.elements.consent.checked) return fail('Marque a autorização para receber as informações da aula.', form.elements.consent);
 
       const utm = campaign;
 

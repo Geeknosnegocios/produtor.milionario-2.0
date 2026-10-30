@@ -436,7 +436,7 @@ button:disabled::before{animation-play-state:paused}
 
 .hero.capture-hero #capture-form .consent{margin:11px 0 12px;font-size:10.5px;line-height:1.45}
 
-.hero.capture-hero #capture-form .button.primary{min-height:50px;padding-block:12px;font-size:13px}
+.hero.capture-hero #capture-form .button.primary{margin-top:14px;min-height:50px;padding-block:12px;font-size:13px}
 
 .hero.capture-hero #capture-form .form-footnote{margin-top:7px;font-size:9.5px;line-height:1.4}
 
