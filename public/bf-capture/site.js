@@ -1,12 +1,13 @@
 import { createTrackingLoader } from './tracking-consent.mjs';
 import { identifySavedLead } from './tracking-identity.mjs';
 import { submitRegistration, boundedTracking } from './registration-request.mjs';
+import { createGtmLoader } from './gtm-consent.mjs';
 
 (() => {
 
   'use strict';
 
-  const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00' };
+  const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00', gtmId: 'GTM-N393KNX3', ga4Id: 'G-7M9K48M7DF' };
 
   const measurementBox = document.querySelector('#measurement-consent');
   if (measurementBox) {
@@ -18,6 +19,7 @@ import { submitRegistration, boundedTracking } from './registration-request.mjs'
   };
   let trackingReady = () => Promise.resolve(false);
   let thankYouViewSent = false;
+  const gtm = createGtmLoader({ hasConsent: () => measurementAllowed(), containerId: CONFIG.gtmId, ga4Id: CONFIG.ga4Id });
 
   const sendMetricageekEvent = event => {
     const send = () => {
@@ -55,6 +57,7 @@ import { submitRegistration, boundedTracking } from './registration-request.mjs'
   });
 
   trackingReady = async () => {
+    gtm.load();
     const loaded = await loadTrackingScript();
     if (!loaded || !measurementAllowed() || !window.gpx || typeof window.gpx.consent !== 'function') return false;
     window.gpx.consent(true);
@@ -76,7 +79,7 @@ import { submitRegistration, boundedTracking } from './registration-request.mjs'
         else sessionStorage.removeItem('bf_measurement_consent');
       } catch { /* Do not block form use when storage is unavailable. */ }
       if (measurementBox.checked) void trackingReady();
-      else window.gpx?.consent(false);
+      else { window.gpx?.consent(false); gtm.revoke(); }
       if (measurementBox.checked && form && form.contains(document.activeElement) && !formStarted) {
         formStarted = true;
         fire('form_start');
