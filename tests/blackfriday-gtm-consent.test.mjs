@@ -32,6 +32,13 @@ test('GTM loads once and revoking consent disables GA4 immediately', () => {
   assert.equal(win['ga-disable-G-7M9K48M7DF'], true);
 });
 
+test('form_start state is shared by the consent toggle and the form (no ReferenceError on consent)', () => {
+  const site = readFileSync(new URL('../public/bf-capture/site.js', import.meta.url), 'utf8');
+  const declarations = site.match(/let formStarted = false;/g) || [];
+  assert.equal(declarations.length, 1);
+  assert.ok(site.indexOf('let formStarted = false;') < site.indexOf("measurementBox.addEventListener('change'"));
+});
+
 test('the capture page wires GTM to the same consent as the tracking script', () => {
   const site = readFileSync(new URL('../public/bf-capture/site.js', import.meta.url), 'utf8');
   assert.match(site, /gtmId: 'GTM-N393KNX3', ga4Id: 'G-7M9K48M7DF'/);

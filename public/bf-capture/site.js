@@ -19,6 +19,7 @@ import { createGtmLoader } from './gtm-consent.mjs';
   };
   let trackingReady = () => Promise.resolve(false);
   let thankYouViewSent = false;
+  let formStarted = false;
   const gtm = createGtmLoader({ hasConsent: () => measurementAllowed(), containerId: CONFIG.gtmId, ga4Id: CONFIG.ga4Id });
 
   const sendMetricageekEvent = event => {
@@ -151,7 +152,6 @@ import { createGtmLoader } from './gtm-consent.mjs';
     let submitting = false;
 
     let requestId = crypto.randomUUID();
-    let formStarted = false;
 
     form.addEventListener('focusin', () => {
       if (formStarted || !measurementAllowed()) return;
