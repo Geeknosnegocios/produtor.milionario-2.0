@@ -33,6 +33,18 @@ function normalizedBrazilPhone(value: string): string {
   throw new Error('invalid_phone_for_tracking');
 }
 
+// Formato do Google Ads: Gmail sem pontos e sem "+sufixo"; telefone em E.164 com "+".
+// Vão em gem_hash/gph_hash; a Meta continua recebendo só em_hash/ph_hash.
+function googleEmailHash(email: string): string {
+  const [user = '', domain = ''] = email.trim().toLowerCase().split('@');
+  const gmail = domain === 'gmail.com' || domain === 'googlemail.com';
+  return sha256(gmail ? `${user.split('+')[0].replace(/\./g, '')}@${domain}` : `${user}@${domain}`);
+}
+
+function googlePhoneHash(value: string): string {
+  return sha256(`+${normalizedBrazilPhone(value)}`);
+}
+
 function cookieId(value: unknown, prefix: 'fbp' | 'fbc'): string | undefined {
   if (typeof value !== 'string' || value.length > 600 || /[\r\n]/.test(value)) return undefined;
   const pattern = prefix === 'fbp'
@@ -68,6 +80,7 @@ export function buildBlackFridayIdentity(lead: Pick<LeadForTracking, 'request_id
   const sid = bounded(attribution.sid, 128);
   const identity: Record<string, string> = {
     em_hash: sha256(lead.email), ph_hash: sha256(normalizedBrazilPhone(lead.whatsapp)),
+    gem_hash: googleEmailHash(lead.email), gph_hash: googlePhoneHash(lead.whatsapp),
     external_id_hash: sha256(sid && /^[A-Za-z0-9._:-]{8,128}$/.test(sid) ? sid : lead.request_id),
   };
   const parts = lead.full_name.trim().split(/\s+/);

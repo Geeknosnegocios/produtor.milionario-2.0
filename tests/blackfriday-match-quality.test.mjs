@@ -21,6 +21,17 @@ test('Lead carries stable browser identity and normalized contact and location h
   assert.equal(identity.client_user_agent, 'TestBrowser/1');
 });
 
+test('Lead also carries Google Ads hashes: +55 phone and Gmail normalization', () => {
+  const identity = producer.buildBlackFridayIdentity(lead);
+  assert.equal(identity.gph_hash, hash('+5555999991234'));
+  assert.notEqual(identity.gph_hash, identity.ph_hash, 'Google and Meta phone hashes differ');
+  assert.equal(identity.gem_hash, hash('ana@example.test'));
+  const gmail = producer.buildBlackFridayIdentity({ ...lead, email: 'Ana.Silva+bf@Gmail.com' });
+  assert.equal(gmail.gem_hash, hash('anasilva@gmail.com'));
+  assert.equal(gmail.em_hash, hash('ana.silva+bf@gmail.com'), 'Meta keeps its own normalization');
+  assert.deepEqual(producer.buildBlackFridayIdentity({ ...lead, measurement_consent: false }), {});
+});
+
 test('denial yields no identity and a single name never invents a surname', () => {
   assert.equal(typeof producer.buildBlackFridayIdentity, 'function');
   assert.deepEqual(producer.buildBlackFridayIdentity({ ...lead, measurement_consent: false }), {});
