@@ -125,7 +125,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         consent_version: "blackfriday-2026-11-10-v2",
         consented_at: new Date().toISOString(),
         measurement_consent: measurementConsent,
-        measurement_consent_version: measurementConsent ? "blackfriday-measurement-2026-11-10-v2" : null,
+        measurement_consent_version: measurementConsent ? "blackfriday-measurement-2026-11-11-v3" : null,
         measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
         attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
         tracking_status: measurementConsent ? "pending" : "not_required",
@@ -176,7 +176,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         headers: { apikey: supabaseSecret, Authorization: `Bearer ${supabaseSecret}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
         body: JSON.stringify({
           measurement_consent: measurementConsent,
-          measurement_consent_version: measurementConsent ? 'blackfriday-measurement-2026-11-10-v2' : null,
+          measurement_consent_version: measurementConsent ? 'blackfriday-measurement-2026-11-11-v3' : null,
           measurement_consented_at: measurementConsent ? new Date().toISOString() : null,
           attribution: measurementConsent ? captureTrackingContext(req.headers, payload.attribution) : { fbp: null, fbc: null },
           tracking_status: nextStatus,

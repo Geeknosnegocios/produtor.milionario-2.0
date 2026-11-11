@@ -9,14 +9,17 @@ import { createGtmLoader } from './gtm-consent.mjs';
 
   const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00', gtmId: 'GTM-N393KNX3', ga4Id: 'G-7M9K48M7DF' };
 
-  const measurementBox = document.querySelector('#measurement-consent');
-  if (measurementBox) {
-    try { measurementBox.checked = sessionStorage.getItem('bf_measurement_consent') === '1'; } catch { /* Consent remains unchecked. */ }
-  }
-  let measurementAllowed = () => {
-    try { return !!(measurementBox && measurementBox.checked) || sessionStorage.getItem('bf_measurement_consent') === '1'; }
-    catch { return !!(measurementBox && measurementBox.checked); }
+  // Escolha de medicao feita no banner: '1' aceita, '0' recusa, ausente = ainda nao escolheu.
+  const CHOICE_KEY = 'bf_measurement_choice';
+  const readChoice = () => {
+    try { return localStorage.getItem(CHOICE_KEY); }
+    catch { try { return sessionStorage.getItem(CHOICE_KEY); } catch { return null; } }
   };
+  const writeChoice = value => {
+    try { localStorage.setItem(CHOICE_KEY, value); }
+    catch { try { sessionStorage.setItem(CHOICE_KEY, value); } catch { /* A escolha vale so nesta pagina. */ } }
+  };
+  let measurementAllowed = () => readChoice() === '1';
   let trackingReady = () => Promise.resolve(false);
   let thankYouViewSent = false;
   let formStarted = false;
@@ -73,19 +76,38 @@ import { createGtmLoader } from './gtm-consent.mjs';
 
   if (measurementAllowed()) void trackingReady();
 
-  if (measurementBox) {
-    measurementBox.addEventListener('change', () => {
-      try {
-        if (measurementBox.checked) sessionStorage.setItem('bf_measurement_consent', '1');
-        else sessionStorage.removeItem('bf_measurement_consent');
-      } catch { /* Do not block form use when storage is unavailable. */ }
-      if (measurementBox.checked) void trackingReady();
-      else { window.gpx?.consent(false); gtm.revoke(); }
-      if (measurementBox.checked && form && form.contains(document.activeElement) && !formStarted) {
-        formStarted = true;
-        fire('form_start');
-      }
+  const applyChoice = granted => {
+    writeChoice(granted ? '1' : '0');
+    if (granted) void trackingReady();
+    else { window.gpx?.consent(false); gtm.revoke(); }
+  };
+
+  const buildBanner = () => {
+    const box = document.createElement('aside');
+    box.className = 'privacy-banner';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-live', 'polite');
+    box.setAttribute('aria-label', 'Privacidade e medição');
+    box.innerHTML = '<p>Usamos cookies e, se você se cadastrar, enviamos dados do cadastro protegidos por hash à Meta e ao Google para medir esta campanha. <a href="/bf-capture/privacidade/index.html">Saiba mais</a>.</p><div class="privacy-actions"><button type="button" data-choice="0">Recusar</button><button type="button" data-choice="1" class="privacy-accept">Aceitar</button></div>';
+    box.addEventListener('click', event => {
+      const button = event.target.closest('[data-choice]');
+      if (!button) return;
+      applyChoice(button.dataset.choice === '1');
+      box.remove();
     });
+    document.body.append(box);
+  };
+
+  if (readChoice() === null) buildBanner();
+
+  const footerBar = document.querySelector('.footer');
+  if (footerBar) {
+    const prefs = document.createElement('button');
+    prefs.type = 'button';
+    prefs.className = 'privacy-prefs';
+    prefs.textContent = 'Preferências de privacidade';
+    prefs.addEventListener('click', () => { if (!document.querySelector('.privacy-banner')) buildBanner(); });
+    footerBar.append(prefs);
   }
 
   const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
@@ -101,6 +123,16 @@ import { createGtmLoader } from './gtm-consent.mjs';
   campaign = Object.fromEntries(utmKeys.filter(key => typeof campaign[key] === 'string').map(key => [key,campaign[key]]));
 
   try { sessionStorage.setItem('fpm_campaign',JSON.stringify(campaign)); } catch { /* Attribution remains available on this page. */ }
+
+  // Contador anonimo de visitas: so o instante e os UTM. Sem cookie, sem IP, sem identificador.
+  if (document.querySelector('#capture-form')) {
+    try {
+      if (!sessionStorage.getItem('bf_visit_sent')) {
+        sessionStorage.setItem('bf_visit_sent', '1');
+        fetch('/api/blackfriday-visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ utm: campaign }), keepalive: true }).catch(() => {});
+      }
+    } catch { /* A contagem e opcional. */ }
+  }
 
   document.querySelectorAll('a[href="/"],a[href="/bf-capture/privacidade/index.html"],a[href="#cadastro"],a[href="#como-funciona"],a[href="#presente"]').forEach(a => { const target = new URL(a.href); for(const [key,value] of Object.entries(campaign)) target.searchParams.set(key,value); a.href=target.pathname+target.search+target.hash; });
 
@@ -208,7 +240,7 @@ import { createGtmLoader } from './gtm-consent.mjs';
       try {
 
         const readCookie = name => { const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return match ? decodeURIComponent(match[1]) : null; };
-        const measurementConsent = !!measurementBox?.checked;
+        const measurementConsent = measurementAllowed();
         if (measurementConsent) await boundedTracking(trackingReady);
         const currentMeasurementConsent = measurementConsent && measurementAllowed();
         const result = await submitRegistration({ name, email, whatsapp, consent: true, measurementConsent: currentMeasurementConsent, attribution: currentMeasurementConsent ? { fbp: readCookie('_fbp'), fbc: readCookie('_fbc'), sid: window.gpx?.sid } : {}, utm, requestId, accessToken, startedAt, website: form.elements.website.value });
