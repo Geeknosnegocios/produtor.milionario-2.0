@@ -32,11 +32,29 @@ test('GTM loads once and revoking consent disables GA4 immediately', () => {
   assert.equal(win['ga-disable-G-7M9K48M7DF'], true);
 });
 
-test('form_start state is shared by the consent toggle and the form (no ReferenceError on consent)', () => {
+test('form_start state is declared once and the measurement choice comes from the banner', () => {
   const site = readFileSync(new URL('../public/bf-capture/site.js', import.meta.url), 'utf8');
-  const declarations = site.match(/let formStarted = false;/g) || [];
-  assert.equal(declarations.length, 1);
-  assert.ok(site.indexOf('let formStarted = false;') < site.indexOf("measurementBox.addEventListener('change'"));
+  const html = readFileSync(new URL('../public/bf-capture/index.html', import.meta.url), 'utf8');
+  assert.equal((site.match(/let formStarted = false;/g) || []).length, 1);
+  assert.ok(site.indexOf('let formStarted = false;') < site.indexOf('const applyChoice'));
+  assert.doesNotMatch(site, /measurementBox/);
+  assert.doesNotMatch(html, /measurement-consent/);
+  assert.match(site, /let measurementAllowed = \(\) => readChoice\(\) === '1';/);
+  assert.match(site, /if \(readChoice\(\) === null\) buildBanner\(\);/);
+});
+
+test('the banner decides measurement: refusing revokes the tracker and GTM, accepting loads them', () => {
+  const site = readFileSync(new URL('../public/bf-capture/site.js', import.meta.url), 'utf8');
+  assert.match(site, /writeChoice\(granted \? '1' : '0'\);/);
+  assert.match(site, /if \(granted\) void trackingReady\(\);/);
+  assert.match(site, /else \{ window\.gpx\?\.consent\(false\); gtm\.revoke\(\); \}/);
+  assert.match(site, /const measurementConsent = measurementAllowed\(\);/);
+});
+
+test('the anonymous visit counter sends only the UTM values and only once per session', () => {
+  const site = readFileSync(new URL('../public/bf-capture/site.js', import.meta.url), 'utf8');
+  assert.match(site, /fetch\('\/api\/blackfriday-visit', \{ method: 'POST', headers: \{ 'Content-Type': 'application\/json' \}, body: JSON\.stringify\(\{ utm: campaign \}\)/);
+  assert.match(site, /bf_visit_sent/);
 });
 
 test('the capture page wires GTM to the same consent as the tracking script', () => {
