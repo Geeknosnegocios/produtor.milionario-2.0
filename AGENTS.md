@@ -64,6 +64,7 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 - `/blackfriday` é a captura estática em `public/bf-capture/`, carregada pelos wrappers `src/pages/BlackFriday.tsx`, `BlackFridayThanks.tsx` e `BlackFridayPrivacy.tsx`; CSS e JS ficam isolados do SPA.
 - Cadastro grava em `public.blackfriday_leads` no Supabase Geek Academy via `api/blackfriday-leads.ts`.
 - `BLACKFRIDAY_SUPABASE_SECRET_KEY` é apenas server-side na Vercel; nunca usar prefixo `VITE_` nem colocar a chave no bundle.
+- Leads do quiz "Black Friday FPM 2.0 — Diagnóstico da aula" (Quiz Geek) chegam por webhook assinado em `api/quizgeek-leads.ts` e vão para a mesma tabela com `source = 'quizgeek'`. Só o slug `black-friday-fpm-2-0-diagnostico-da-aula-64745e7d` é gravado; outros quizzes recebem 202 e são ignorados. Segredo em `QUIZGEEK_WEBHOOK_SECRET` (server-side).
 - Após salvar, encaminha a pessoa para `/blackfriday/obrigado`, onde ela escolhe entrar no grupo do WhatsApp. O presente será enviado manualmente no grupo.
 - A antiga página de venda foi preservada em `/blackfriday/oferta` via `src/pages/BlackFridayOferta.tsx`.
 

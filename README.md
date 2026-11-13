@@ -57,6 +57,7 @@ Antes de produção, aplique `supabase/migrations/20261027120000_blackfriday_mea
 | `FB_PIXEL_ID` | fluxos antigos | Pixel padrão legado da página de vendas. A Black Friday lê o Pixel do workspace Metricageek. |
 | `BLACKFRIDAY_SUPABASE_URL` | sim para captura Black Friday | URL do projeto Supabase Geek Academy usado pelo endpoint server-side de leads |
 | `BLACKFRIDAY_SUPABASE_SECRET_KEY` | sim para captura Black Friday | Chave secreta Supabase server-side; nunca usar prefixo `VITE_` |
+| `QUIZGEEK_WEBHOOK_SECRET` | sim para leads do quiz BF | Mesmo segredo (32+ caracteres) cadastrado em Quiz Geek → Integrações → Webhook; valida `X-QuizGeek-Signature` em `api/quizgeek-leads.ts` |
 | `BLACKFRIDAY_METRICAGEEK_INGEST_URL` | sim para CAPI Black Friday | URL de ingestão da fonte `capture`, copiada da integração do workspace Metricageek |
 | `BLACKFRIDAY_METRICAGEEK_SIGNING_SECRET` | sim para CAPI Black Friday | Segredo mostrado uma vez ao criar a fonte. Guardar somente como segredo Vercel. |
 | `CRON_SECRET` | sim para retentativas | Segredo forte de pelo menos 32 caracteres para `/api/cron/blackfriday-tracking` |
