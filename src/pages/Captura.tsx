@@ -4,9 +4,9 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { trackLead, trackScrollDepth, trackViewContent } from "@/lib/tracking";
 
 // ===== CONFIG (preencher) =====
-const MICROVSL_VIDEO_ID = "KixSgwClqh4"; // id YouTube do vídeo-convite
+const CONVITE_VIDEO_SRC = "/videos/convite-blackfriday-16x9.mp4"; // vídeo-convite Black Friday, hospedado no próprio site
+const CONVITE_VIDEO_POSTER = "/videos/convite-blackfriday-poster.jpg";
 const GRUPO_URL = "https://chat.whatsapp.com/HfH9gOADKZvJwwqkAp4SxI"; // link grupo WhatsApp
-const PRESENTE_VIDEO_EMBED = "https://www.youtube.com/embed/KixSgwClqh4"; // vídeo-presente do grupo
 
 // Mobile: navega na mesma aba (abre o app do WhatsApp direto).
 // Desktop: nova aba — a LP continua aberta (back sem perder o exit gift).
@@ -176,16 +176,16 @@ const Captura = () => {
                 </div>
                 <div className="relative w-full aspect-video bg-black">
                   {playing ? (
-                    <iframe src={`https://www.youtube.com/embed/${MICROVSL_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`} title="Convite" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute inset-0 w-full h-full" />
+                    <video src={CONVITE_VIDEO_SRC} poster={CONVITE_VIDEO_POSTER} title="Convite" controls autoPlay playsInline preload="auto" className="absolute inset-0 w-full h-full bg-black" />
                   ) : (
                     <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0 w-full h-full cursor-pointer">
-                      <img src={`https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/maxresdefault.jpg`} alt="Capa do convite" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${MICROVSL_VIDEO_ID}/hqdefault.jpg`; }} />
-                      <div className="absolute inset-0 bg-black/70 group-hover:bg-black/55 transition" />
+                      <img src={CONVITE_VIDEO_POSTER} alt="Capa do convite" className="absolute inset-0 w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition" />
                       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-2xl bg-blue-500/30 animate-ping" />
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 shadow-[0_0_60px_rgba(59,130,246,0.8)] border-2 border-blue-400/80 group-hover:scale-110 transition">
                         <Play className="w-9 h-9 sm:w-11 sm:h-11 text-white fill-white mt-5 ml-1" />
                         <span className="text-[11px] sm:text-xs font-black uppercase tracking-wide text-white">Assistir</span>
-                        <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN · COM SOM</span>
+                        <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN 37 · COM SOM</span>
                       </div>
                     </button>
                   )}
@@ -354,13 +354,14 @@ const Captura = () => {
           <div className="px-5 sm:px-7">
             <div className="relative rounded-xl overflow-hidden border border-green-500/40 bg-black shadow-[0_0_30px_rgba(34,197,94,0.25)]">
               <div className="aspect-video">
-                <iframe
-                  src={PRESENTE_VIDEO_EMBED}
-                  title="Presente exclusivo"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  loading="lazy"
+                <video
+                  src={CONVITE_VIDEO_SRC}
+                  poster={CONVITE_VIDEO_POSTER}
+                  title="Convite Black Friday do Geek"
+                  className="w-full h-full bg-black"
+                  controls
+                  playsInline
+                  preload="none"
                 />
               </div>
             </div>

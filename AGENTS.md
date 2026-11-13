@@ -14,7 +14,7 @@ Landing page de venda (Vite + React + TS) do curso **Produtor Milionário 2.0**,
 ## Estado atual (2026-07-07)
 
 - Preço: **R$ 247** (era R$ 147). Parcela 12x R$ 20,59. Commit `167b8b8`.
-- Vídeo da página `/aula` (MicroVSL): **`KixSgwClqh4`**
+- Vídeo da página `/aula` (MicroVSL) e do popup de saída: arquivo `public/videos/convite-blackfriday-16x9.mp4` (versão Black Friday; antes era o YouTube **`KixSgwClqh4`**)
 - CAPI + Pixel + GTM funcionando com dedup
 - Gravações das 22 aulas: 0/22 (pendente)
 - Área de membros: pendente
