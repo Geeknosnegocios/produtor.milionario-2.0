@@ -185,7 +185,7 @@ const Captura = () => {
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 shadow-[0_0_60px_rgba(59,130,246,0.8)] border-2 border-blue-400/80 group-hover:scale-110 transition">
                         <Play className="w-9 h-9 sm:w-11 sm:h-11 text-white fill-white mt-5 ml-1" />
                         <span className="text-[11px] sm:text-xs font-black uppercase tracking-wide text-white">Assistir</span>
-                        <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN 37 · COM SOM</span>
+                        <span className="flex items-center gap-1 text-[9px] text-white/90"><Volume2 className="w-3 h-3" /> 1 MIN 20 · COM SOM</span>
                       </div>
                     </button>
                   )}
