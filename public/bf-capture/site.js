@@ -5,7 +5,7 @@ import { identifySavedLead } from './tracking-identity.mjs';
 
   'use strict';
 
-  const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-11-18T20:00:00-03:00' };
+  const CONFIG = { CAPTURE_MODE: 'direct', eventAt: '2026-12-05T20:00:00-03:00' };
 
   const measurementBox = document.querySelector('#measurement-consent');
   if (measurementBox) {
